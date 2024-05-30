@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: 'FireTheBox',
-  description: 'FireTheBox é uma plataforma criação e gestão de programas de inovação.',
+  description: 'FireTheBox é uma plataforma para criação e gestão de programas de inovação.',
   icons: {
     icon: '/assets/images/logo.svg'
   }

@@ -8,7 +8,7 @@ const Footer = () => {
         <Link href='/'>
           <Image 
             src="/assets/images/logo.svg"
-            alt="logo"
+            alt="FireTheBox Logo"
             width={128}
             height={38}
           />
