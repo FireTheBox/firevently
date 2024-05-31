@@ -14,7 +14,7 @@ const Footer = () => {
           />
         </Link>
 
-        <p>2023 FireTheBox. Todos direitos reservados.</p>
+        <p>2024 FireTheBox. Todos direitos reservados.</p>
       </div>
     </footer>
   )

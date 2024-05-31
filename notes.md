@@ -7,6 +7,14 @@ npx shadcn-ui@latest add separator
 npm install mongoose mongodb
 npm install svix
 npm install query-string
+npx shadcn-ui@latest add form
+npx shadcn-ui@latest add input
+npx shadcn-ui@latest add select
+npx shadcn-ui@latest add alert-dialog
+npm install uploadthing @uploadthing/react
+npm i react-datepicker
+npm i --save-dev @types/react-datepicker
+npx shadcn-ui@latest add checkbox
 
 tailwind intelisense 
 inline fold
