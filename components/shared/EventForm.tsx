@@ -5,7 +5,6 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { eventDefaultValues } from "@/constants"
-import { useUploadThing } from '@/lib/uploadthing'
 import { eventFormSchema } from "@/lib/validator"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Image from "next/image"
@@ -19,6 +18,7 @@ import { FileUploader } from "./FileUploader"
 import { createEvent, updateEvent } from "@/lib/actions/event.actions"
 import { IEvent } from "@/lib/database/models/event.model"
 import { useRouter } from "next/navigation"
+
 import "react-datepicker/dist/react-datepicker.css"
 import { Checkbox } from "../ui/checkbox"
 
@@ -41,7 +41,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     : eventDefaultValues;
   const router = useRouter();
 
-  const { startUpload } = useUploadThing('imageUploader')
+  // const { startUpload } = useUploadThing('imageUploader')
 
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
@@ -52,13 +52,13 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     let uploadedImageUrl = values.imageUrl;
 
     if(files.length > 0) {
-      const uploadedImages = await startUpload(files)
+      // const uploadedImages = await startUpload(files)
 
-      if(!uploadedImages) {
-        return
-      }
+      // if(!uploadedImages) {
+      //   return
+      // }
 
-      uploadedImageUrl = uploadedImages[0].url
+      // uploadedImageUrl = uploadedImages[0].url
     }
 
     if(type === 'Criar') {

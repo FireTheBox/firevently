@@ -1,8 +1,6 @@
 'use client'
 
-import { useDropzone } from '@uploadthing/react/hooks';
 import { Dispatch, SetStateAction, useCallback } from 'react';
-import { generateClientDropzoneAccept } from 'uploadthing/client';
 
 import { Button } from '@/components/ui/button';
 import { convertFileToUrl } from '@/lib/utils';
@@ -19,16 +17,17 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
     onFieldChange(convertFileToUrl(acceptedFiles[0]))
   }, [])
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: 'image/*' ? generateClientDropzoneAccept(['image/*']) : undefined,
-  })
+  // const { getRootProps, getInputProps } = useDropzone({
+  //   onDrop,
+  //   accept: 'image/*' ? generateClientDropzoneAccept(['image/*']) : undefined,
+  // })
 
   return (
     <div
-      {...getRootProps()}
+      // {...getRootProps()}
       className="flex-center bg-dark-3 flex h-72 cursor-pointer flex-col overflow-hidden rounded-xl bg-grey-50">
-      <input {...getInputProps()} className="cursor-pointer" />
+      {/* <input {...getInputProps()} className="cursor-pointer" /> */}
+      <input className="cursor-pointer" />
 
       {imageUrl ? (
         <div className="flex h-full w-full flex-1 justify-center ">

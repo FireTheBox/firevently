@@ -1,6 +1,5 @@
 import { IEvent } from '@/lib/database/models/event.model'
 import { formatDateTime } from '@/lib/utils'
-import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { DeleteConfirmation } from './DeleteConfirmation'
@@ -12,8 +11,8 @@ type CardProps = {
 }
 
 const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
-  const { sessionClaims } = auth();
-  const userId = sessionClaims?.userId as string;
+  // const { sessionClaims } = auth();
+  const userId = "";
 
   const isEventCreator = userId === event.organizer._id.toString();
 
