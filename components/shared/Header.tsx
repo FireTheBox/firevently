@@ -1,22 +1,32 @@
+import { links } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { Small } from "../typography/small";
 import { Button } from "../ui/button";
-import MobileNav from "./MobileNav";
-import NavItems from "./NavItems";
+import { ModeToggle } from "./mode-toogle";
 
-const Header = () => {
+export const Header = () => {
   return (
-    <header className="w-full border-b">
+    <header className="container flex justify-between py-8">
       <Link href="/" className="w-36">
         <Image
           src="/assets/images/Logo.svg"
-          width={128}
-          height={38}
+          width={148}
+          height={48}
           alt="FireTheBox Logo"
         />
-      </Link>{" "}
+      </Link>
+      <div className="flex items-center gap-8">
+        <nav className="flex gap-8">
+          {links.map(({ label, route }, index) => (
+            <Link key={index} href={route}>
+              <Small>{label}</Small>
+            </Link>
+          ))}
+        </nav>
+        <ModeToggle />
+        <Button className="w-24">Login</Button>
+      </div>
     </header>
   );
 };
-
-export default Header;

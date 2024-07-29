@@ -1,27 +1,36 @@
-export const headerLinks = [
+type NavLink = {
+  label: string;
+  route: string;
+}
+
+export const links: NavLink[] = [
   {
-    label: 'Inicial',
-    route: '/',
+    label: "Home",
+    route: "/",
   },
   {
-    label: 'Criar Evento',
-    route: '/events/create',
+    label: "Explorar",
+    route: "/#explorer",
   },
   {
-    label: 'Meu Perfil',
-    route: '/profile',
+    label: "FAQ",
+    route: "/faq",
   },
+  {
+    label: "Ajuda",
+    route: "/help",
+  }
 ]
 
 export const eventDefaultValues = {
-  title: '',
-  description: '',
-  location: '',
-  imageUrl: '',
+  title: "",
+  description: "",
+  location: "",
+  imageUrl: "",
   startDateTime: new Date(),
   endDateTime: new Date(),
-  categoryId: '',
-  price: '',
+  categoryId: "",
+  price: "",
   isFree: false,
-  url: '',
+  url: "",
 }

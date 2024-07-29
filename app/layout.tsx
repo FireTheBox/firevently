@@ -1,12 +1,19 @@
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Baloo_2, Nunito } from "next/font/google";
 
 import "./globals.css";
 
-const poppins = Poppins({
+const baloo = Baloo_2({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+  weight: ["400", "700"],
+  variable: "--font-baloo",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-nunito",
 });
 
 export const metadata: Metadata = {
@@ -14,7 +21,7 @@ export const metadata: Metadata = {
   description:
     "FireTheBox é uma plataforma para criação e gestão de programas de inovação.",
   icons: {
-    icon: "/assets/images/logo.svg",
+    icon: "/assets/images/Logo.svg",
   },
 };
 
@@ -24,8 +31,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={poppins.variable}>{children}</body>
+    <html lang="pt-BR">
+      <body className={`${nunito.variable} ${baloo.variable}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
