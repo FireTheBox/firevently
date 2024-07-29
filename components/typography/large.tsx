@@ -1,3 +1,11 @@
-export function Large({ children }: { children: React.ReactNode }) {
-  return <div className="text-lg font-semibold font-sans">{children}</div>;
+interface LargeProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function Large({ children, className, ...rest }: LargeProps) {
+  return (
+    <div className={`text-lg font-semibold font-sans ${className}`} {...rest}>
+      {children}
+    </div>
+  );
 }
