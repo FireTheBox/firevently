@@ -5,16 +5,13 @@ import { Small } from "../typography/small";
 import { Button } from "../ui/button";
 import { ModeToggle } from "./mode-toogle";
 
+import Logo from "@/public/assets/images/platform-dark-logo.png";
+
 export const Header = () => {
   return (
     <header className="container flex justify-between py-8">
       <Link href="/" className="w-36">
-        <Image
-          src="/assets/images/Logo.svg"
-          width={148}
-          height={48}
-          alt="FireTheBox Logo"
-        />
+        <Image src={Logo} width={148} height={48} alt="FireTheBox Logo" />
       </Link>
       <div className="flex items-center gap-8">
         <nav className="flex gap-8">
