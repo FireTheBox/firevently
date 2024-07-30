@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/shared/loading-button";
+import { PasswordStrengthMeter } from "@/components/shared/password-strength-meter";
 import {
   Form,
   FormControl,
@@ -15,9 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { auth } from "@/lib/auth/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { performSignUp } from "@/lib/auth/actions/performSignup";
+import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const signUpFormSchema = z
   .object({
@@ -37,6 +39,7 @@ const signUpFormSchema = z
 export function SignUpForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
@@ -51,25 +54,35 @@ export function SignUpForm() {
     const email = values.email;
     const password = values.password;
 
-    const userCredentials = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    setIsLoading(true);
 
-    if (!userCredentials) {
+    try {
+      await performSignUp(email, password);
+
+      router.push("/sign-in");
       toast({
-        title: "Ops! Falha ao cadastrar a conta.",
-        description: "Tente novamente mais tarde...",
-        variant: "default",
+        title: "Yay! Conta criada com sucesso.",
       });
-      return
-    }
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code === "auth/email-already-exists") {
+          toast({
+            title: "Ops! Falha ao cadastrar a conta...",
+            description: "Este e-mail já está em uso.",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
 
-    router.push("/sign-in");
-    toast({
-      title: "Yay! Conta criada com sucesso.",
-    });
+      toast({
+        title: "Ops! Falha ao cadastrar a conta...",
+        description: `Tente novamente mais tarde.`,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -105,6 +118,7 @@ export function SignUpForm() {
                   {...field}
                 />
               </FormControl>
+              {field.value && <PasswordStrengthMeter password={field.value} />}
               <FormMessage />
             </FormItem>
           )}
@@ -126,9 +140,7 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Cadastrar
-        </Button>
+        <LoadingButton isLoading={isLoading}>Cadastrar</LoadingButton>
       </form>
     </Form>
   );
