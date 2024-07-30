@@ -77,7 +77,7 @@ export function SignUpForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Senha</FormLabel>
+              <FormLabel>Confirmar senha</FormLabel>
               <FormControl>
                 <Input
                   type="password"
