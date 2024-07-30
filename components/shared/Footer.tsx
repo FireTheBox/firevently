@@ -33,7 +33,6 @@ export const Footer = () => {
             <Image
               src={Logo}
               alt="Logo"
-              layout="responsive"
               width={128}
               height={40}
             />

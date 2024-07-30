@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 
 import "./globals.css";
+import { Footer } from "@/components/shared/Footer";
+import { Header } from "@/components/shared/Header";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -39,7 +41,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
