@@ -14,10 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { auth } from "@/lib/auth/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { redirect, useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const signUpFormSchema = z
   .object({

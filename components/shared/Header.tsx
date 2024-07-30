@@ -22,7 +22,9 @@ export const Header = () => {
           ))}
         </nav>
         <ModeToggle />
-        <Button className="w-24">Login</Button>
+        <Button className="w-24">
+          <Link href={"/sign-in"}>Entrar</Link>
+        </Button>
       </div>
     </header>
   );

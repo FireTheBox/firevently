@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { performLogin } from "@/lib/auth/actions/performLogin";
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -21,6 +23,8 @@ const signInFormSchema = z.object({
 });
 
 export function SignInForm() {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -29,8 +33,25 @@ export function SignInForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signInFormSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signInFormSchema>) {
+    const email = values.email;
+    const password = values.password;
+
+    const success = await performLogin(email, password);
+
+    if (!success) {
+      toast({
+        title: "Ops! Não foi possível autenticar seu usuário...",
+        description: "Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Yay! Usuário autenticado com sucesso.",
+      description: "Seja bem vindo novamente!",
+    });
   }
 
   return (
