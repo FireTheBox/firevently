@@ -5,6 +5,7 @@ import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
+import { Toaster } from "@/components/ui/toaster";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -45,6 +46,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

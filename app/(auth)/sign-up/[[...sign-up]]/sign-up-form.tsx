@@ -14,14 +14,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { auth } from "@/lib/auth/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { redirect, useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
-const signUpFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8).max(32),
-  confirmPassword: z.string().min(8).max(32),
-});
+const signUpFormSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8).max(32),
+    confirmPassword: z.string(),
+  })
+  .refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: "As senhas não coincidem.",
+    }
+  );
 
 export function SignUpForm() {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -31,8 +47,29 @@ export function SignUpForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+    const email = values.email;
+    const password = values.password;
+
+    const userCredentials = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    if (!userCredentials) {
+      toast({
+        title: "Ops! Falha ao cadastrar a conta.",
+        description: "Tente novamente mais tarde...",
+        variant: "default",
+      });
+      return
+    }
+
+    router.push("/sign-in");
+    toast({
+      title: "Yay! Conta criada com sucesso.",
+    });
   }
 
   return (
@@ -72,9 +109,9 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-                <FormField
+        <FormField
           control={form.control}
-          name="password"
+          name="confirmPassword"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Confirmar senha</FormLabel>
@@ -90,7 +127,7 @@ export function SignUpForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Entrar
+          Cadastrar
         </Button>
       </form>
     </Form>
