@@ -22,7 +22,7 @@ export default function Page() {
     <>
       <Card className="max-w-screen-md mx-auto my-32">
         <CardHeader className="items-center">
-          <CardTitle className="mb-5">Login</CardTitle>
+          <CardTitle className="mb-5">Entrar</CardTitle>
           <CardDescription>Entre com suas redes sociais</CardDescription>
         </CardHeader>
         <CardContent className="px-32 space-y-10">
