@@ -7,7 +7,6 @@ import { Large } from "@/components/typography/large";
 import { P } from "@/components/typography/p";
 import { useCountdown } from "@/lib/hook/use-contdown";
 
-
 interface CountdownSegmentProps {
   value: string;
   label: string;
@@ -54,7 +53,7 @@ function CountdownTimer({ targetDate }: CountdownTimerProps) {
 }
 
 interface EventBannerProps {
-  image: StaticImageData;
+  image: string;
   startAt: Date;
 }
 
@@ -64,12 +63,13 @@ export const EventBanner = ({ image, startAt }: EventBannerProps) => {
       <Image
         src={image}
         alt="Banner do Evento"
-        objectFit="cover"
-        className="w-full max-w-[500px]"
+        width={500}
+        height={500}
+        className="size-[500px] object-cover"
       />
-      <div className="flex justify-center items-center bg-primary/10 drop-shadow-lg hover:bg-primary/15 transition hover:cursor-pointer size-16 rounded-full absolute right-6 top-6">
+      {/* <div className="flex justify-center items-center bg-primary/10 drop-shadow-lg hover:bg-primary/15 transition hover:cursor-pointer size-16 rounded-full absolute right-6 top-6">
         <LucideHeart size={40} />
-      </div>
+      </div> */}
       <div className="absolute bottom-4 w-full px-4">
         <CountdownTimer targetDate={startAt} />
       </div>

@@ -11,11 +11,20 @@ interface EventDetails {
 }
 
 const EventDetails = async ({ params: { id } }: EventDetails) => {
-  const event = await getEventById(id);
+  const { imageUrl, startDateTime, title, description, category, reward } =
+    await getEventById(id);
 
   return (
     <>
-      <EventSummary />
+      <EventSummary
+        id={id}
+        imageUrl={imageUrl}
+        startDateTime={startDateTime}
+        title={title}
+        category={category.name}
+        description={description}
+        reward={reward}
+      />
       <Tabs defaultValue="details" className="mt-3">
         <TabsList>
           <TabsTrigger value="details">
