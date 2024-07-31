@@ -31,13 +31,13 @@ const ProjectTag = () => (
 const EventHeader = () => (
   <div className="relative">
     <ProjectTag />
-    <CardTitle className="space-y-4">
+    <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Large className="inline">FireTheBox</Large>
         <LucideVerified className="text-secondary-foreground fill-cyan-400" />
       </div>
       <H2 className="text-muted-foreground">Lorem, ipsum dolor.</H2>
-    </CardTitle>
+    </div>
   </div>
 );
 
@@ -54,11 +54,7 @@ const EventDescription = () => (
 const EventButtons = () => (
   <div className="w-full flex justify-between pt-4 gap-4">
     <JoinEventDialog />
-    <Button
-      size="lg"
-      className="w-[300px]"
-      variant="outline"
-    >
+    <Button size="lg" className="w-[300px]" variant="outline">
       Conversar com o organizador
     </Button>
   </div>

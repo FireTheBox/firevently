@@ -18,7 +18,7 @@ export function JoinEventDialog() {
         <DialogHeader>
           <DialogTitle>Lorem Ipsum Dolor</DialogTitle>
         </DialogHeader>
-        <TallyFrame embedUrl="https://tally.so/embed/m6xx2N" />
+        <TallyFrame embedUrl="https://tally.so/r/mV827y" />
       </DialogContent>
     </Dialog>
   );

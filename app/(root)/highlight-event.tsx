@@ -25,7 +25,7 @@ export const HighlightEvent = () => {
         </CardContent>
         <CardFooter className="flex flex-col items-start gap-10">
           <Button asChild size={"lg"}>
-            <Link href={"/#events"}>Participar</Link>
+            <Link href={"/events/123"}>Participar</Link>
           </Button>
           <EventFeatures
             projects={25}

@@ -1,6 +1,5 @@
 import { Large } from "@/components/typography/large";
 import { Muted } from "@/components/typography/muted";
-import { P } from "@/components/typography/p";
 
 interface EventFeaturesProps {
   projects: number;
