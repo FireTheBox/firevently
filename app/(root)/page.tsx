@@ -1,54 +1,69 @@
-import CategoryFilter from '@/components/shared/CategoryFilter';
-import Collection from '@/components/shared/Collection';
-import Search from '@/components/shared/Search';
-import { Button } from '@/components/ui/button';
-import { getAllEvents } from '@/lib/actions/event.actions';
-import { SearchParamProps } from '@/types';
-import Image from 'next/image';
-import Link from 'next/link';
+import CategoryFilter from "@/components/shared/category-filter";
+import Collection from "@/components/shared/collection";
+import Search from "@/components/shared/Search";
+import { H1 } from "@/components/typography/h1";
+import { H2 } from "@/components/typography/h2";
+import { Lead } from "@/components/typography/lead";
+import { P } from "@/components/typography/p";
+import { Button } from "@/components/ui/button";
+import { getAllEvents } from "@/lib/actions/event.actions";
+import { SearchParamProps } from "@/types";
+import Link from "next/link";
+import { HighlightEvent } from "./highlight-event";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
-  const searchText = (searchParams?.query as string) || '';
-  const category = (searchParams?.category as string) || '';
+  const searchText = (searchParams?.query as string) || "";
+  const category = (searchParams?.category as string) || "";
 
   const events = await getAllEvents({
     query: searchText,
     category,
     page,
-    limit: 6
-  })
+    limit: 6,
+  });
 
   return (
     <>
-      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
-        <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
-          <div className="flex flex-col justify-center gap-8">
-            <h1 className="h1-bold">Organize, colabore ou participe de programas de inovação com nossa plataforma!</h1>
-            <p className="p-regular-20 md:p-regular-16">FireTheBox é a caixa de ferramentas mais completa para conectar organizações com jovens talentos para criar soluções. Oferecemos aos inovadores uma maneira divertida e emocionante de aprender novas habilidades, construir projetos legais e ganhar recompensas.</p>
-            <Button size="lg" asChild className="button w-full sm:w-fit">
-              <Link href="#events">
-                Explore Agora
-              </Link>
-            </Button>
+      <section className="container py-5 md:py-10">
+        <div className=" grid grid-cols-1 gap-10 md:grid-cols-5">
+          <div className="col-span-2 space-y-8">
+            <H1>
+              Organize, colabore ou participe de programas de inovação com nossa
+              plataforma!
+            </H1>
+            <P>
+              FireTheBox é a caixa de ferramentas mais completa para conectar
+              organizações com jovens talentos para criar soluções.
+            </P>
+            <div className="flex gap-4">
+              <Button size="lg" asChild>
+                <Link href="#events">Criar projeto</Link>
+              </Button>
+              <Button size="lg" variant={"outline"} asChild>
+                <Link href="#events">Explore</Link>
+              </Button>
+            </div>
           </div>
-    
-          <Image 
-            src="/assets/images/hero.png"
-            alt="hero"
-            width={1000}
-            height={1000}
-            className="max-h-[70vh] object-contain object-center 2xl:max-h-[50vh]"
-          />
+
+          <HighlightEvent />
         </div>
-      </section> 
-    
-      <section id="events" className="wrapper my-8 flex flex-col gap-8 md:gap-12">
-        <h2 className="h2-bold">Confiam em nós <br /> Os melhores programas de inovação</h2>
-    
-        <div className="flex w-full flex-col gap-5 md:flex-row">
-          <Search />
-          <CategoryFilter />
+      </section>
+
+      <section
+        id="events"
+        className="container mt-20 md:mt-40 mb-8 flex flex-col gap-8 md:gap-12"
+      >
+        <div className="flex justify-between">
+          <div className="space-y-2">
+            <H2>Descubra mais programas</H2>
+            <Lead>Explore as melhores oportunidades</Lead>
+          </div>
+
+          <div className="w-fit flex gap-5">
+            <CategoryFilter />
+            <Search />
+          </div>
         </div>
 
         <Collection
@@ -62,5 +77,5 @@ export default async function Home({ searchParams }: SearchParamProps) {
         />
       </section>
     </>
-  )
+  );
 }
