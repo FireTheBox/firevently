@@ -1,28 +1,49 @@
-import Image from "next/image";
+"use client";
 
-import BgImage from "@/public/assets/images/highlight-event-bg-image.png";
-import { Small } from "../../components/typography/small";
+import Image, { StaticImageData } from "next/image";
+
 import { Large } from "@/components/typography/large";
-import { CountdownTimer } from "@/components/shared/countdown-timer";
-import { formatCurrency } from "@/lib/currency";
+import { P } from "@/components/typography/p";
+import { Small } from "@/components/typography/small";
+import { useCountdown } from "@/lib/hook/use-contdown";
 
 import Logo from "@/public/assets/images/platform-dark-logo-small.png";
 
+const labels = ["d", "h", "m", "s"];
+
+interface CountdownSegmentProps {
+  value: string;
+  label: string;
+}
+
+function CountdownSegment({ value, label }: CountdownSegmentProps) {
+  return (
+    <div className="flex">
+      <Large>{value}</Large>
+      <P>{label}</P>
+    </div>
+  );
+}
+
 interface EventThumbnailProps {
+  image: StaticImageData;
   name: string;
   price: number;
   startAt: Date;
 }
 
 export const EventThumbnail = ({
+  image,
   name,
   price,
   startAt,
 }: EventThumbnailProps) => {
+  const timeLeft = useCountdown(startAt);
+
   return (
     <div className="relative size-full rounded-md flex flex-col-reverse">
       <Image
-        src={BgImage}
+        src={image}
         alt={name}
         objectFit="cover"
         className="absolute size-full"
@@ -33,7 +54,11 @@ export const EventThumbnail = ({
         </div>
 
         <Small className="mt-4">Tempo restante</Small>
-        <CountdownTimer targetDate={startAt} />
+        <div className="flex gap-2">
+          {timeLeft.map((time, index) => (
+            <CountdownSegment key={index} value={time} label={labels[index]} />
+          ))}
+        </div>
       </div>
     </div>
   );

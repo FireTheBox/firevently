@@ -1,6 +1,6 @@
-import { LucideCopy } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import React from "react";
+import { CopyButton } from "../copy-button";
 
 interface EventCodeCardProps {
   logo: StaticImageData;
@@ -13,14 +13,11 @@ const EventCodeCard: React.FC<EventCodeCardProps> = ({ logo, code }) => {
       <Image
         className="size-20 rounded-lg"
         src={logo}
-        alt="Código do projeto"
+        alt="Logo da organização"
       />
       <div className="flex flex-col h-full justify-center items-start gap-2">
-        <div className="text-white font-medium">Código do projeto</div>
-        <div className="font-bold text-purple-700 flex items-center gap-2">
-          <LucideCopy size={20} />
-          {code}
-        </div>
+        <div className="text-white font-medium">Código do evento</div>
+        <CopyButton value={code} />
       </div>
     </div>
   );

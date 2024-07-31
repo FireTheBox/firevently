@@ -2,6 +2,7 @@ import { EventSummary } from "@/components/shared/events/event-summary";
 import { CodaFrame } from "@/components/shared/frame/coda-frame";
 import { Large } from "@/components/typography/large";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getEventById } from "@/lib/actions/event.actions";
 
 interface EventDetails {
   params: {
@@ -10,7 +11,7 @@ interface EventDetails {
 }
 
 const EventDetails = async ({ params: { id } }: EventDetails) => {
-  // const event = await getEventById(id);
+  const event = await getEventById(id);
 
   return (
     <>

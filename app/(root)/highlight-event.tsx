@@ -11,6 +11,8 @@ import Link from "next/link";
 import { EventFeatures } from "./event-features";
 import { EventThumbnail } from "./event-thumbnail";
 
+import BgImage from "@/public/assets/images/highlight-event-bg-image.png";
+
 export const HighlightEvent = () => {
   return (
     <div className="col-span-3 w-full flex items-end bg-primary/5 rounded-lg p-8">
@@ -36,6 +38,7 @@ export const HighlightEvent = () => {
         </CardFooter>
       </Card>
       <EventThumbnail
+        image={BgImage}
         name="Garagem de Startups 2024"
         price={0.0}
         startAt={new Date(new Date().getTime() + 12 * 3600 * 1000)}
