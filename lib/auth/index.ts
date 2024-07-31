@@ -48,7 +48,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             })
           }
 
-          return userDb;
+          return {
+            id: userDb?.userId,
+            email: userDb?.email,
+            name: userDb?.username,
+            image: userDb?.avatar
+          };
         } catch (error: any) {
           handleError(error);
           return null;
