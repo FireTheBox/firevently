@@ -16,16 +16,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { performSignUp } from "@/lib/auth/actions/performSignup";
-import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const signUpFormSchema = z
   .object({
-    email: z.string().email(),
-    password: z.string().min(8).max(32),
-    confirmPassword: z.string(),
+    email: z
+      .string({
+        required_error: "O campo e-mail é obrigatório.",
+      })
+      .email({
+        message: "E-mail inválido.",
+      }),
+    password: z
+      .string({
+        required_error: "O campo senha é obrigatório.",
+      })
+      .min(8, {
+        message: "A senha deve ter pelo menos 8 caracteres",
+      })
+      .max(32, {
+        message: "A senha deve ter no máximo 32 caracteres",
+      }),
+    confirmPassword: z.string({
+      required_error: "O campo confirmar senha é obrigatório.",
+    }),
   })
   .refine(
     (values) => {
@@ -57,24 +72,34 @@ export function SignUpForm() {
     setIsLoading(true);
 
     try {
-      await performSignUp(email, password);
+      const user = {
+        username: email.split("@")[0].trim(),
+        email,
+        password,
+        avatar: null,
+      };
 
-      router.push("/sign-in");
-      toast({
-        title: "Yay! Conta criada com sucesso.",
+      const result = await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify(user),
       });
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        if (error.code === "auth/email-already-exists") {
-          toast({
-            title: "Ops! Falha ao cadastrar a conta...",
-            description: "Este e-mail já está em uso.",
-            variant: "destructive",
-          });
-          return;
-        }
+
+      if (result.ok) {
+        router.push("/sign-in");
+        toast({
+          title: "Yay! Conta criada com sucesso.",
+        });
+        return;
       }
 
+      const body = await result.json();
+
+      toast({
+        title: "Ops! Falha ao cadastrar a conta...",
+        description: body.error,
+        variant: "destructive",
+      });
+    } catch (error) {
       toast({
         title: "Ops! Falha ao cadastrar a conta...",
         description: `Tente novamente mais tarde.`,
