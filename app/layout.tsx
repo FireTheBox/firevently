@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 
 import "./globals.css";
-import { Footer } from "@/components/shared/Footer";
-import { Header } from "@/components/shared/Header";
 import { Toaster } from "@/components/ui/toaster";
+import { Header } from "@/components/shared/global/header";
+import { Footer } from "@/components/shared/global/footer";
 
 const baloo = Baloo_2({
   subsets: ["latin"],

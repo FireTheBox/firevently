@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Icon, IconName } from "./icon";
+import { Icon, IconName } from "../helper/icon";
 
 interface SocialMedia {
   icon: IconName;

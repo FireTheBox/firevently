@@ -1,11 +1,11 @@
 import { links } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
-import { Small } from "../typography/small";
-import { Button } from "../ui/button";
 import { ModeToggle } from "./mode-toogle";
 
 import Logo from "@/public/assets/images/platform-dark-logo.png";
+import { Small } from "@/components/typography/small";
+import { Button } from "@/components/ui/button";
 
 export const Header = () => {
   return (

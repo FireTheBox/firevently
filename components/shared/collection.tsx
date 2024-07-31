@@ -1,8 +1,8 @@
 import { IEvent } from "@/lib/database/models/event.model";
-import Card from "./event-card";
 import Pagination from "./Pagination";
 import { P } from "../typography/p";
 import { H3 } from "../typography/h3";
+import Card from "./event-card";
 
 type CollectionProps = {
   data: IEvent[];

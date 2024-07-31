@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Logo from "@/public/assets/images/platform-dark-logo.png";
-import { Muted } from "../typography/muted";
-import { P } from "../typography/p";
+import { P } from "@/components/typography/p";
+import { Muted } from "@/components/typography/muted";
 import { SocialMedias } from "./social-medias";
 
 const FooterColumn: React.FC<{
@@ -30,12 +30,7 @@ export const Footer = () => {
       <div className="mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
         <div className="flex-1 flex flex-col items-center lg:items-start max-w-lg">
           <div className="w-32 h-10 mb-4">
-            <Image
-              src={Logo}
-              alt="Logo"
-              width={128}
-              height={40}
-            />
+            <Image src={Logo} alt="Logo" width={128} height={40} />
           </div>
           <P>
             Lorem ipsum is placeholder text commonly used in the graphic, print,
