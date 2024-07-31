@@ -31,16 +31,16 @@ const EventDetails = async ({ params: { id } }: EventDetails) => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="details">
-          <CodaFrame embedUrl="https://coda.io/embed/pwJRZ9Cnd3/_suQky" />
+          <CodaFrame embedUrl="https://coda.io/embed/14yFFG5jBk/_suscY" />
         </TabsContent>
         <TabsContent value="projects">
-          <CodaFrame embedUrl="https://coda.io/embed/pwJRZ9Cnd3/_suQky" />
+          <CodaFrame embedUrl="https://coda.io/embed/YRo7SuUISP/_sut0a" />
         </TabsContent>
         <TabsContent value="timeline">
-          <CodaFrame embedUrl="https://coda.io/embed/pwJRZ9Cnd3/_suQky" />
+          <CodaFrame embedUrl="https://coda.io/embed/1VKyQ4-ZAs/_suu1E" />
         </TabsContent>
         <TabsContent value="participants">
-          <CodaFrame embedUrl="https://coda.io/embed/pwJRZ9Cnd3/_suQky" />
+          <CodaFrame embedUrl="https://coda.io/embed/OY5gXjYYxk/_sujj1" />
         </TabsContent>
       </Tabs>
     </>
