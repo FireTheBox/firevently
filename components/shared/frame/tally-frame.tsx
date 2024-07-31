@@ -1,7 +1,6 @@
 "use client";
 
 import Script from "next/script";
-import React, { useEffect } from "react";
 
 interface TallyFrameProps {
   embedUrl: string;
