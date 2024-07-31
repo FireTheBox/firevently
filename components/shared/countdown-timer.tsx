@@ -14,7 +14,7 @@ const CountdownSegment: React.FC<CountdownSegmentProps> = ({
   label,
 }) => (
   <div className="flex">
-    <Large>{value}</Large>
+    <Large>{value.toString().padStart(2, "0")}</Large>
     <P>{label}</P>
   </div>
 );
@@ -55,9 +55,7 @@ const CountdownTimer: React.FC<{ targetDate: Date }> = ({ targetDate }) => {
 
   return (
     <div className="flex gap-2">
-      {timeLeft.days !== 0 && (
-        <CountdownSegment value={timeLeft.days} label="d" />
-      )}
+      <CountdownSegment value={timeLeft.days} label="d" />
       <CountdownSegment value={timeLeft.hours} label="h" />
       <CountdownSegment value={timeLeft.minutes} label="m" />
       <CountdownSegment value={timeLeft.seconds} label="s" />

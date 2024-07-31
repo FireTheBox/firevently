@@ -1,4 +1,4 @@
-import Collection from '@/components/shared/Collection'
+import Collection from '@/components/shared/collection'
 import { Button } from '@/components/ui/button'
 import { getEventsByUser } from '@/lib/actions/event.actions'
 import { getOrdersByUser } from '@/lib/actions/order.actions'

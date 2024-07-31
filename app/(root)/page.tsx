@@ -1,12 +1,13 @@
-import CategoryFilter from "@/components/shared/CategoryFilter";
-import Collection from "@/components/shared/Collection";
+import CategoryFilter from "@/components/shared/category-filter";
+import Collection from "@/components/shared/collection";
 import Search from "@/components/shared/Search";
 import { H1 } from "@/components/typography/h1";
+import { H2 } from "@/components/typography/h2";
+import { Lead } from "@/components/typography/lead";
 import { P } from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
-import Image from "next/image";
 import Link from "next/link";
 import { HighlightEvent } from "./highlight-event";
 
@@ -25,7 +26,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
   return (
     <>
       <section className="container py-5 md:py-10">
-        <div className=" grid grid-cols-1 gap-5 md:grid-cols-5">
+        <div className=" grid grid-cols-1 gap-10 md:grid-cols-5">
           <div className="col-span-2 space-y-8">
             <H1>
               Organize, colabore ou participe de programas de inovação com nossa
@@ -51,15 +52,18 @@ export default async function Home({ searchParams }: SearchParamProps) {
 
       <section
         id="events"
-        className="wrapper my-8 flex flex-col gap-8 md:gap-12"
+        className="container mt-20 md:mt-40 mb-8 flex flex-col gap-8 md:gap-12"
       >
-        <h2 className="h2-bold">
-          Confiam em nós <br /> Os melhores programas de inovação
-        </h2>
+        <div className="flex justify-between">
+          <div className="space-y-2">
+            <H2>Descubra mais programas</H2>
+            <Lead>Explore as melhores oportunidades</Lead>
+          </div>
 
-        <div className="flex w-full flex-col gap-5 md:flex-row">
-          <Search />
-          <CategoryFilter />
+          <div className="w-fit flex gap-5">
+            <CategoryFilter />
+            <Search />
+          </div>
         </div>
 
         <Collection

@@ -27,18 +27,13 @@ export const EventThumbnail = ({
         objectFit="cover"
         className="absolute size-full"
       />
-      <div className="h-fit relative bg-primary/20 backdrop-blur-lg rounded-md flex justify-between px-3 py-3 mx-2 mb-5">
-        <div className="flex flex-col gap-1">
-          <Small>Preço</Small>
-          <Large>{formatCurrency(price)}</Large>
-        </div>
+      <div className="h-fit relative bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center px-3 py-3 mx-2 mb-5">
         <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-primary rounded-full flex justify-center items-center">
           <Image src={Logo} alt={name} objectFit="cover" className="scale-90" />
         </div>
-        <div className="flex flex-col gap-1">
-          <Small>Tempo restante</Small>
-          <CountdownTimer targetDate={startAt} />
-        </div>
+
+        <Small className="mt-4">Tempo restante</Small>
+        <CountdownTimer targetDate={startAt} />
       </div>
     </div>
   );
