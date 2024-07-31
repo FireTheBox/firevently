@@ -1,3 +1,5 @@
+"use client";
+
 import { links } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,8 +8,13 @@ import { ModeToggle } from "./mode-toogle";
 import Logo from "@/public/assets/images/platform-dark-logo.png";
 import { Small } from "@/components/typography/small";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { signOut } from "@/lib/auth";
+import { performSignOut } from "@/lib/auth/actions/performSignout";
 
 export const Header = () => {
+  const { data } = useSession();
+
   return (
     <header className="container flex justify-between py-8">
       <Link href="/" className="w-36">
@@ -22,9 +29,16 @@ export const Header = () => {
           ))}
         </nav>
         <ModeToggle />
-        <Button className="w-24">
-          <Link href={"/sign-in"}>Entrar</Link>
-        </Button>
+
+        {data?.user?.email ? (
+          <Button className="w-24" onClick={async () => performSignOut()}>
+            Sair
+          </Button>
+        ) : (
+          <Button className="w-24" asChild>
+            <Link href={"/sign-in"}>Entrar</Link>
+          </Button>
+        )}
       </div>
     </header>
   );
