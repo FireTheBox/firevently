@@ -11,5 +11,5 @@ export const eventFormSchema = z.object({
   price: z.string(),
   isFree: z.boolean(),
   reward: z.string(),
-  url: z.string().url()
+  url: z.string().url(),
 })

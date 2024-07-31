@@ -23,7 +23,7 @@ import { updateEvent } from "@/lib/database/actions/update-event.action";
 import { IEvent } from "@/lib/database/models/event.model";
 import { handleError } from "@/lib/database/utils";
 import { useUploadThing } from "@/lib/uploadthing";
-import { LucideCalendar, LucideDollarSign, LucideLink } from "lucide-react";
+import { LucideDollarSign, LucideLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox";
@@ -195,29 +195,22 @@ export const EventForm = ({
             name="location"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Local do evento:</FormLabel>
                 <FormControl>
-                  <div className="flex items-center w-full gap-2">
-                    <LucideCalendar size={24} />
-                    <Input placeholder="Local do evento ou Online" {...field} />
-                  </div>
+                  <Input placeholder="Local do evento ou Online" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-
-        <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
             name="startDateTime"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Data de Início:</FormLabel>
                 <FormControl>
-                  <div className="flex flex-col w-full gap-2">
-                    <FormLabel>Data de Início:</FormLabel>
-                    <DatePicker value={field.value} onChange={field.onChange} />
-                  </div>
+                  <DatePicker value={field.value} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -229,14 +222,12 @@ export const EventForm = ({
             name="endDateTime"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Data de Término:</FormLabel>
                 <FormControl>
-                  <div className="flex flex-col gap-2">
-                    <FormLabel>Data de Término:</FormLabel>
-                    <DatePicker
-                      value={field.value}
-                      onChange={(date: Date) => field.onChange(date)}
-                    />
-                  </div>
+                  <DatePicker
+                    value={field.value}
+                    onChange={(date: Date) => field.onChange(date)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -244,62 +235,55 @@ export const EventForm = ({
           />
         </div>
 
-        <div className="flex flex-col gap-5 md:flex-row">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
+        <div className="flex flex-col justify-center gap-5 md:flex-row md:items-start">
+          <div className="w-full space-y-4">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Preço:</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isFree"
+              render={({ field }) => (
+                <FormItem className="w-full">
                   <div className="flex items-center gap-2">
-                    <LucideDollarSign size={24} />
-                    <Input type="number" placeholder="Preço" {...field} />
-                    <FormField
-                      control={form.control}
-                      name="isFree"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="flex items-center">
-                              <label
-                                htmlFor="isFree"
-                                className="whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                              >
-                                Ingresso Grátis
-                              </label>
-                              <Checkbox
-                                onCheckedChange={field.onChange}
-                                checked={field.value}
-                                id="isFree"
-                                className="mr-2 h-5 w-5 border-2 border-primary-500"
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <FormLabel>Ingresso Grátis:</FormLabel>
+                    <FormControl>
+                      <Checkbox
+                        onCheckedChange={field.onChange}
+                        checked={field.value}
+                        id="isFree"
+                      />
+                    </FormControl>
                   </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="url"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Link:</FormLabel>
                 <FormControl>
-                  <div className="flex items-center gap-2">
-                    <LucideLink size={24} />
-                    <Input placeholder="URL" {...field} />
-                  </div>
+                  <Input type="url" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="reward"
