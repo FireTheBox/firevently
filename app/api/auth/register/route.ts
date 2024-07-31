@@ -1,18 +1,20 @@
 import { createUser } from "@/lib/actions/user/create-user.action";
+import { auth } from "@/lib/auth/firebase";
 import { connectToDatabase } from "@/lib/database";
 import User from "@/lib/database/models/user.model";
 import { handleError } from "@/lib/utils";
-import bcryptjs from "bcryptjs"
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-    const connection = await connectToDatabase();
+    await connectToDatabase();
+
     try {
-        const { username, email, password, avatar } = await request.json();
+        const { username, email, password } = await request.json();
 
-        const user = await User.findOne({ email });
+        const userDb = await User.findOne({ email });
 
-        if (user) {
+        if (userDb) {
             return NextResponse.json(
                 {
                     error: "Este e-mail já está em uso."
@@ -23,14 +25,12 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const salt = await bcryptjs.genSalt(10);
-        const hashedPassword = await bcryptjs.hash(password, salt);
+        const userCreated = await createUserWithEmailAndPassword(auth, email, password);
 
         const result = await createUser({
             username,
             email,
-            password: hashedPassword,
-            avatar
+            avatar: userCreated.user.photoURL
         })
 
         return NextResponse.json(

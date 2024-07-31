@@ -76,7 +76,6 @@ export function SignUpForm() {
         username: email.split("@")[0].trim(),
         email,
         password,
-        avatar: null,
       };
 
       const result = await fetch("/api/auth/register", {
