@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,8 +18,10 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Dropdown from "./Dropdown";
 
-import { createEvent, updateEvent } from "@/lib/actions/event.actions";
+import { createEvent } from "@/lib/database/actions/create-event.action";
+import { updateEvent } from "@/lib/database/actions/update-event.action";
 import { IEvent } from "@/lib/database/models/event.model";
+import { handleError } from "@/lib/database/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 import { LucideCalendar, LucideDollarSign, LucideLink } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -31,13 +32,18 @@ import { FileUploader } from "./file-uploader";
 import { LoadingButton } from "./loading-button";
 
 type EventFormProps = {
-  userId: string;
+  userEmail: string;
   type: "Criar" | "Atualizar";
   event?: IEvent;
   eventId?: string;
 };
 
-export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
+export const EventForm = ({
+  userEmail,
+  type,
+  event,
+  eventId,
+}: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const initialValues =
     event && type === "Atualizar"
@@ -48,6 +54,7 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         }
       : eventDefaultValues;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { startUpload } = useUploadThing("imageUploader");
 
@@ -57,12 +64,14 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+    setIsLoading(true);
     let uploadedImageUrl = values.imageUrl;
 
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
 
       if (!uploadedImages) {
+        setIsLoading(false);
         return;
       }
 
@@ -72,9 +81,9 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     if (type === "Criar") {
       try {
         const newEvent = await createEvent({
+          userEmail,
           event: { ...values, imageUrl: uploadedImageUrl },
-          userId,
-          path: "/profile",
+          path: "/",
         });
 
         if (newEvent) {
@@ -82,7 +91,9 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           router.push(`/events/${newEvent._id}`);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -94,7 +105,7 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
 
       try {
         const updatedEvent = await updateEvent({
-          userId,
+          userEmail,
           event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
           path: `/events/${eventId}`,
         });
@@ -104,7 +115,9 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           router.push(`/events/${updatedEvent._id}`);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   }
@@ -287,11 +300,22 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="reward"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Premiação</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
-        <LoadingButton
-          isLoading={form.formState.isSubmitting}
-        >{`${type} Evento `}</LoadingButton>
+        <LoadingButton isLoading={isLoading}>{`${type} Evento `}</LoadingButton>
       </form>
     </Form>
   );

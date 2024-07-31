@@ -10,5 +10,6 @@ export const eventFormSchema = z.object({
   categoryId: z.string(),
   price: z.string(),
   isFree: z.boolean(),
+  reward: z.string(),
   url: z.string().url()
 })

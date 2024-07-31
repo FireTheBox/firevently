@@ -1,11 +1,13 @@
+"use client";
+
 import { EventForm } from "@/components/shared/event-form";
 import { H3 } from "@/components/typography/h3";
-import { auth } from "@/lib/auth";
+import { useSession } from "next-auth/react";
 
-const CreateEvent = async () => {
-  const session = await auth();
+const CreateEvent = () => {
+  const { data } = useSession();
 
-  const userId = session?.user?.id ?? "";
+  const userEmail = data?.user?.email as string;
 
   return (
     <>
@@ -14,7 +16,7 @@ const CreateEvent = async () => {
       </section>
 
       <div className="wrapper my-8">
-        <EventForm userId={userId} type="Criar" />
+        <EventForm userEmail={userEmail} type="Criar" />
       </div>
     </>
   );
