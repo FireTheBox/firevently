@@ -16,6 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { performLogin } from "@/lib/auth/actions/performLogin";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { handleError } from "@/lib/utils";
+import { LoadingButton } from "@/components/shared/loading-button";
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -23,7 +27,9 @@ const signInFormSchema = z.object({
 });
 
 export function SignInForm() {
+  const router = useRouter();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -37,21 +43,34 @@ export function SignInForm() {
     const email = values.email;
     const password = values.password;
 
-    const success = await performLogin(email, password);
+    setIsLoading(true);
+    try {
+      const success = await performLogin(email, password);
 
-    if (!success) {
+      if (!success) {
+        toast({
+          title: "Ops! Não foi possível autenticar seu usuário...",
+          description: "Tente novamente mais tarde.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Yay! Usuário autenticado com sucesso.",
+        description: "Seja bem vindo novamente!",
+      });
+      router.push("/");
+    } catch (error: any) {
+      handleError(error);
       toast({
         title: "Ops! Não foi possível autenticar seu usuário...",
         description: "Tente novamente mais tarde.",
         variant: "destructive",
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    toast({
-      title: "Yay! Usuário autenticado com sucesso.",
-      description: "Seja bem vindo novamente!",
-    });
   }
 
   return (
@@ -91,9 +110,7 @@ export function SignInForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Entrar
-        </Button>
+        <LoadingButton isLoading={isLoading}>Entrar</LoadingButton>
       </form>
     </Form>
   );

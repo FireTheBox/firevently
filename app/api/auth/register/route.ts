@@ -1,4 +1,4 @@
-import { createUser } from "@/lib/actions/user/create-user.action";
+import { createUser } from "@/lib/database/actions/create-user.action";
 import { auth } from "@/lib/auth/firebase";
 import { connectToDatabase } from "@/lib/database";
 import User from "@/lib/database/models/user.model";

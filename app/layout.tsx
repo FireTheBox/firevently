@@ -6,6 +6,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Header } from "@/components/shared/global/header";
 import { Footer } from "@/components/shared/global/footer";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -43,7 +44,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          {children}
+          <AuthProvider>{children}</AuthProvider>
           <Footer />
         </ThemeProvider>
         <Toaster />

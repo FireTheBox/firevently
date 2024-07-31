@@ -1,11 +1,14 @@
 import { FirestoreAdapter } from "@auth/firebase-adapter";
 import { cert } from "firebase-admin/app";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import NextAuth from "next-auth";
 import { Adapter } from "next-auth/adapters";
+import Credentials from "next-auth/providers/credentials";
 import Discord from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUser } from "../database/actions/create-user.action";
+import { getUserByEmail } from "../database/actions/get-user-by-email.action";
+import { handleError } from "../utils";
 import { auth as authFirebase } from './firebase/index';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -28,12 +31,54 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = (credentials.email as string) || "";
         const password = (credentials.password as string) || "";
 
-        return await signInWithEmailAndPassword(authFirebase, email, password)
-          .then(userCredential => {
-            return userCredential.user ?? null;
-          })
+        try {
+          const { user } = await signInWithEmailAndPassword(authFirebase, email, password)
+
+          if (!user.email) {
+            return null;
+          }
+
+          const userDb = await getUserByEmail({ email })
+
+          if (!userDb) {
+            await createUser({
+              username: user.displayName || email.split("@")[0].trim(),
+              email,
+              avatar: user.photoURL
+            })
+          }
+
+          return userDb;
+        } catch (error: any) {
+          handleError(error);
+          return null;
+        }
       },
-    }),],
+    }),
+  ],
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.email = user.email;
+        token.name = user.name;
+      }
+
+      return token;
+    },
+
+    async session({ session, token }: { session: any, token: any }) {
+      if (session.user) {
+        session.user.email = token.email;
+        session.user.name = token.name
+      }
+
+      return session;
+    },
+  },
+  secret: process.env.AUTH_SECRET!,
   adapter: FirestoreAdapter({
     credential: cert({
       projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
