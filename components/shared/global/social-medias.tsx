@@ -10,8 +10,8 @@ const socialLinks: SocialMedia[] = [
   { icon: "twitter", url: "FireTheBox" },
   { icon: "github", url: "FireTheBox" },
   { icon: "facebook", url: "FireTheBox" },
-  { icon: "instagram", url: "FireTheBox" },
-  { icon: "linkedin", url: "FireTheBox" },
+  { icon: "instagram", url: "https://www.instagram.com/firethebox/" },
+  { icon: "linkedin", url: "https://www.linkedin.com/company/firethebox/?originalSubdomain=br" },
 ];
 
 export const SocialMedias = () => (
