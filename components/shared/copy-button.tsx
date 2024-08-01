@@ -3,6 +3,7 @@
 import { handleError } from "@/lib/utils";
 import { LucideCopy } from "lucide-react";
 import { useState } from "react";
+import { P } from "../typography/p";
 import { Button } from "../ui/button";
 
 interface CopyButtonProps {
@@ -23,7 +24,7 @@ export function CopyButton({ value: code }: CopyButtonProps) {
   };
 
   return (
-    <div className="font-bold text-secondary-foreground flex items-center gap-2 cursor-pointer">
+    <div className="text-secondary-foreground flex items-center gap-2 cursor-pointer">
       <Button
         asChild
         size={"icon"}
@@ -33,7 +34,7 @@ export function CopyButton({ value: code }: CopyButtonProps) {
       >
         <LucideCopy />
       </Button>
-      {copied ? "Copiado!" : code}
+      <P className="w-fit">{copied ? "Copiado!" : code}</P>
     </div>
   );
 }

@@ -19,8 +19,8 @@ interface CountdownSegmentProps {
 function CountdownSegment({ value, label }: CountdownSegmentProps) {
   return (
     <div className="flex">
-      <Large>{value}</Large>
-      <P>{label}</P>
+      <Large className="text-white">{value}</Large>
+      <P className="text-white">{label}</P>
     </div>
   );
 }
@@ -49,11 +49,11 @@ export const EventThumbnail = ({
       />
 
       <div className="absolute w-11/12 h-fit bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center py-3 bottom-5 left-1/2 transform -translate-x-1/2">
-        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-primary rounded-full flex justify-center items-center">
+        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-white rounded-full flex justify-center items-center">
           <Image src={Logo} alt={name} objectFit="cover" className="scale-90" />
         </div>
 
-        <Small className="mt-4">Tempo restante</Small>
+        <Small className="mt-4 text-white">Tempo restante</Small>
         <div className="flex gap-2">
           {timeLeft.map((time, index) => (
             <CountdownSegment key={index} value={time} label={labels[index]} />

@@ -16,6 +16,7 @@ import Link from "next/link";
 import { Lead } from "../typography/lead";
 import { Small } from "../typography/small";
 import { Button } from "../ui/button";
+import { P } from "../typography/p";
 
 type CardProps = {
   event: IEvent;
@@ -39,8 +40,8 @@ export const EventCard = async ({ event, canManage }: CardProps) => {
         <div className="h-10 flex justify-start items-start gap-3.5">
           <Image src={Logo} alt={"LePoli"} className="size-10 rounded-lg" />
           <div className="flex flex-col h-full justify-center items-start">
-            <div className="text-white/70 font-medium">Organização</div>
-            <div className="text-white font-bold">LePoli</div>
+            <P className="font-bold">Organização</P>
+            <Small>LePoli</Small>
           </div>
         </div>
       </CardContent>

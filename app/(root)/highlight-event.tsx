@@ -58,7 +58,7 @@ export const HighlightEvent = async ({
           name={title}
           startAt={new Date(Date.parse(startDateTime))}
         />
-        <Card className="w-full lg:basis-1/2 border-none bg-transparent">
+        <Card className="w-full lg:basis-1/2 border-none shadow-none bg-transparent">
           <CardHeader className="px-0">
             <CardTitle>{title}</CardTitle>
           </CardHeader>
