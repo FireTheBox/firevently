@@ -12,7 +12,7 @@ export function JoinEventDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-[300px] max-h-full">Participar</Button>
+        <Button className="w-[300px] sm:w-full max-h-full">Participar</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-screen-md">
         <DialogHeader>

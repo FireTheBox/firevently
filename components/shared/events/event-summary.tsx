@@ -1,3 +1,5 @@
+"use client";
+
 import { EventBanner } from "@/components/shared/events/event-banner";
 import { EventCodeCard } from "@/components/shared/events/event-code-card";
 import { JoinEventDialog } from "@/components/shared/events/join-event-dialog";
@@ -17,15 +19,6 @@ import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
 import { Stat } from "./event-stat";
-
-const EventButtons = () => (
-  <div className="w-full flex justify-between pt-4 gap-4">
-    <JoinEventDialog />
-    <Button size="lg" className="w-[300px]" variant="outline">
-      Conversar com o organizador
-    </Button>
-  </div>
-);
 
 interface EventSummaryProps {
   id: string;
@@ -47,12 +40,12 @@ export const EventSummary = ({
   reward,
 }: EventSummaryProps) => {
   return (
-    <section className="flex flex-col items-center md:flex-row md:items-start py-16 gap-16 border-b border-muted">
+    <section className="flex flex-col items-center xl:flex-row xl:items-start py-8 xl:py-16 gap-8 xl:gap-16 border-b border-muted overflow-hidden">
       <EventBanner
         image={imageUrl}
         startAt={new Date(Date.parse(startDateTime))}
       />
-      <Card className="basis-2/3 border-none">
+      <Card className="w-full xl:w-fit border-none">
         <CardHeader>
           <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center py-5">
             <H2>{title}</H2>
@@ -63,8 +56,8 @@ export const EventSummary = ({
             </div>
           </div>
         </CardHeader>
-        <CardContent className="flex flex-col flex-1 space-y-6">
-          <div className="flex justify-between">
+        <CardContent className="flex flex-col space-y-6">
+          <div className="flex flex-col gap-3 sm:flex-row justify-between">
             <OrganizationInfo logo={LePoli} title="Liga Poli-USP" />
             <EventCodeCard logo={EventCodeImage} code={id} />
           </div>
@@ -72,7 +65,7 @@ export const EventSummary = ({
             <Muted>Descrição</Muted>
             <Lead>{description}</Lead>
           </div>
-          <div className="h-5 flex justify-between items-start">
+          <div className="flex flex-col gap-3 sm:flex-row justify-between items-start">
             <Stat label="Projetos" value="125" iconName="circle-play" />
             <Stat label="Participantes" value="145" iconName="users" />
             <Stat label="Visualizações" value="356" iconName="eye" />
@@ -84,7 +77,16 @@ export const EventSummary = ({
           </div>
         </CardContent>
         <CardFooter>
-          <EventButtons />
+          <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
+            <JoinEventDialog />
+            <Button
+              size="lg"
+              className="w-[300px] sm:w-full"
+              variant="outline"
+            >
+              Conversar com o organizador
+            </Button>
+          </div>
         </CardFooter>
       </Card>
     </section>

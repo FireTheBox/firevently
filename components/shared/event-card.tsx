@@ -1,8 +1,6 @@
-import { auth } from "@/lib/auth";
 import { IEvent } from "@/lib/database/models/event.model";
 import { formatDateTime } from "@/lib/utils";
 import { LucideEdit, LucideMoreVertical } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { P } from "../typography/p";
 import { DeleteConfirmation } from "./DeleteConfirmation";
@@ -14,11 +12,6 @@ type CardProps = {
 };
 
 const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  const isEventCreator = userId === event.organizer._id.toString();
-
   return (
     <div className="group relative flex min-h-[380px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-primary shadow-md transition-all hover:shadow-lg md:min-h-[438px]">
       <Link
@@ -26,17 +19,14 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
         style={{ backgroundImage: `url(${event.imageUrl})` }}
         className="flex-center flex-grow bg-primary-foreground bg-cover bg-center text-grey-500"
       />
-      {/* IS EVENT CREATOR ... */}
 
-      {isEventCreator && !hidePrice && (
-        <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-primary p-3 shadow-sm transition-all">
-          <Link href={`/events/${event._id}/update`}>
-            <LucideEdit size={20} />
-          </Link>
+      <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-primary p-3 shadow-sm transition-all">
+        <Link href={`/events/${event._id}/update`}>
+          <LucideEdit size={20} />
+        </Link>
 
-          <DeleteConfirmation eventId={event._id} />
-        </div>
-      )}
+        <DeleteConfirmation eventId={event._id} />
+      </div>
 
       <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4">
         {!hidePrice && (
@@ -57,9 +47,7 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
         </Link>
 
         <div className="flex-between w-full">
-          <P>
-            {event.organizer.firstName} {event.organizer.lastName}
-          </P>
+          <P>{event.organizer.username}</P>
 
           {hasOrderLink && (
             <Link href={`/orders?eventId=${event._id}`} className="flex gap-2">

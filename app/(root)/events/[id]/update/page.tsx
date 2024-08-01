@@ -11,7 +11,7 @@ type UpdateEventProps = {
 const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
   const session = await auth();
 
-  const userId = session?.user?.id as string;
+  const userEmail = session?.user?.email as string;
   const event = await getEventById(id);
 
   return (
@@ -27,7 +27,7 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
           type="Atualizar"
           event={event}
           eventId={event._id}
-          userId={userId}
+          userEmail={userEmail}
         />
       </div>
     </>

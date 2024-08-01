@@ -34,7 +34,7 @@ export async function updateEvent({ userEmail, event, path }: UpdateEventParams)
 
         const organizer = await getUserByEmail({ email: userEmail })
 
-        if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== organizer?.userId) {
+        if (!eventToUpdate || eventToUpdate.organizer.toString() !== organizer?.userId) {
             throw new Error('Unauthorized or event not found')
         }
 

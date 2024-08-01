@@ -1,13 +1,12 @@
-"use client";
-
 import { EventForm } from "@/components/shared/event-form";
 import { H3 } from "@/components/typography/h3";
-import { useSession } from "next-auth/react";
+import { auth } from "@/lib/auth";
+import { Suspense } from "react";
 
-const CreateEvent = () => {
-  const { data } = useSession();
+const CreateEvent = async () => {
+  const session = await auth();
 
-  const userEmail = data?.user?.email as string;
+  const userEmail = session?.user?.email as string;
 
   return (
     <>
@@ -16,7 +15,9 @@ const CreateEvent = () => {
       </section>
 
       <div className="wrapper my-8">
-        <EventForm userEmail={userEmail} type="Criar" />
+        <Suspense fallback={"Loading..."}>
+          <EventForm type="Criar" userEmail={userEmail} />
+        </Suspense>
       </div>
     </>
   );
