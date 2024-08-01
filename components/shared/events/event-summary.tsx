@@ -45,9 +45,9 @@ export const EventSummary = ({
         image={imageUrl}
         startAt={new Date(Date.parse(startDateTime))}
       />
-      <Card className="w-full xl:w-fit border-none">
-        <CardHeader>
-          <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center py-5">
+      <Card className="w-full xl:w-fit border-none space-y-6">
+        <CardHeader className="p-0 px-6">
+          <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
             <H2>{title}</H2>
             <div className="w-fit flex items-center gap-2.5 p-3 bg-secondary rounded-lg border border-secondary-foreground">
               <span className="text-secondary-foreground text-xs font-bold">

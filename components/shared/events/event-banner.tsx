@@ -65,7 +65,7 @@ export const EventBanner = ({ image, startAt }: EventBannerProps) => {
         alt="Banner do Evento"
         width={500}
         height={500}
-        className="size-[500px] object-cover"
+        className="w-full object-cover"
       />
       {/* <div className="flex justify-center items-center bg-primary/10 drop-shadow-lg hover:bg-primary/15 transition hover:cursor-pointer size-16 rounded-full absolute right-6 top-6">
         <LucideHeart size={40} />
