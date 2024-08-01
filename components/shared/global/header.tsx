@@ -1,19 +1,17 @@
-"use client";
-
 import { links } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toogle";
 
-import Logo from "@/public/assets/images/platform-dark-logo.png";
 import { Small } from "@/components/typography/small";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
-import { signOut } from "@/lib/auth";
 import { performSignOut } from "@/lib/auth/actions/performSignout";
+import Logo from "@/public/assets/images/platform-dark-logo.png";
+import { auth } from "@/lib/auth";
+import { AuthButton } from "../auth-button";
 
-export const Header = () => {
-  const { data } = useSession();
+export const Header = async () => {
+  const session = await auth();
 
   return (
     <header className="container flex justify-between py-8">
@@ -30,15 +28,7 @@ export const Header = () => {
         </nav>
         <ModeToggle />
 
-        {data?.user?.email ? (
-          <Button className="w-24" onClick={async () => performSignOut()}>
-            Sair
-          </Button>
-        ) : (
-          <Button className="w-24" asChild>
-            <Link href={"/sign-in"}>Entrar</Link>
-          </Button>
-        )}
+        <AuthButton session={session} />
       </div>
     </header>
   );

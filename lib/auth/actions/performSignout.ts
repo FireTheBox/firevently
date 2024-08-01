@@ -5,8 +5,8 @@ import { handleError } from "@/lib/utils";
 
 export const performSignOut = async () => {
     try {
-        await signOut();
-
+        await signOut({ redirect: false });
+        
         return true;
     } catch (error: any) {
         handleError(error);

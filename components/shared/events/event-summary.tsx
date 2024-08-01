@@ -21,24 +21,14 @@ import LePoli from "@/public/assets/images/lepoli.png";
 import { Stat } from "./event-stat";
 
 interface EventSummaryProps {
-  id: string;
-  imageUrl: string;
-  startDateTime: string;
-  title: string;
-  description: string;
-  category: string;
-  reward: string;
+  event: any;
+  email?: string;
 }
 
-export const EventSummary = ({
-  id,
-  imageUrl,
-  startDateTime,
-  title,
-  description,
-  category,
-  reward,
-}: EventSummaryProps) => {
+export const EventSummary = ({ event, email }: EventSummaryProps) => {
+  const { id, imageUrl, startDateTime, title, description, category, reward } =
+    event;
+
   return (
     <section className="flex flex-col items-center xl:flex-row xl:items-start py-8 xl:py-16 gap-8 xl:gap-16 border-b border-muted overflow-hidden">
       <EventBanner
@@ -51,7 +41,7 @@ export const EventSummary = ({
             <H2>{title}</H2>
             <div className="w-fit flex items-center gap-2.5 p-3 bg-secondary rounded-lg border border-secondary-foreground">
               <span className="text-secondary-foreground text-xs font-bold">
-                {category}
+                {category.name}
               </span>
             </div>
           </div>
@@ -78,12 +68,8 @@ export const EventSummary = ({
         </CardContent>
         <CardFooter>
           <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
-            <JoinEventDialog />
-            <Button
-              size="lg"
-              className="w-[300px] sm:w-full"
-              variant="outline"
-            >
+            <JoinEventDialog email={email} eventName={title} />
+            <Button size="lg" className="w-[300px] sm:w-full" variant="outline">
               Conversar com o organizador
             </Button>
           </div>
