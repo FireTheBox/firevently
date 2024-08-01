@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const calculateTimeLeft = (targetDate: Date) => {
     const now = new Date();
+
     const difference = targetDate.getTime() - now.getTime();
 
     let timeLeft = {
@@ -25,12 +26,20 @@ const calculateTimeLeft = (targetDate: Date) => {
     return timeLeft;
 };
 
-const useCountdown = (targetDate: Date) => {
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
+const useCountdown = (targetDate: Date | string) => {
+    let date: Date;
+
+    try {
+        date = new Date(Date.parse(targetDate as string));
+    } catch (error) {
+        date = targetDate as Date;
+    }
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(date));
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft(targetDate));
+            setTimeLeft(calculateTimeLeft(date));
         }, 1000);
 
         return () => clearInterval(timer);

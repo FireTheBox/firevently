@@ -40,7 +40,6 @@ export const HighlightEvent = () => {
       <EventThumbnail
         image={BgImage}
         name="Garagem de Startups 2024"
-        price={0.0}
         startAt={new Date(new Date().getTime() + 12 * 3600 * 1000)}
       />
     </div>
