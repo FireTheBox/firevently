@@ -54,7 +54,7 @@ export const EventCard = async ({ event, canManage }: CardProps) => {
           <Lead>{formatCurrency(Number(event.reward))}</Lead>
         </div>
         <Button size={"lg"} asChild>
-          <Link href={`/events/${event.id}`}>Participar</Link>
+          <Link href={`/events/${event._id}`}>Participar</Link>
         </Button>
       </CardFooter>
     </Card>
