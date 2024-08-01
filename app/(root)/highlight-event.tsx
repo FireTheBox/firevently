@@ -7,15 +7,38 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getAllEvents } from "@/lib/actions/event.actions";
 import Link from "next/link";
 import { EventFeatures } from "./event-features";
 import { EventThumbnail } from "./event-thumbnail";
 
 interface HighlightEventProps {
-  event: any;
+  query: string;
+  category: string;
+  page: number;
+  limit: number;
 }
 
-export const HighlightEvent = ({ event }: HighlightEventProps) => {
+export const HighlightEvent = async ({
+  query,
+  category,
+  page,
+  limit,
+}: HighlightEventProps) => {
+  const events = await getAllEvents({
+    query,
+    category,
+    page,
+    limit,
+  });
+
+  const lastEvent = events?.data.sort(function (a: any, b: any) {
+    return (
+      Date.parse(b.startDateTime as string) -
+      Date.parse(a.startDateTime as string)
+    );
+  })[0];
+
   const {
     _id,
     title,
@@ -25,7 +48,7 @@ export const HighlightEvent = ({ event }: HighlightEventProps) => {
     price,
     isFree,
     reward,
-  } = event;
+  } = lastEvent;
 
   return (
     <div className="col-span-3 w-full flex items-end bg-primary/5 rounded-lg p-8">
