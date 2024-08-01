@@ -19,6 +19,7 @@ export const TallyFrame: React.FC<TallyFrameProps> = ({ embedUrl }) => {
         id="tally-js"
         src="https://tally.so/widgets/embed.js"
         onLoad={() => {
+          // @ts-ignore
           Tally.loadEmbeds();
         }}
       />
