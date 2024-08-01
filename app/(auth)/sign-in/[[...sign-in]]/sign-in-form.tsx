@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/shared/loading-button";
 import {
   Form,
   FormControl,
@@ -16,10 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { performLogin } from "@/lib/auth/actions/performLogin";
+import { handleError } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { handleError } from "@/lib/utils";
-import { LoadingButton } from "@/components/shared/loading-button";
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -60,7 +59,8 @@ export function SignInForm() {
         title: "Yay! Usuário autenticado com sucesso.",
         description: "Seja bem vindo novamente!",
       });
-      router.push("/");
+      router.back();
+      router.refresh()
     } catch (error: any) {
       handleError(error);
       toast({

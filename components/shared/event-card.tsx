@@ -1,76 +1,58 @@
-import { auth } from "@/lib/auth";
 import { IEvent } from "@/lib/database/models/event.model";
-import { formatDateTime } from "@/lib/utils";
-import { LucideEdit, LucideMoreVertical } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+
+import { EventCardThumbnail } from "@/app/(root)/event-card-thumbnail";
+import { getUserById } from "@/lib/actions/user.actions";
+import { formatCurrency } from "@/lib/currency";
+import Logo from "@/public/assets/images/lepoli.png";
 import Image from "next/image";
 import Link from "next/link";
-import { P } from "../typography/p";
-import { DeleteConfirmation } from "./DeleteConfirmation";
+import { Lead } from "../typography/lead";
+import { Small } from "../typography/small";
+import { Button } from "../ui/button";
 
 type CardProps = {
   event: IEvent;
-  hasOrderLink?: boolean;
-  hidePrice?: boolean;
+  canManage?: boolean;
 };
 
-const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  const isEventCreator = userId === event.organizer._id.toString();
+export const EventCard = async ({ event, canManage }: CardProps) => {
+  // const user = await getUserById(event.organizer._id.toString());
 
   return (
-    <div className="group relative flex min-h-[380px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-primary shadow-md transition-all hover:shadow-lg md:min-h-[438px]">
-      <Link
-        href={`/events/${event._id}`}
-        style={{ backgroundImage: `url(${event.imageUrl})` }}
-        className="flex-center flex-grow bg-primary-foreground bg-cover bg-center text-grey-500"
-      />
-      {/* IS EVENT CREATOR ... */}
-
-      {isEventCreator && !hidePrice && (
-        <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-primary p-3 shadow-sm transition-all">
-          <Link href={`/events/${event._id}/update`}>
-            <LucideEdit size={20} />
-          </Link>
-
-          <DeleteConfirmation eventId={event._id} />
-        </div>
-      )}
-
-      <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4">
-        {!hidePrice && (
-          <div className="flex gap-2">
-            <span className="p-semibold-14 w-min rounded-full bg-green-100 px-4 py-1 text-green-60">
-              {event.isFree ? "FREE" : `$${event.price}`}
-            </span>
-            <p className="p-semibold-14 w-min rounded-full bg-grey-500/10 px-4 py-1 text-grey-500 line-clamp-1">
-              {event.category.name}
-            </p>
+    <Card>
+      <CardHeader className="space-y-3">
+        <EventCardThumbnail
+          image={event.imageUrl}
+          name={event.title}
+          startAt={event.startDateTime}
+        />
+        <CardTitle>{event.title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="h-10 flex justify-start items-start gap-3.5">
+          <Image src={Logo} alt={"LePoli"} className="size-10 rounded-lg" />
+          <div className="flex flex-col h-full justify-center items-start">
+            <div className="text-white/70 font-medium">Organização</div>
+            <div className="text-white font-bold">LePoli</div>
           </div>
-        )}
-
-        <P>{formatDateTime(event.startDateTime).dateTime}</P>
-
-        <Link href={`/events/${event._id}`}>
-          <P>{event.title}</P>
-        </Link>
-
-        <div className="flex-between w-full">
-          <P>
-            {event.organizer.firstName} {event.organizer.lastName}
-          </P>
-
-          {hasOrderLink && (
-            <Link href={`/orders?eventId=${event._id}`} className="flex gap-2">
-              <P>Detalhes do Pedido</P>
-              <LucideMoreVertical size={20} />
-            </Link>
-          )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <div className="flex flex-col gap-1">
+          <Small>Premiação</Small>
+          <Lead>{formatCurrency(Number(event.reward))}</Lead>
+        </div>
+        <Button size={"lg"} asChild>
+          <Link href={`/events/${event._id}`}>Participar</Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
-
-export default Card;

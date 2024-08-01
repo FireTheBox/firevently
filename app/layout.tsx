@@ -2,11 +2,10 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 
-import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-import { Header } from "@/components/shared/global/header";
 import { Footer } from "@/components/shared/global/footer";
-import { AuthProvider } from "@/components/providers/auth-provider";
+import { Header } from "@/components/shared/global/header";
+import { Toaster } from "@/components/ui/toaster";
+import "./globals.css";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -44,7 +43,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <AuthProvider>{children}</AuthProvider>
+          {children}
           <Footer />
         </ThemeProvider>
         <Toaster />

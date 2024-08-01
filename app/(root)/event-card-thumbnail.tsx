@@ -6,8 +6,7 @@ import { Large } from "@/components/typography/large";
 import { P } from "@/components/typography/p";
 import { Small } from "@/components/typography/small";
 import { useCountdown } from "@/lib/hook/use-contdown";
-
-import Logo from "@/public/assets/images/platform-dark-logo-small.png";
+import { Badge } from "@/components/ui/badge";
 
 const labels = ["d", "h", "m", "s"];
 
@@ -25,34 +24,36 @@ function CountdownSegment({ value, label }: CountdownSegmentProps) {
   );
 }
 
-interface EventThumbnailProps {
+interface EventCardThumbnailProps {
   image: string | StaticImageData;
   name: string;
   startAt: Date;
 }
 
-export const EventThumbnail = ({
+export const EventCardThumbnail = ({
   image,
   name,
   startAt,
-}: EventThumbnailProps) => {
+}: EventCardThumbnailProps) => {
   const timeLeft = useCountdown(startAt);
 
   return (
-    <div className="relative w-full h-full rounded-md flex flex-col-reverse">
+    <div className="relative w-full h-60 flex flex-col-reverse">
       <Image
         src={image}
         alt={name}
         width={300}
         height={300}
-        className="absolute w-[300px] h-full object-center rounded-lg"
+        objectFit="cover"
+        className="absolute size-full rounded-lg object-cover"
       />
-      <div className="h-fit relative bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center px-3 py-3 mx-2 mb-5">
-        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-primary rounded-full flex justify-center items-center">
-          <Image src={Logo} alt={name} objectFit="cover" className="scale-90" />
-        </div>
-
-        <Small className="mt-4">Tempo restante</Small>
+      {timeLeft.some((value) => Number(value)) && (
+        <Badge className="absolute top-3 left-3 bg-green-500 rounded-lg">
+          <P className="text-secondary-foreground">Inscrições abertas</P>
+        </Badge>
+      )}
+      <div className="h-fit bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center py-2 mx-3 mb-3">
+        <Small>Tempo restante</Small>
         <div className="flex gap-2">
           {timeLeft.map((time, index) => (
             <CountdownSegment key={index} value={time} label={labels[index]} />

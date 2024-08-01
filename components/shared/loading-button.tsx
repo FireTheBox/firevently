@@ -3,7 +3,7 @@ import { HTMLAttributes, ReactNode } from "react";
 import { Button } from "../ui/button";
 
 interface LoadingButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
+  children?: ReactNode;
   isLoading: boolean;
 }
 

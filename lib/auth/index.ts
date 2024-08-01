@@ -1,8 +1,5 @@
-import { FirestoreAdapter } from "@auth/firebase-adapter";
-import { cert } from "firebase-admin/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import NextAuth from "next-auth";
-import { Adapter } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import Discord from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
@@ -13,6 +10,7 @@ import { auth as authFirebase } from './firebase/index';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
+    newUser: "/",
     signIn: "/sign-in",
     signOut: "/",
   },
@@ -48,7 +46,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             })
           }
 
-          return userDb;
+          return {
+            id: userDb?.userId,
+            email: userDb?.email,
+            name: userDb?.username,
+            image: userDb?.avatar
+          };
         } catch (error: any) {
           handleError(error);
           return null;
@@ -79,11 +82,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET!,
-  adapter: FirestoreAdapter({
-    credential: cert({
-      projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
-      clientEmail: process.env.AUTH_FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'),
-    }),
-  }) as Adapter
+  // adapter: FirestoreAdapter({
+  //   credential: cert({
+  //     projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
+  //     clientEmail: process.env.AUTH_FIREBASE_CLIENT_EMAIL,
+  //     privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'),
+  //   }),
+  // }) as Adapter
 })

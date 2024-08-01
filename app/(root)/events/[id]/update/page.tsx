@@ -1,6 +1,8 @@
 import { EventForm } from "@/components/shared/event-form";
 import { getEventById } from "@/lib/actions/event.actions";
 import { auth } from "@/lib/auth";
+import { getUserByEmail } from "@/lib/database/actions/get-user-by-email.action";
+import { redirect } from "next/navigation";
 
 type UpdateEventProps = {
   params: {
@@ -11,8 +13,14 @@ type UpdateEventProps = {
 const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
   const session = await auth();
 
-  const userId = session?.user?.id as string;
+  const userEmail = session?.user?.email as string;
   const event = await getEventById(id);
+
+  const user = await getUserByEmail({ email: userEmail });
+
+  if (user?.userId !== event.organizer._id.toString()) {
+    redirect("/");
+  }
 
   return (
     <>
@@ -27,7 +35,7 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
           type="Atualizar"
           event={event}
           eventId={event._id}
-          userId={userId}
+          userEmail={userEmail}
         />
       </div>
     </>

@@ -10,15 +10,17 @@ export const TallyFrame: React.FC<TallyFrameProps> = ({ embedUrl }) => {
   return (
     <div>
       <iframe
-        data-tally-src={`${embedUrl}?alignLeft=1&hideTitle=1`}
-        loading="lazy"
+        data-tally-src={`${embedUrl}?hideTitle=1`}
         width="100%"
         height={500}
       ></iframe>
 
       <Script
+        id="tally-js"
         src="https://tally.so/widgets/embed.js"
-        onLoad={() => Tally.loadEmbeds()}
+        onLoad={() => {
+          Tally.loadEmbeds();
+        }}
       />
     </div>
   );

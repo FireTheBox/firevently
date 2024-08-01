@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,10 +18,12 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Dropdown from "./Dropdown";
 
-import { createEvent, updateEvent } from "@/lib/actions/event.actions";
+import { createEvent } from "@/lib/database/actions/create-event.action";
+import { updateEvent } from "@/lib/database/actions/update-event.action";
 import { IEvent } from "@/lib/database/models/event.model";
+import { handleError } from "@/lib/database/utils";
 import { useUploadThing } from "@/lib/uploadthing";
-import { LucideCalendar, LucideDollarSign, LucideLink } from "lucide-react";
+import { LucideDollarSign, LucideLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox";
@@ -31,13 +32,18 @@ import { FileUploader } from "./file-uploader";
 import { LoadingButton } from "./loading-button";
 
 type EventFormProps = {
-  userId: string;
+  userEmail: string;
   type: "Criar" | "Atualizar";
   event?: IEvent;
   eventId?: string;
 };
 
-export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
+export const EventForm = ({
+  userEmail,
+  type,
+  event,
+  eventId,
+}: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const initialValues =
     event && type === "Atualizar"
@@ -48,6 +54,7 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         }
       : eventDefaultValues;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { startUpload } = useUploadThing("imageUploader");
 
@@ -57,12 +64,14 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+    setIsLoading(true);
     let uploadedImageUrl = values.imageUrl;
 
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
 
       if (!uploadedImages) {
+        setIsLoading(false);
         return;
       }
 
@@ -72,9 +81,9 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     if (type === "Criar") {
       try {
         const newEvent = await createEvent({
+          userEmail,
           event: { ...values, imageUrl: uploadedImageUrl },
-          userId,
-          path: "/profile",
+          path: "/",
         });
 
         if (newEvent) {
@@ -82,7 +91,9 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           router.push(`/events/${newEvent._id}`);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -94,7 +105,7 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
 
       try {
         const updatedEvent = await updateEvent({
-          userId,
+          userEmail,
           event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
           path: `/events/${eventId}`,
         });
@@ -104,7 +115,9 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           router.push(`/events/${updatedEvent._id}`);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   }
@@ -182,29 +195,22 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             name="location"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Local do evento:</FormLabel>
                 <FormControl>
-                  <div className="flex items-center w-full gap-2">
-                    <LucideCalendar size={24} />
-                    <Input placeholder="Local do evento ou Online" {...field} />
-                  </div>
+                  <Input placeholder="Local do evento ou Online" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-
-        <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
             name="startDateTime"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Data de Início:</FormLabel>
                 <FormControl>
-                  <div className="flex flex-col w-full gap-2">
-                    <FormLabel>Data de Início:</FormLabel>
-                    <DatePicker value={field.value} onChange={field.onChange} />
-                  </div>
+                  <DatePicker value={field.value} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -216,14 +222,12 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             name="endDateTime"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Data de Término:</FormLabel>
                 <FormControl>
-                  <div className="flex flex-col gap-2">
-                    <FormLabel>Data de Término:</FormLabel>
-                    <DatePicker
-                      value={field.value}
-                      onChange={(date: Date) => field.onChange(date)}
-                    />
-                  </div>
+                  <DatePicker
+                    value={field.value}
+                    onChange={(date: Date) => field.onChange(date)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -231,57 +235,63 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           />
         </div>
 
-        <div className="flex flex-col gap-5 md:flex-row">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
+        <div className="flex flex-col justify-center gap-5 md:flex-row md:items-start">
+          <div className="w-full space-y-4">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Preço:</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isFree"
+              render={({ field }) => (
+                <FormItem className="w-full">
                   <div className="flex items-center gap-2">
-                    <LucideDollarSign size={24} />
-                    <Input type="number" placeholder="Preço" {...field} />
-                    <FormField
-                      control={form.control}
-                      name="isFree"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="flex items-center">
-                              <label
-                                htmlFor="isFree"
-                                className="whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                              >
-                                Ingresso Grátis
-                              </label>
-                              <Checkbox
-                                onCheckedChange={field.onChange}
-                                checked={field.value}
-                                id="isFree"
-                                className="mr-2 h-5 w-5 border-2 border-primary-500"
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <FormLabel>Ingresso Grátis:</FormLabel>
+                    <FormControl>
+                      <Checkbox
+                        onCheckedChange={field.onChange}
+                        checked={field.value}
+                        id="isFree"
+                      />
+                    </FormControl>
                   </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="url"
             render={({ field }) => (
               <FormItem className="w-full">
+                <FormLabel>Link:</FormLabel>
                 <FormControl>
-                  <div className="flex items-center gap-2">
-                    <LucideLink size={24} />
-                    <Input placeholder="URL" {...field} />
-                  </div>
+                  <Input type="url" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="reward"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Premiação</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -289,9 +299,7 @@ export const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           />
         </div>
 
-        <LoadingButton
-          isLoading={form.formState.isSubmitting}
-        >{`${type} Evento `}</LoadingButton>
+        <LoadingButton isLoading={isLoading}>{`${type} Evento `}</LoadingButton>
       </form>
     </Form>
   );

@@ -1,3 +1,6 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -5,21 +8,57 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import Link from "next/link";
 import { TallyFrame } from "../frame/tally-frame";
-import { Button } from "@/components/ui/button";
 
-export function JoinEventDialog() {
+interface JoinEventDialogProps {
+  eventName: string;
+  email?: string;
+}
+
+async function getParticipants() {
+  const result = await fetch("/api/coda/participants");
+  const body = await result.json();
+  return body.participants;
+}
+
+export async function JoinEventDialog({
+  eventName,
+  email,
+}: JoinEventDialogProps) {
+  const result = await getParticipants();
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="w-[300px] max-h-full">Participar</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-screen-md">
-        <DialogHeader>
-          <DialogTitle>Lorem Ipsum Dolor</DialogTitle>
-        </DialogHeader>
-        <TallyFrame embedUrl="https://tally.so/embed/m6xx2N" />
-      </DialogContent>
-    </Dialog>
+    <>
+      {email && result.includes(email) ? (
+        <Button size="lg" className="w-[300px] sm:w-full max-h-full" disabled>
+          Inscrito
+        </Button>
+      ) : (
+        <Dialog>
+          <DialogTrigger asChild>
+            {email ? (
+              <Button size="lg" className="w-[300px] sm:w-full max-h-full">
+                Participar
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="w-[300px] sm:w-full max-h-full"
+                asChild
+              >
+                <Link href={"/sign-in"}>Participar</Link>
+              </Button>
+            )}
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-screen-md">
+            <DialogHeader>
+              <DialogTitle>{eventName}</DialogTitle>
+            </DialogHeader>
+            <TallyFrame embedUrl="https://tally.so/r/mV827y" />
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 }

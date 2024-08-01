@@ -1,11 +1,19 @@
 import { EventForm } from "@/components/shared/event-form";
 import { H3 } from "@/components/typography/h3";
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 const CreateEvent = async () => {
   const session = await auth();
 
-  const userId = session?.user?.id ?? "";
+  const userEmail = session?.user?.email as string;
+
+  const allowedEmails = process.env.ALLOWED?.split(",");
+
+  if (!allowedEmails || !allowedEmails.includes(userEmail)) {
+    redirect("/");
+  }
 
   return (
     <>
@@ -14,7 +22,9 @@ const CreateEvent = async () => {
       </section>
 
       <div className="wrapper my-8">
-        <EventForm userId={userId} type="Criar" />
+        <Suspense fallback={"Loading..."}>
+          <EventForm type="Criar" userEmail={userEmail} />
+        </Suspense>
       </div>
     </>
   );

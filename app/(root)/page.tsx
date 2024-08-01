@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import Link from "next/link";
+import { Suspense } from "react";
 import { HighlightEvent } from "./highlight-event";
+import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -22,6 +24,13 @@ export default async function Home({ searchParams }: SearchParamProps) {
     page,
     limit: 6,
   });
+
+  const lastEvent = events?.data.sort(function (a: any, b: any) {
+    return (
+      Date.parse(b.startDateTime as string) -
+      Date.parse(a.startDateTime as string)
+    );
+  })[0];
 
   return (
     <>
@@ -46,7 +55,9 @@ export default async function Home({ searchParams }: SearchParamProps) {
             </div>
           </div>
 
-          <HighlightEvent />
+          <Suspense fallback={<SkeletonHighlightEvent />}>
+            <HighlightEvent event={lastEvent} />
+          </Suspense>
         </div>
       </section>
 

@@ -1,10 +1,8 @@
 import { EventBanner } from "@/components/shared/events/event-banner";
 import { EventCodeCard } from "@/components/shared/events/event-code-card";
-import { EventStats } from "@/components/shared/events/event-stat";
 import { JoinEventDialog } from "@/components/shared/events/join-event-dialog";
 import OrganizationInfo from "@/components/shared/events/organization-info";
 import { H2 } from "@/components/typography/h2";
-import { Large } from "@/components/typography/large";
 import { Lead } from "@/components/typography/lead";
 import { Muted } from "@/components/typography/muted";
 import { Button } from "@/components/ui/button";
@@ -13,75 +11,70 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { LucideVerified } from "lucide-react";
 
+import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
+import { Stat } from "./event-stat";
+import { Suspense } from "react";
+import { LoadingButton } from "../loading-button";
 
-const ProjectTag = () => (
-  <div className="absolute top-4 right-4 flex items-center gap-2.5 p-2.5 bg-secondary rounded-lg border border-secondary-foreground">
-    <span className="text-secondary-foreground text-xs font-bold">
-      Projeto Empreendedor
-    </span>
-  </div>
-);
+interface EventSummaryProps {
+  event: any;
+  email?: string;
+}
 
-const EventHeader = () => (
-  <div className="relative">
-    <ProjectTag />
-    <CardTitle className="space-y-4">
-      <div className="flex items-center gap-2">
-        <Large className="inline">FireTheBox</Large>
-        <LucideVerified className="text-secondary-foreground fill-cyan-400" />
-      </div>
-      <H2 className="text-muted-foreground">Lorem, ipsum dolor.</H2>
-    </CardTitle>
-  </div>
-);
+export const EventSummary = async ({ event, email }: EventSummaryProps) => {
+  const { _id, imageUrl, startDateTime, title, description, category, reward } =
+    event;
 
-const EventDescription = () => (
-  <div className="space-y-2">
-    <Muted>Descrição</Muted>
-    <Lead>
-      Vestibulum faucibus eget erat eget pretium. Donec commodo convallis eget
-      ust orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </Lead>
-  </div>
-);
-
-const EventButtons = () => (
-  <div className="w-full flex justify-between pt-4 gap-4">
-    <JoinEventDialog />
-    <Button
-      size="lg"
-      className="w-[300px]"
-      variant="outline"
-    >
-      Conversar com o organizador
-    </Button>
-  </div>
-);
-
-export const EventSummary = () => {
   return (
-    <section className="flex items-start py-16 gap-16 border-b border-muted">
-      <EventBanner />
-      <Card className="basis-2/3 flex flex-col justify-between border-none">
-        <CardHeader>
-          <EventHeader />
-        </CardHeader>
-        <CardContent className="flex flex-col flex-1 space-y-6">
-          <div className="flex justify-between">
-            <OrganizationInfo logo={LePoli} title="Liga Poli-USP" />
-            <EventCodeCard logo={EventCodeImage} code="0x12345678910111" />
+    <section className="flex flex-col items-center xl:flex-row xl:items-start py-8 xl:py-16 gap-8 xl:gap-16 border-b border-muted overflow-hidden">
+      <EventBanner
+        image={imageUrl}
+        startAt={new Date(Date.parse(startDateTime))}
+      />
+      <Card className="w-full xl:w-fit border-none space-y-6">
+        <CardHeader className="p-0 px-6">
+          <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
+            <H2>{title}</H2>
+            <div className="w-fit flex items-center gap-2.5 p-3 bg-secondary rounded-lg border border-secondary-foreground">
+              <span className="text-secondary-foreground text-xs font-bold">
+                {category.name}
+              </span>
+            </div>
           </div>
-          <EventDescription />
-          <EventStats />
+        </CardHeader>
+        <CardContent className="flex flex-col space-y-6">
+          <div className="flex flex-col gap-3 sm:flex-row justify-between">
+            <OrganizationInfo logo={LePoli} title="Liga Poli-USP" />
+            <EventCodeCard logo={EventCodeImage} code={_id} />
+          </div>
+          <div className="space-y-2">
+            <Muted>Descrição</Muted>
+            <Lead>{description}</Lead>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row justify-between items-start">
+            <Stat label="Projetos" value="125" iconName="circle-play" />
+            <Stat label="Participantes" value="145" iconName="users" />
+            <Stat label="Visualizações" value="356" iconName="eye" />
+            <Stat
+              label="em premiação"
+              value={formatCurrency(Number(reward))}
+              iconName="dollar-sign"
+            />
+          </div>
         </CardContent>
         <CardFooter>
-          <EventButtons />
+          <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
+            <Suspense fallback={<LoadingButton isLoading={true} />}>
+              <JoinEventDialog email={email} eventName={title} />
+            </Suspense>
+            <Button size="lg" className="w-[300px] sm:w-full" variant="outline">
+              Conversar com o organizador
+            </Button>
+          </div>
         </CardFooter>
       </Card>
     </section>

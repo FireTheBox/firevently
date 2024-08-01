@@ -11,34 +11,42 @@ import Link from "next/link";
 import { EventFeatures } from "./event-features";
 import { EventThumbnail } from "./event-thumbnail";
 
-export const HighlightEvent = () => {
+interface HighlightEventProps {
+  event: any;
+}
+
+export const HighlightEvent = ({ event }: HighlightEventProps) => {
+  const {
+    _id,
+    title,
+    description,
+    imageUrl,
+    startDateTime,
+    price,
+    isFree,
+    reward,
+  } = event;
+
   return (
     <div className="col-span-3 w-full flex items-end bg-primary/5 rounded-lg p-8">
-      <Card className="border-none bg-transparent">
+      <Card className="basis-2/4 w-full border-none bg-transparent">
         <CardHeader>
-          <CardTitle>Garagem de Startups 2024</CardTitle>
+          <CardTitle>{title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <Muted>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </Muted>
+          <Muted>{description}</Muted>
         </CardContent>
         <CardFooter className="flex flex-col items-start gap-10">
           <Button asChild size={"lg"}>
-            <Link href={"/#events"}>Participar</Link>
+            <Link href={`/events/${_id}`}>Participar</Link>
           </Button>
-          <EventFeatures
-            projects={25}
-            participants={120}
-            views={552}
-            likes={641}
-          />
+          <EventFeatures reward={reward} isFree={isFree} price={price} />
         </CardFooter>
       </Card>
       <EventThumbnail
-        name="Garagem de Startups 2024"
-        price={0.0}
-        startAt={new Date(new Date().getTime() + 12 * 3600 * 1000)}
+        image={imageUrl}
+        name={title}
+        startAt={new Date(Date.parse(startDateTime))}
       />
     </div>
   );

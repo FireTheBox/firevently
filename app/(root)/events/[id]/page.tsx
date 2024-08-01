@@ -2,6 +2,8 @@ import { EventSummary } from "@/components/shared/events/event-summary";
 import { CodaFrame } from "@/components/shared/frame/coda-frame";
 import { Large } from "@/components/typography/large";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getEventById } from "@/lib/actions/event.actions";
+import { auth } from "@/lib/auth";
 
 interface EventDetails {
   params: {
@@ -10,11 +12,14 @@ interface EventDetails {
 }
 
 const EventDetails = async ({ params: { id } }: EventDetails) => {
-  // const event = await getEventById(id);
+  const session = await auth();
+  const event = await getEventById(id);
+
+  const userEmail = session?.user?.email ?? undefined;
 
   return (
     <>
-      <EventSummary />
+      <EventSummary event={event} email={userEmail} />
       <Tabs defaultValue="details" className="mt-3">
         <TabsList>
           <TabsTrigger value="details">
