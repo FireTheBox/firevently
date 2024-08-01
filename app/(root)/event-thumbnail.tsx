@@ -39,14 +39,13 @@ export const EventThumbnail = ({
   const timeLeft = useCountdown(startAt);
 
   return (
-    <div className="relative size-full rounded-md flex flex-col-reverse">
+    <div className="relative w-full h-full rounded-md flex flex-col-reverse">
       <Image
         src={image}
         alt={name}
         width={300}
         height={300}
-        objectFit="cover"
-        className="absolute size-full"
+        className="absolute w-[300px] h-full object-center rounded-lg"
       />
       <div className="h-fit relative bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center px-3 py-3 mx-2 mb-5">
         <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-primary rounded-full flex justify-center items-center">
