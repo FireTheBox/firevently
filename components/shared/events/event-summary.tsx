@@ -77,7 +77,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         </CardHeader>
         <CardContent className="flex flex-col space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row justify-between">
-            <OrganizationInfo logo={LePoli} title="Liga Poli-USP" />
+            <OrganizationInfo logo={LePoli} title="Liga de Empreendedorismo da Poli-USP" />
             <EventCodeCard logo={EventCodeImage} code={_id} />
           </div>
           <div className="space-y-2">
