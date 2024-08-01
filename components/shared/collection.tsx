@@ -3,33 +3,38 @@ import { H3 } from "../typography/h3";
 import { P } from "../typography/p";
 import { EventCard } from "./event-card";
 import Pagination from "./Pagination";
+import { getAllEvents } from "@/lib/actions/event.actions";
 
 type CollectionProps = {
-  data: IEvent[];
   emptyTitle: string;
   emptyStateSubtext: string;
+  query: string;
+  category: string;
+  page: number;
   limit: number;
-  page: number | string;
-  totalPages?: number;
-  urlParamName?: string;
-  collectionType?: "Events_Organized" | "My_Tickets" | "All_Events";
 };
 
-const Collection = ({
-  data,
+const Collection = async ({
   emptyTitle,
   emptyStateSubtext,
+  query,
+  category,
   page,
-  totalPages = 0,
-  collectionType,
-  urlParamName,
+  limit,
 }: CollectionProps) => {
+  const events = await getAllEvents({
+    query,
+    category,
+    page,
+    limit,
+  });
+
   return (
     <>
-      {data.length > 0 ? (
+      {events?.data ? (
         <div className="flex flex-col items-center gap-10">
           <ul className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
-            {data.map((event) => {
+            {(events.data as IEvent[]).map((event) => {
               return (
                 <li key={event._id} className="flex justify-center">
                   <EventCard event={event} canManage />
@@ -38,11 +43,11 @@ const Collection = ({
             })}
           </ul>
 
-          {totalPages > 1 && (
+          {events.totalPages > 1 && (
             <Pagination
-              urlParamName={urlParamName}
+              urlParamName={query}
               page={page}
-              totalPages={totalPages}
+              totalPages={events.totalPages}
             />
           )}
         </div>

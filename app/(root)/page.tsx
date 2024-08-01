@@ -6,31 +6,17 @@ import { H2 } from "@/components/typography/h2";
 import { Lead } from "@/components/typography/lead";
 import { P } from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
-import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HighlightEvent } from "./highlight-event";
 import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
+import { LucideLoader2 } from "lucide-react";
 
-export default async function Home({ searchParams }: SearchParamProps) {
+export default function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
   const searchText = (searchParams?.query as string) || "";
   const category = (searchParams?.category as string) || "";
-
-  const events = await getAllEvents({
-    query: searchText,
-    category,
-    page,
-    limit: 6,
-  });
-
-  const lastEvent = events?.data.sort(function (a: any, b: any) {
-    return (
-      Date.parse(b.startDateTime as string) -
-      Date.parse(a.startDateTime as string)
-    );
-  })[0];
 
   return (
     <>
@@ -56,7 +42,12 @@ export default async function Home({ searchParams }: SearchParamProps) {
           </div>
 
           <Suspense fallback={<SkeletonHighlightEvent />}>
-            <HighlightEvent event={lastEvent} />
+            <HighlightEvent
+              page={page}
+              category={category}
+              query={searchText}
+              limit={6}
+            />
           </Suspense>
         </div>
       </section>
@@ -77,15 +68,20 @@ export default async function Home({ searchParams }: SearchParamProps) {
           </div>
         </div>
 
-        <Collection
-          data={events?.data}
-          emptyTitle="Não foram encontrados eventos"
-          emptyStateSubtext="Volte mais tarde"
-          collectionType="All_Events"
-          limit={6}
-          page={page}
-          totalPages={events?.totalPages}
-        />
+        <Suspense
+          fallback={
+            <LucideLoader2 className="mx-auto size-12 animate-spin" />
+          }
+        >
+          <Collection
+            emptyTitle="Não foram encontrados eventos"
+            emptyStateSubtext="Volte mais tarde"
+            query={searchText}
+            category={category}
+            limit={6}
+            page={page}
+          />
+        </Suspense>
       </section>
     </>
   );

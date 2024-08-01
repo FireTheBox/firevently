@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const SkeletonHighlightEvent = () => {
   return (
     <div className="col-span-3 w-full flex items-end bg-primary/5 rounded-lg p-8">
-      <Card className="border-none bg-transparent">
+      <Card className="w-full border-none bg-transparent">
         <CardHeader>
           <Skeleton className="h-8 w-3/4" />
         </CardHeader>
@@ -26,7 +26,7 @@ export const SkeletonHighlightEvent = () => {
           </div>
         </CardFooter>
       </Card>
-      <Skeleton className="h-40 w-40 rounded-lg ml-8" />
+      <Skeleton className="h-full w-2/3 rounded-lg ml-8" />
     </div>
   );
 };
