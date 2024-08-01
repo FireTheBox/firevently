@@ -2,7 +2,6 @@
 
 import { signIn } from "@/lib/auth";
 import { handleError } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 
 export const performLogin = async (email: string, password: string) => {
     try {
@@ -11,8 +10,6 @@ export const performLogin = async (email: string, password: string) => {
             password,
             redirect: false,
         });
-
-        revalidatePath("/");
 
         return true;
     } catch (error: any) {
