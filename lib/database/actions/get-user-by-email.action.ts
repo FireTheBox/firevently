@@ -1,19 +1,12 @@
-import { connectToDatabase } from "@/lib/database"
-import User from "@/lib/database/models/user.model"
-import { handleError } from "@/lib/utils"
+import { connectToDatabase } from "@/lib/database";
+import User, { UserType } from "@/lib/database/models/user.model";
+import { handleError } from "@/lib/utils";
 
 export interface GetUserByEmailInput {
     email: string;
 }
 
-export interface GetUserByEmailOutput {
-    userId: string;
-    username: string;
-    email: string;
-    avatar: string;
-}
-
-export async function getUserByEmail({ email }: GetUserByEmailInput): Promise<GetUserByEmailOutput | null> {
+export async function getUserByEmail({ email }: GetUserByEmailInput): Promise<UserType | null> {
     try {
         await connectToDatabase()
 

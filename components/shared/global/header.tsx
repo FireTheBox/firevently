@@ -4,10 +4,8 @@ import Link from "next/link";
 import { ModeToggle } from "./mode-toogle";
 
 import { Small } from "@/components/typography/small";
-import { Button } from "@/components/ui/button";
-import { performSignOut } from "@/lib/auth/actions/performSignout";
-import Logo from "@/public/assets/images/platform-dark-logo.png";
 import { auth } from "@/lib/auth";
+import Logo from "@/public/assets/images/platform-dark-logo.png";
 import { AuthButton } from "../auth-button";
 
 export const Header = async () => {
