@@ -1,3 +1,5 @@
+"use client";
+
 import { EventBanner } from "@/components/shared/events/event-banner";
 import { EventCodeCard } from "@/components/shared/events/event-code-card";
 import { JoinEventDialog } from "@/components/shared/events/join-event-dialog";
@@ -16,17 +18,44 @@ import {
 import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
-import { Stat } from "./event-stat";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { LoadingButton } from "../loading-button";
+import { Stat } from "./event-stat";
+
+async function getParticipants() {
+  const result = await fetch("/api/coda/participants");
+  const body = await result.json();
+  return body.participants.length;
+}
+
+async function getProjects() {
+  const result = await fetch("/api/coda/projects/count");
+  const body = await result.json();
+  return body.projects;
+}
 
 interface EventSummaryProps {
   event: any;
   email?: string;
 }
 
-export const EventSummary = async ({ event, email }: EventSummaryProps) => {
-  const { _id, imageUrl, startDateTime, title, description, category, reward } =
+export const EventSummary = ({ event, email }: EventSummaryProps) => {
+  const [numberOfParticipants, setNumberOfParticipants] = useState<number>(0);
+  const [numberOfProjects, setNumberOfProjects] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const participants = await getParticipants();
+      const projects = await getProjects();
+
+      setNumberOfParticipants(participants);
+      setNumberOfProjects(projects);
+    };
+
+    fetchData();
+  }, []);
+
+  const { _id, imageUrl, startDateTime, title, description, category, reward, isFree, price } =
     event;
 
   return (
@@ -48,7 +77,7 @@ export const EventSummary = async ({ event, email }: EventSummaryProps) => {
         </CardHeader>
         <CardContent className="flex flex-col space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row justify-between">
-            <OrganizationInfo logo={LePoli} title="Liga Poli-USP" />
+            <OrganizationInfo logo={LePoli} title="Liga de Empreendedorismo da Poli-USP" />
             <EventCodeCard logo={EventCodeImage} code={_id} />
           </div>
           <div className="space-y-2">
@@ -56,13 +85,25 @@ export const EventSummary = async ({ event, email }: EventSummaryProps) => {
             <Lead>{description}</Lead>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row justify-between items-start">
-            <Stat label="Projetos" value="125" iconName="circle-play" />
-            <Stat label="Participantes" value="145" iconName="users" />
-            <Stat label="Visualizações" value="356" iconName="eye" />
             <Stat
-              label="em premiação"
+              label="Projetos"
+              value={numberOfProjects.toString()}
+              iconName="circle-play"
+            />
+            <Stat
+              label="Participantes"
+              value={numberOfParticipants.toString()}
+              iconName="users"
+            />
+            <Stat
+              label="Premiação"
               value={formatCurrency(Number(reward))}
               iconName="dollar-sign"
+            />
+            <Stat
+              label=""
+              value={isFree ? "Free" : formatCurrency(Number(reward))}
+              iconName="ticket"
             />
           </div>
         </CardContent>

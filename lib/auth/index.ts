@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Discord from "next-auth/providers/discord";
@@ -7,6 +7,7 @@ import { createUser } from "../database/actions/create-user.action";
 import { getUserByEmail } from "../database/actions/get-user-by-email.action";
 import { handleError } from "../utils";
 import { auth as authFirebase } from './firebase/index';
+import { getParticipants } from "../coda/get-participants.action";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -30,20 +31,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const password = (credentials.password as string) || "";
 
         try {
-          const { user } = await signInWithEmailAndPassword(authFirebase, email, password)
-
-          if (!user.email) {
-            return null;
-          }
-
-          const userDb = await getUserByEmail({ email })
+          let userDb = await getUserByEmail({ email })
 
           if (!userDb) {
-            await createUser({
+            const participants = await getParticipants()
+
+            let userCredentials: UserCredential;
+
+            if (participants?.includes(email)) {
+              userCredentials = await createUserWithEmailAndPassword(authFirebase, email, password)
+            } else {
+              userCredentials = await signInWithEmailAndPassword(authFirebase, email, password);
+
+              if (!userCredentials.user.email) {
+                return null;
+              }
+            }
+
+            const { user } = userCredentials;
+
+            const result = await createUser({
               username: user.displayName || email.split("@")[0].trim(),
               email,
               avatar: user.photoURL
             })
+
+            if (!result) {
+              return null;
+            }
+
+            userDb = result;
           }
 
           return {

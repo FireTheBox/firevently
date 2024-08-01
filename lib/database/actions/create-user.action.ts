@@ -1,18 +1,11 @@
-import { connectToDatabase } from "@/lib/database"
-import User from "@/lib/database/models/user.model"
-import { handleError } from "@/lib/utils"
+import { connectToDatabase } from "@/lib/database";
+import User, { UserType } from "@/lib/database/models/user.model";
+import { handleError } from "@/lib/utils";
 
 export interface CreateUserInput {
     username: string;
     email: string;
     avatar: string | null;
-}
-
-export interface CreateUserOutput {
-    userId: string;
-    username: string;
-    email: string;
-    avatar: string;
 }
 
 export async function createUser(user: CreateUserInput) {
@@ -25,7 +18,7 @@ export async function createUser(user: CreateUserInput) {
             username: newUser.username,
             email: newUser.email,
             avatar: newUser.avatar,
-        } satisfies CreateUserOutput
+        } satisfies UserType
     } catch (error) {
         handleError(error)
     }

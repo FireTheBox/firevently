@@ -1,41 +1,23 @@
+import { getParticipants } from "@/lib/coda/get-participants.action";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-    const pageId = "OY5gXjYYxk";
-    const tableId = "grid-sync-10087-Submissions-dynamic-f5d937029f92425d01fe4f6efe8ecc96745d52ea67db90c5ac230747035cf737";
-    const result = await fetch(`https://coda.io/apis/v1/docs/${pageId}/tables/${tableId}/rows`, {
-        headers: {
-            "Authorization": `Bearer ${process.env.CODA_API_TOKEN}`
-        },
-        next: {
-            revalidate: 5 * 60
-        }
-    })
+    const participants = await getParticipants()
 
-    const body = await result.json();
-
-    if (!result.ok) {
+    if (!participants) {
         return NextResponse.json(
             {
-                error: body.message
+                error: "Falha ao obter os participantes do evento."
             },
             {
-                status: 400
+                status: 502
             }
         )
     }
 
-    const participants = body.items;
-    const emails = []
-
-    for (const participant of participants) {
-        const email = participant.values["c-Mvtyg7ekvt"]
-        emails.push(email);
-    }
-
     return NextResponse.json(
         {
-            "participants": emails,
+            "participants": participants,
         },
         {
             status: 200,
