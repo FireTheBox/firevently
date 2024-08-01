@@ -7,9 +7,7 @@ interface SocialMedia {
 }
 
 const socialLinks: SocialMedia[] = [
-  { icon: "twitter", url: "FireTheBox" },
-  { icon: "github", url: "FireTheBox" },
-  { icon: "facebook", url: "FireTheBox" },
+  { icon: "mail", url: "mailto:contato@firethebox.com" },
   { icon: "instagram", url: "https://www.instagram.com/firethebox/" },
   { icon: "linkedin", url: "https://www.linkedin.com/company/firethebox/?originalSubdomain=br" },
 ];

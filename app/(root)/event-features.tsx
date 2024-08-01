@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Large } from "@/components/typography/large";
 import { Muted } from "@/components/typography/muted";
 import { formatCurrency } from "@/lib/currency";
+import { Separator } from "@/components/ui/separator";
 
 interface EventFeaturesProps {
   reward: string;
@@ -44,20 +45,23 @@ export const EventFeatures = ({
   }, []);
 
   return (
-    <ul className="flex border border-secondary-foreground rounded-md">
-      <li className="text-center px-4 py-2 border-r border-secondary-foreground">
+    <ul className="w-full grid grid-cols-2 md:grid-cols-7 place-items-center border border-secondary-foreground rounded-md gap-4 p-4">
+      <li className="text-center">
         <Large>{numberOfProjects}</Large>
         <Muted>Projetos</Muted>
       </li>
-      <li className="text-center px-4 py-2 border-r border-secondary-foreground">
+      <div className="hidden md:block md:w-px md:h-full bg-secondary-foreground" />
+      <li className="text-center">
         <Large>{numberOfParticipants}</Large>
         <Muted>Participantes</Muted>
       </li>
-      <li className="text-center px-4 py-2 border-r border-secondary-foreground">
+      <div className="h-px w-full col-span-3 md:w-px md:h-full md:col-span-1 bg-secondary-foreground" />
+      <li className="text-center">
         <Large>{formatCurrency(Number(reward))}</Large>
         <Muted>Premiação</Muted>
       </li>
-      <li className="text-center px-4 py-2">
+      <div className="hidden md:block md:w-px md:h-full bg-secondary-foreground" />
+      <li className="text-center">
         <Large>{isFree ? "Free" : formatCurrency(Number(reward))}</Large>
         <Muted>Inscrição</Muted>
       </li>

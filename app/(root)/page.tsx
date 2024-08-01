@@ -20,9 +20,9 @@ export default function Home({ searchParams }: SearchParamProps) {
 
   return (
     <>
-      <section className="container py-5 md:py-10">
-        <div className=" grid grid-cols-1 gap-10 md:grid-cols-5">
-          <div className="col-span-2 space-y-8">
+      <section className="container py-5 lg:py-10">
+        <div className=" grid grid-cols-1 gap-10 md:gap-20 lg:grid-cols-5">
+          <div className="lg:col-span-2 space-y-8">
             <H1>
               Organize, colabore ou participe de programas de inovação com nossa
               plataforma!
@@ -54,24 +54,22 @@ export default function Home({ searchParams }: SearchParamProps) {
 
       <section
         id="events"
-        className="container mt-20 md:mt-40 mb-8 flex flex-col gap-8 md:gap-12"
+        className="container my-10 md:my-20 mb-8 flex flex-col gap-8 md:gap-12"
       >
-        <div className="flex justify-between">
+        <div className="flex flex-col lg:flex-row justify-between gap-6">
           <div className="space-y-2">
             <H2>Descubra mais programas</H2>
             <Lead>Explore as melhores oportunidades</Lead>
           </div>
 
-          <div className="w-fit flex gap-5">
+          <div className="flex flex-col gap-5 md:flex-row">
             <CategoryFilter />
             <Search />
           </div>
         </div>
 
         <Suspense
-          fallback={
-            <LucideLoader2 className="mx-auto size-12 animate-spin" />
-          }
+          fallback={<LucideLoader2 className="mx-auto size-12 animate-spin" />}
         >
           <Collection
             emptyTitle="Não foram encontrados eventos"
