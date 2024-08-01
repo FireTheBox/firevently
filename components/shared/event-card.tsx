@@ -6,16 +6,16 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import OrganizationInfo from "./events/organization-info";
 
 import { EventCardThumbnail } from "@/app/(root)/event-card-thumbnail";
+import { getUserById } from "@/lib/actions/user.actions";
 import { formatCurrency } from "@/lib/currency";
 import Logo from "@/public/assets/images/lepoli.png";
+import Image from "next/image";
 import Link from "next/link";
 import { Lead } from "../typography/lead";
 import { Small } from "../typography/small";
 import { Button } from "../ui/button";
-import Image from "next/image";
 
 type CardProps = {
   event: IEvent;
@@ -23,6 +23,8 @@ type CardProps = {
 };
 
 export const EventCard = async ({ event, canManage }: CardProps) => {
+  // const user = await getUserById(event.organizer._id.toString());
+
   return (
     <Card>
       <CardHeader className="space-y-3">
@@ -35,16 +37,10 @@ export const EventCard = async ({ event, canManage }: CardProps) => {
       </CardHeader>
       <CardContent>
         <div className="h-10 flex justify-start items-start gap-3.5">
-          <Image
-            src={Logo}
-            alt={event.organizer.username}
-            className="size-10 rounded-lg"
-          />
-          <div className="flex flex-col h-full justify-center items-start gap-2">
+          <Image src={Logo} alt={"LePoli"} className="size-10 rounded-lg" />
+          <div className="flex flex-col h-full justify-center items-start">
             <div className="text-white/70 font-medium">Organização</div>
-            <div className="text-white font-bold">
-              {event.organizer.username}
-            </div>
+            <div className="text-white font-bold">LePoli</div>
           </div>
         </div>
       </CardContent>

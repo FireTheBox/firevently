@@ -1,12 +1,19 @@
 import { EventForm } from "@/components/shared/event-form";
 import { H3 } from "@/components/typography/h3";
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 const CreateEvent = async () => {
   const session = await auth();
 
   const userEmail = session?.user?.email as string;
+
+  const allowedEmails = process.env.ALLOWED?.split(",");
+
+  if (!allowedEmails || !allowedEmails.includes(userEmail)) {
+    redirect("/");
+  }
 
   return (
     <>
