@@ -1,5 +1,3 @@
-"use client";
-
 import { EventBanner } from "@/components/shared/events/event-banner";
 import { EventCodeCard } from "@/components/shared/events/event-code-card";
 import { JoinEventDialog } from "@/components/shared/events/join-event-dialog";
@@ -19,13 +17,15 @@ import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
 import { Stat } from "./event-stat";
+import { Suspense } from "react";
+import { LoadingButton } from "../loading-button";
 
 interface EventSummaryProps {
   event: any;
   email?: string;
 }
 
-export const EventSummary = ({ event, email }: EventSummaryProps) => {
+export const EventSummary = async ({ event, email }: EventSummaryProps) => {
   const { _id, imageUrl, startDateTime, title, description, category, reward } =
     event;
 
@@ -68,7 +68,9 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         </CardContent>
         <CardFooter>
           <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
-            <JoinEventDialog email={email} eventName={title} />
+            <Suspense fallback={<LoadingButton isLoading={true} />}>
+              <JoinEventDialog email={email} eventName={title} />
+            </Suspense>
             <Button size="lg" className="w-[300px] sm:w-full" variant="outline">
               Conversar com o organizador
             </Button>

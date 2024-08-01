@@ -10,6 +10,7 @@ import { auth as authFirebase } from './firebase/index';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
+    newUser: "/",
     signIn: "/sign-in",
     signOut: "/",
   },
