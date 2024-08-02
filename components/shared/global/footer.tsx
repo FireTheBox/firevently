@@ -35,7 +35,7 @@ export const Footer: React.FC = () => {
         <P className="text-center">
           Uma startup, spin-off do fundo de impacto Nguzu, que busca
           democratizar o empreendedorismo e inovação, através de ambientes
-          propícios para potencializar ideias, projetos e pessoas.
+          propícios para potencializar Pessoas, Ideias e Projetos.
         </P>
         <P className="text-center text-muted-foreground">
           © firethebox.com. Todos os direitos reservados.
