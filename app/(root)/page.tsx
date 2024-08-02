@@ -54,7 +54,7 @@ export default function Home({ searchParams }: SearchParamProps) {
 
       <section
         id="events"
-        className="container my-10 md:my-20 mb-8 flex flex-col gap-8 md:gap-12"
+        className="my-10 md:my-20 mb-8 flex flex-col gap-8 md:gap-12"
       >
         <div className="flex flex-col lg:flex-row justify-between gap-6">
           <div className="space-y-2">
