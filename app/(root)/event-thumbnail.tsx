@@ -48,7 +48,7 @@ export const EventThumbnail = ({
         className="object-cover size-[350px] aspect-square rounded-lg"
       />
 
-      <div className="absolute w-11/12 h-fit bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center py-3 bottom-5 left-1/2 transform -translate-x-1/2">
+      <div className="absolute w-11/12 h-fit bg-white/20 backdrop-blur-lg rounded-md flex flex-col items-center py-3 bottom-5 left-1/2 transform -translate-x-1/2">
         <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-white rounded-full flex justify-center items-center">
           <Image src={Logo} alt={name} objectFit="cover" className="scale-90 rounded-full bg-clip-border" />
         </div>

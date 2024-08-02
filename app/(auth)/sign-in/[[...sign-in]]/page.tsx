@@ -30,18 +30,6 @@ export default function Page() {
             <form
               action={async () => {
                 "use server";
-                await signIn("discord");
-              }}
-              className="size-fit"
-            >
-              <Button type="submit" variant={"outline"}>
-                <FaDiscord className="mr-3 size-5" />
-                Entrar com Discord
-              </Button>
-            </form>
-            <form
-              action={async () => {
-                "use server";
                 await signIn("google");
               }}
               className="size-fit"

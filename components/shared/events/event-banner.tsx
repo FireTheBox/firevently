@@ -30,7 +30,7 @@ function CountdownTimer({ targetDate }: CountdownTimerProps) {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
   return (
-    <div className="h-36 px-9 py-4 bg-primary/20 backdrop-blur-sm rounded-xl flex flex-col justify-start items-center gap-3">
+    <div className="h-36 px-9 py-4 bg-white/20 backdrop-blur-sm rounded-xl flex flex-col justify-start items-center gap-3">
       <div className="text-center text-white text-lg font-semibold font-montserrat">
         Tempo restante
       </div>
