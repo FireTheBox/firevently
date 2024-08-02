@@ -27,7 +27,7 @@ export default function Page() {
         </CardHeader>
         <CardContent className="space-y-10">
           <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-5">
-            <form
+            {/* <form
               action={async () => {
                 "use server";
                 await signIn("discord");
@@ -38,7 +38,7 @@ export default function Page() {
                 <FaDiscord className="mr-3 size-5" />
                 Entrar com Discord
               </Button>
-            </form>
+            </form> */}
             <form
               action={async () => {
                 "use server";

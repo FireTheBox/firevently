@@ -1,13 +1,12 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Discord from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
+import { getParticipants } from "../coda/get-participants.action";
 import { createUser } from "../database/actions/create-user.action";
 import { getUserByEmail } from "../database/actions/get-user-by-email.action";
 import { handleError } from "../utils";
 import { auth as authFirebase } from './firebase/index';
-import { getParticipants } from "../coda/get-participants.action";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -16,7 +15,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signOut: "/",
   },
   providers: [
-    Discord,
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!
