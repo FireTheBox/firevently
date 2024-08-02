@@ -6,19 +6,6 @@ import { getEventById } from "@/lib/actions/event.actions";
 import { auth } from "@/lib/auth";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  openGraph: {
-    title: "Garagem de Startups 2024",
-    description:
-      "A Garagem de Startups é um bootcamp gratuito de dois meses que busca preparar jovens universitários de São Paulo para dar os primeiros passos no ecossistema de empreendedorismo, através de palestras e mentorias com profissionais de diferentes áreas, workshops, visitas a hubs de inovação e desafios semanais.",
-    images: {
-      width: 430,
-      height: 530,
-      url: "https://utfs.io/f/b5b4c058-aebe-49dd-ac12-2d431528a176-1xd2ep.png",
-    },
-  },
-};
-
 interface EventDetails {
   params: {
     id: string;
