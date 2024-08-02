@@ -94,7 +94,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             />
             <Stat
               label="Participantes"
-              value={participants.toString()}
+              value={participants.length.toString()}
               iconName="users"
             />
             <Stat
