@@ -14,8 +14,8 @@ import { FaDiscord, FaGoogle } from "react-icons/fa";
 import { P } from "@/components/typography/p";
 
 import { Separator } from "@/components/ui/separator";
-import { SignInForm } from "./sign-in-form";
 import { signIn } from "@/lib/auth";
+import { SignInForm } from "./sign-in-form";
 
 export default function Page() {
   return (
@@ -25,8 +25,8 @@ export default function Page() {
           <CardTitle className="mb-5">Entrar</CardTitle>
           <CardDescription>Entre com suas redes sociais</CardDescription>
         </CardHeader>
-        <CardContent className="px-32 space-y-10">
-          <div className="flex justify-center gap-5">
+        <CardContent className="space-y-10">
+          <div className="flex flex-col items-center md:flex-row md:justify-center gap-5">
             <form
               action={async () => {
                 "use server";
@@ -53,7 +53,7 @@ export default function Page() {
             </form>
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-1 md:gap-4 items-center">
             <Separator className="flex-1" />
             <P>ou com e-mail</P>
             <Separator className="flex-1" />
