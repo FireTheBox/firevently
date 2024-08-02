@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,24 +11,18 @@ import { TallyFrame } from "../frame/tally-frame";
 
 interface JoinEventDialogProps {
   eventName: string;
+  participants: string[];
   email?: string;
 }
 
-async function getParticipants() {
-  const result = await fetch("/api/coda/participants");
-  const body = await result.json();
-  return body.participants;
-}
-
-export async function JoinEventDialog({
+export function JoinEventDialog({
   eventName,
+  participants,
   email,
 }: JoinEventDialogProps) {
-  const result = await getParticipants();
-
   return (
     <>
-      {email && result.includes(email) ? (
+      {email && participants?.includes(email) ? (
         <Button size="lg" className="w-[300px] sm:w-full max-h-full" disabled>
           Inscrito
         </Button>

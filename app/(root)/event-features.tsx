@@ -5,23 +5,13 @@ import { Large } from "@/components/typography/large";
 import { Muted } from "@/components/typography/muted";
 import { formatCurrency } from "@/lib/currency";
 import { Separator } from "@/components/ui/separator";
+import { getParticipants } from "@/lib/coda/get-participants.action";
+import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 
 interface EventFeaturesProps {
   reward: string;
   isFree: boolean;
   price: string;
-}
-
-async function getParticipants() {
-  const result = await fetch("/api/coda/participants");
-  const body = await result.json();
-  return body.participants.length;
-}
-
-async function getProjects() {
-  const result = await fetch("/api/coda/projects/count");
-  const body = await result.json();
-  return body.projects;
 }
 
 export const EventFeatures = ({
@@ -35,10 +25,10 @@ export const EventFeatures = ({
   useEffect(() => {
     const fetchData = async () => {
       const participants = await getParticipants();
-      const projects = await getProjects();
+      const projects = await getProjectsCount();
 
-      setNumberOfParticipants(participants);
-      setNumberOfProjects(projects);
+      setNumberOfParticipants(participants?.length ?? 0);
+      setNumberOfProjects(projects ?? 0);
     };
 
     fetchData();
