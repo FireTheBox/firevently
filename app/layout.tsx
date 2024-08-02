@@ -36,7 +36,7 @@ export const metadata: Metadata = {
       {
         width: 430,
         height: 530,
-        url: "https://utfs.io/f/b5b4c058-aebe-49dd-ac12-2d431528a176-1xd2ep.png",
+        url: "https://utfs.io/f/33d89ab4-b135-4d4f-937b-bb200c185b43-1fzbox.png",
       },
     ],
   },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
       {
         width: 430,
         height: 530,
-        url: "https://utfs.io/f/b5b4c058-aebe-49dd-ac12-2d431528a176-1xd2ep.png",
+        url: "https://utfs.io/f/33d89ab4-b135-4d4f-937b-bb200c185b43-1fzbox.png",
       },
     ],
     site: "https://app.firethebox.com/events/66aaa9252fb8f38e03a04fb9",
