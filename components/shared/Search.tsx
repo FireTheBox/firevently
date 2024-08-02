@@ -39,13 +39,13 @@ const Search = ({
   }, [query, searchParams, router]);
 
   return (
-    <div className="h-14 w-full lg:w-[300px] flex items-center rounded-md bg-secondary px-4 py-2 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-1">
+    <div className="h-14 w-full lg:w-[300px] flex items-center rounded-md bg-secondary px-4 py-2 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-1 border border-input">
       <LucideSearch size={24} />
       <Input
         type="text"
         placeholder={placeholder}
         onChange={(e) => setQuery(e.target.value)}
-        className="bg-transparent flex-1 focus-visible:ring-0 focus-visible:ring-offset-0"
+        className="bg-transparent flex-1 focus-visible:ring-0 focus-visible:ring-offset-0 border-none"
       />
     </div>
   );
