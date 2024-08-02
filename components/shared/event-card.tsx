@@ -8,16 +8,13 @@ import {
 } from "../ui/card";
 
 import { EventCardThumbnail } from "@/app/(root)/event-card-thumbnail";
-import { getUserById } from "@/lib/actions/user.actions";
 import { formatCurrency } from "@/lib/currency";
 import Logo from "@/public/assets/images/lepoli.png";
 import Image from "next/image";
 import Link from "next/link";
-import { Lead } from "../typography/lead";
-import { Small } from "../typography/small";
-import { Button } from "../ui/button";
-import { P } from "../typography/p";
 import { Muted } from "../typography/muted";
+import { P } from "../typography/p";
+import { Button } from "../ui/button";
 
 type CardProps = {
   event: IEvent;
