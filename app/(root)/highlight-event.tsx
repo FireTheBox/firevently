@@ -11,6 +11,7 @@ import { getAllEvents } from "@/lib/actions/event.actions";
 import Link from "next/link";
 import { EventFeatures } from "./event-features";
 import { EventThumbnail } from "./event-thumbnail";
+import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
 
 interface HighlightEventProps {
   query: string;
@@ -38,6 +39,10 @@ export const HighlightEvent = async ({
       Date.parse(a.startDateTime as string)
     );
   })[0];
+
+  if (!lastEvent) {
+    return <SkeletonHighlightEvent />;
+  }
 
   const {
     _id,
