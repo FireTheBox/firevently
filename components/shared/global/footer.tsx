@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-background text-foreground py-6">
       <div className="container mx-auto flex flex-col items-center space-y-4">
-        <div className="w-full flex justify-around">
+        <div className="w-full flex justify-around items-center">
           <Link
             href={
               "https://www.linkedin.com/pulse/nguzu-project-como-criamos-e-concretizamos-tiago-cardoso/"
@@ -22,7 +22,15 @@ export const Footer: React.FC = () => {
             <Muted>Powered By</Muted>
             <Image src={Nguzu} alt={"Nguzu"} width={180} height={60} />
           </Link>
-          <Image src={Logo} alt="Logo" width={180} height={60}  className="object-contain"/>
+          <Link href={"https://firethebox.com/about"}>
+            <Image
+              src={Logo}
+              alt="Logo"
+              width={180}
+              height={60}
+              className="object-contain"
+            />
+          </Link>
         </div>
         <P className="text-center">
           Uma startup, spin-off do fundo de impacto Nguzu, que busca
