@@ -21,7 +21,7 @@ const EventDetails = async ({ params: { id } }: EventDetails) => {
     <>
       <EventSummary event={event} email={userEmail} />
       <Tabs defaultValue="details" className="mt-3">
-        <TabsList>
+        <TabsList className="space-x-2 overflow-x-scroll">
           <TabsTrigger value="details">
             <Large>Detalhes</Large>
           </TabsTrigger>
