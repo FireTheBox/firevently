@@ -59,7 +59,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
     category,
     reward,
     isFree,
-    price,
+    url,
   } = event;
 
   return (
@@ -69,7 +69,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         startAt={new Date(Date.parse(startDateTime))}
       />
       <Card className="w-full xl:w-fit border-none space-y-6">
-        <CardHeader className="p-0 px-6">
+        <CardHeader className="p-0 md:px-6">
           <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
             <H2>{title}</H2>
             <div className="w-fit flex items-center gap-2.5 p-3 bg-secondary rounded-lg border border-secondary-foreground">
@@ -79,8 +79,8 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="flex flex-col space-y-6">
-          <div className="flex flex-col gap-3 sm:flex-row justify-between">
+        <CardContent className="flex flex-col space-y-6 px-0 md:px-6">
+          <div className="flex flex-col gap-5 md:flex-row justify-between my-10">
             <OrganizationInfo
               logo={LePoli}
               title="Liga de Empreendedorismo da Poli-USP"
@@ -125,11 +125,23 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
                 />
               </Suspense>
             )}
-            <Button size="lg" className="w-full md:w-[300px]" variant="outline">
-              <Link href={"mailto:contato@firethebox.com"}>
-                Conversar com o organizador
-              </Link>
-            </Button>
+            {email && participants.includes(email) ? (
+              <Button
+                size="lg"
+                className="w-full md:w-[300px]"
+                variant="outline"
+              >
+                <Link href={url}>Entrar para comunidade</Link>
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="w-full md:w-[300px]"
+                variant="outline"
+              >
+                <Link href={`mailto:lepoliusp@gmail.com`}>Conversar com o organizador</Link>
+              </Button>
+            )}
           </div>
         </CardFooter>
       </Card>

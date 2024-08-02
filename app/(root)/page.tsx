@@ -20,9 +20,9 @@ export default function Home({ searchParams }: SearchParamProps) {
 
   return (
     <>
-      <section className="container py-5 lg:py-10">
+      <section className="py-5 lg:py-10">
         <div className=" grid grid-cols-1 gap-10 md:gap-20 lg:grid-cols-5">
-          <div className="lg:col-span-2 space-y-8">
+          <div className="col-span-3 space-y-8 text-center md:text-start lg:col-span-2">
             <H1>
               Organize, colabore ou participe de programas de inovação com nossa
               plataforma!
@@ -31,7 +31,7 @@ export default function Home({ searchParams }: SearchParamProps) {
               FireTheBox é a caixa de ferramentas mais completa para conectar
               organizações com jovens talentos para criar soluções.
             </P>
-            <div className="flex gap-4">
+            <div className="flex justify-center md:justify-start gap-4">
               <Button size="lg" asChild>
                 <Link href="#events">Criar projeto</Link>
               </Button>
@@ -54,7 +54,7 @@ export default function Home({ searchParams }: SearchParamProps) {
 
       <section
         id="events"
-        className="container my-10 md:my-20 mb-8 flex flex-col gap-8 md:gap-12"
+        className="my-10 md:my-20 mb-8 flex flex-col gap-8 md:gap-12"
       >
         <div className="flex flex-col lg:flex-row justify-between gap-6">
           <div className="space-y-2">

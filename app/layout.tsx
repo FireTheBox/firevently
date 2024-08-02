@@ -63,7 +63,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${nunito.variable} ${baloo.variable}`}>
+      <body className={`${nunito.variable} ${baloo.variable} min-h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -10,7 +10,7 @@ interface EventCodeCardProps {
 
 const EventCodeCard: React.FC<EventCodeCardProps> = ({ logo, code }) => {
   return (
-    <div className="w-fit h-20 flex justify-start items-start gap-3.5">
+    <div className="w-fit h-20 flex justify-start items-center gap-3.5">
       <Image
         className="size-20 rounded-lg"
         src={logo}

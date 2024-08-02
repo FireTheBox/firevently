@@ -20,37 +20,35 @@ export function JoinEventDialog({
   participants,
   email,
 }: JoinEventDialogProps) {
+  if (email && participants?.includes(email)) {
+    return (
+      <Button size="lg" className="w-full md:w-[300px]" disabled>
+        Inscrito
+      </Button>
+    );
+  }
+
+  if (!email) {
+    return (
+      <Button size="lg" className="w-full md:w-[300px]" asChild>
+        <Link href={"/sign-in"}>Participar</Link>
+      </Button>
+    );
+  }
+
   return (
-    <>
-      {email && participants?.includes(email) ? (
-        <Button size="lg" className="w-full md:w-[300px]" disabled>
-          Inscrito
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button size="lg" className="w-full md:w-[300px]">
+          Participar
         </Button>
-      ) : (
-        <Dialog>
-          <DialogTrigger asChild>
-            {email ? (
-              <Button size="lg" className="w-full md:w-[300px]">
-                Participar
-              </Button>
-            ) : (
-              <Button
-                size="lg"
-                className="w-full md:w-[300px]"
-                asChild
-              >
-                <Link href={"/sign-in"}>Participar</Link>
-              </Button>
-            )}
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-screen-md">
-            <DialogHeader>
-              <DialogTitle>{eventName}</DialogTitle>
-            </DialogHeader>
-            <TallyFrame embedUrl="https://tally.so/r/mV827y" />
-          </DialogContent>
-        </Dialog>
-      )}
-    </>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-screen-md">
+        <DialogHeader>
+          <DialogTitle>{eventName}</DialogTitle>
+        </DialogHeader>
+        <TallyFrame embedUrl="https://tally.so/r/mV827y" />
+      </DialogContent>
+    </Dialog>
   );
 }
