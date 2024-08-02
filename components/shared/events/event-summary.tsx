@@ -59,7 +59,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
     category,
     reward,
     isFree,
-    price,
+    url,
   } = event;
 
   return (
@@ -126,9 +126,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
               </Suspense>
             )}
             <Button size="lg" className="w-full md:w-[300px]" variant="outline">
-              <Link href={"mailto:contato@firethebox.com"}>
-                Conversar com o organizador
-              </Link>
+              <Link href={url}>Entrar para comunidade</Link>
             </Button>
           </div>
         </CardFooter>

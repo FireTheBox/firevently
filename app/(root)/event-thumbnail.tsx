@@ -7,7 +7,7 @@ import { P } from "@/components/typography/p";
 import { Small } from "@/components/typography/small";
 import { useCountdown } from "@/lib/hook/use-contdown";
 
-import Logo from "@/public/assets/images/platform-dark-logo-small.png";
+import Logo from "@/public/assets/images/lepoli.png";
 
 const labels = ["d", "h", "m", "s"];
 
@@ -50,7 +50,7 @@ export const EventThumbnail = ({
 
       <div className="absolute w-11/12 h-fit bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center py-3 bottom-5 left-1/2 transform -translate-x-1/2">
         <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-white rounded-full flex justify-center items-center">
-          <Image src={Logo} alt={name} objectFit="cover" className="scale-90" />
+          <Image src={Logo} alt={name} objectFit="cover" className="scale-90 rounded-full bg-clip-border" />
         </div>
 
         <Small className="mt-4 text-white">Tempo restante</Small>
