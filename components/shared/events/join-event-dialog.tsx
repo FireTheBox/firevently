@@ -23,20 +23,20 @@ export function JoinEventDialog({
   return (
     <>
       {email && participants?.includes(email) ? (
-        <Button size="lg" className="w-[300px] sm:w-full max-h-full" disabled>
+        <Button size="lg" className="w-full md:w-[300px]" disabled>
           Inscrito
         </Button>
       ) : (
         <Dialog>
           <DialogTrigger asChild>
             {email ? (
-              <Button size="lg" className="w-[300px] sm:w-full max-h-full">
+              <Button size="lg" className="w-full md:w-[300px]">
                 Participar
               </Button>
             ) : (
               <Button
                 size="lg"
-                className="w-[300px] sm:w-full max-h-full"
+                className="w-full md:w-[300px]"
                 asChild
               >
                 <Link href={"/sign-in"}>Participar</Link>
