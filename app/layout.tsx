@@ -35,9 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${nunito.variable} ${baloo.variable}`}
-      >
+      <body className={`${nunito.variable} ${baloo.variable}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
