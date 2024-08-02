@@ -60,13 +60,13 @@ interface EventBannerProps {
 
 export const EventBanner = ({ image, startAt }: EventBannerProps) => {
   return (
-    <div className="relative rounded-xl overflow-hidden">
+    <div className="relative">
       <Image
         src={image}
         alt="Banner do Evento"
         width={500}
         height={500}
-        className="w-full object-cover"
+        className="object-cover size-[500px] aspect-square rounded-lg"
       />
 
       <div className="absolute bottom-4 w-full px-4">

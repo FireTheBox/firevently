@@ -20,9 +20,14 @@ import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
+import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { LoadingButton } from "../loading-button";
 import { Stat } from "./event-stat";
+
+function isRegistrationPeriod(startDateTime: any) {
+  return Date.parse(startDateTime) - new Date().getTime() > 0;
+}
 
 interface EventSummaryProps {
   event: any;
@@ -111,15 +116,19 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         </CardContent>
         <CardFooter>
           <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
-            <Suspense fallback={<LoadingButton isLoading={true} />}>
-              <JoinEventDialog
-                email={email}
-                eventName={title}
-                participants={participants}
-              />
-            </Suspense>
-            <Button size="lg" className="w-[300px] sm:w-full" variant="outline">
-              Conversar com o organizador
+            {isRegistrationPeriod(startDateTime) && (
+              <Suspense fallback={<LoadingButton isLoading={true} />}>
+                <JoinEventDialog
+                  email={email}
+                  eventName={title}
+                  participants={participants}
+                />
+              </Suspense>
+            )}
+            <Button size="lg" className="w-full md:w-[300px]" variant="outline">
+              <Link href={"mailto:contato@firethebox.com"}>
+                Conversar com o organizador
+              </Link>
             </Button>
           </div>
         </CardFooter>

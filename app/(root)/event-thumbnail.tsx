@@ -43,8 +43,8 @@ export const EventThumbnail = ({
       <Image
         src={image}
         alt={name}
-        width={300}
-        height={300}
+        width={350}
+        height={350}
         className="object-cover size-[350px] aspect-square rounded-lg"
       />
 

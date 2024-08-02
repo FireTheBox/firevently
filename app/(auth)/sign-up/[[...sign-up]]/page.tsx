@@ -17,7 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import { signIn } from "@/lib/auth";
 import { SignUpForm } from "./sign-up-form";
 
-
 export default function Page() {
   return (
     <>
@@ -26,8 +25,8 @@ export default function Page() {
           <CardTitle className="mb-5">Cadastrar</CardTitle>
           <CardDescription>Cadastre com suas redes sociais</CardDescription>
         </CardHeader>
-        <CardContent className="px-32 space-y-10">
-          <div className="flex justify-center gap-5">
+        <CardContent className="space-y-10">
+          <div className="flex flex-col items-center md:flex-row md:justify-center gap-5">
             <form
               action={async () => {
                 "use server";

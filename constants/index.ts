@@ -13,10 +13,6 @@ export const links: NavLink[] = [
     route: "/#explorer",
   },
   {
-    label: "Sobre Nós",
-    route: "https://firethebox.com/about",
-  },
-  {
     label: "Suporte",
     route: "https://calendly.com/startup-ql2x/30min",
   }
