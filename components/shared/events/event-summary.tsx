@@ -125,9 +125,23 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
                 />
               </Suspense>
             )}
-            <Button size="lg" className="w-full md:w-[300px]" variant="outline">
-              <Link href={url}>Entrar para comunidade</Link>
-            </Button>
+            {email && participants.includes(email) ? (
+              <Button
+                size="lg"
+                className="w-full md:w-[300px]"
+                variant="outline"
+              >
+                <Link href={url}>Entrar para comunidade</Link>
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="w-full md:w-[300px]"
+                variant="outline"
+              >
+                <Link href={`mailto:lepoliusp@gmail.com`}>Conversar com o organizador</Link>
+              </Button>
+            )}
           </div>
         </CardFooter>
       </Card>

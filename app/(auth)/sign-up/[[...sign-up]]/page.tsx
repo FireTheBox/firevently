@@ -26,7 +26,7 @@ export default function Page() {
           <CardDescription>Cadastre com suas redes sociais</CardDescription>
         </CardHeader>
         <CardContent className="space-y-10">
-          <div className="flex flex-col items-center md:flex-row md:justify-center gap-5">
+          <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-5">
             <form
               action={async () => {
                 "use server";

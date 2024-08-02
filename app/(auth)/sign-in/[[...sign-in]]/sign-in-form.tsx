@@ -59,8 +59,8 @@ export function SignInForm() {
         title: "Yay! Usuário autenticado com sucesso.",
         description: "Seja bem vindo novamente!",
       });
+
       router.back();
-      router.refresh()
     } catch (error: any) {
       handleError(error);
       toast({
