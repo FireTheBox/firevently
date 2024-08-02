@@ -52,7 +52,7 @@ export const EventCardThumbnail = ({
           <P className="text-secondary-foreground">Inscrições abertas</P>
         </Badge>
       )}
-      <div className="h-fit bg-primary/20 backdrop-blur-lg rounded-md flex flex-col items-center py-2 mx-3 mb-3">
+      <div className="h-fit bg-white/20 backdrop-blur-lg rounded-md flex flex-col items-center py-2 mx-3 mb-3">
         <Small className="text-white">Tempo restante</Small>
         <div className="flex gap-2">
           {timeLeft.map((time, index) => (
