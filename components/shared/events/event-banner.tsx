@@ -1,7 +1,6 @@
 "use client";
 
-import { LucideHeart } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import { Large } from "@/components/typography/large";
 import { P } from "@/components/typography/p";
@@ -15,8 +14,10 @@ interface CountdownSegmentProps {
 function CountdownSegment({ value, label }: CountdownSegmentProps) {
   return (
     <div className="flex flex-col justify-between items-center">
-      <Large className="text-4xl">{value.toString().padStart(2, "0")}</Large>
-      <P>{label}</P>
+      <Large className="text-white text-4xl">
+        {value.toString().padStart(2, "0")}
+      </Large>
+      <P className="text-white">{label}</P>
     </div>
   );
 }
@@ -29,7 +30,7 @@ function CountdownTimer({ targetDate }: CountdownTimerProps) {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
   return (
-    <div className="h-36 px-9 py-4 bg-purple-500/20 backdrop-blur-sm rounded-xl flex flex-col justify-start items-center gap-3">
+    <div className="h-36 px-9 py-4 bg-primary/20 backdrop-blur-sm rounded-xl flex flex-col justify-start items-center gap-3">
       <div className="text-center text-white text-lg font-semibold font-montserrat">
         Tempo restante
       </div>
@@ -67,9 +68,7 @@ export const EventBanner = ({ image, startAt }: EventBannerProps) => {
         height={500}
         className="w-full object-cover"
       />
-      {/* <div className="flex justify-center items-center bg-primary/10 drop-shadow-lg hover:bg-primary/15 transition hover:cursor-pointer size-16 rounded-full absolute right-6 top-6">
-        <LucideHeart size={40} />
-      </div> */}
+
       <div className="absolute bottom-4 w-full px-4">
         <CountdownTimer targetDate={startAt} />
       </div>

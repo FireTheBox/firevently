@@ -2,23 +2,37 @@ import Image from "next/image";
 
 import { P } from "@/components/typography/p";
 import Logo from "@/public/assets/images/platform-dark-logo.png";
+import Link from "next/link";
 import { SocialMedias } from "./social-medias";
+
+import { Muted } from "@/components/typography/muted";
+import Nguzu from "@/public/assets/images/nguzu.svg";
 
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-background text-foreground py-6">
       <div className="container mx-auto flex flex-col items-center space-y-4">
-        <div className="w-32 h-10">
-          <Image src={Logo} alt="Logo" width={128} height={40} />
+        <div className="w-full flex justify-around">
+          <Link
+            href={
+              "https://www.linkedin.com/pulse/nguzu-project-como-criamos-e-concretizamos-tiago-cardoso/"
+            }
+            className="space-y-2"
+          >
+            <Muted>Powered By</Muted>
+            <Image src={Nguzu} alt={"Nguzu"} width={180} height={60} />
+          </Link>
+          <Image src={Logo} alt="Logo" width={180} height={60}  className="object-contain"/>
         </div>
         <P className="text-center">
-          Your Company é uma empresa dedicada a fornecer soluções inovadoras e
-          eficientes para ajudar nossos clientes a alcançar seus objetivos de
-          negócios. Com uma equipe experiente e comprometida, estamos sempre
-          prontos para oferecer suporte e orientação.
+          Uma startup, spin-off do fundo de impacto Nguzu, que busca
+          democratizar o empreendedorismo e inovação, através de ambientes
+          propícios para potencializar ideias, projetos e pessoas.
         </P>
-        <P className="text-center text-muted-foreground">© 2024 Your Company. All rights reserved.</P>
-        <div className="flex space-x-4">
+        <P className="text-center text-muted-foreground">
+          © firethebox.com. Todos os direitos reservados.
+        </P>
+        <div className="flex justify-center">
           <SocialMedias />
         </div>
       </div>

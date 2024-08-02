@@ -15,6 +15,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 
+import { getParticipants } from "@/lib/coda/get-participants.action";
+import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
@@ -22,41 +24,38 @@ import { Suspense, useEffect, useState } from "react";
 import { LoadingButton } from "../loading-button";
 import { Stat } from "./event-stat";
 
-async function getParticipants() {
-  const result = await fetch("/api/coda/participants");
-  const body = await result.json();
-  return body.participants.length;
-}
-
-async function getProjects() {
-  const result = await fetch("/api/coda/projects/count");
-  const body = await result.json();
-  return body.projects;
-}
-
 interface EventSummaryProps {
   event: any;
   email?: string;
 }
 
 export const EventSummary = ({ event, email }: EventSummaryProps) => {
-  const [numberOfParticipants, setNumberOfParticipants] = useState<number>(0);
+  const [participants, setParticipants] = useState<string[]>([]);
   const [numberOfProjects, setNumberOfProjects] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
       const participants = await getParticipants();
-      const projects = await getProjects();
+      const projects = await getProjectsCount();
 
-      setNumberOfParticipants(participants);
-      setNumberOfProjects(projects);
+      setParticipants(participants ?? []);
+      setNumberOfProjects(projects ?? 0);
     };
 
     fetchData();
   }, []);
 
-  const { _id, imageUrl, startDateTime, title, description, category, reward, isFree, price } =
-    event;
+  const {
+    _id,
+    imageUrl,
+    startDateTime,
+    title,
+    description,
+    category,
+    reward,
+    isFree,
+    price,
+  } = event;
 
   return (
     <section className="flex flex-col items-center xl:flex-row xl:items-start py-8 xl:py-16 gap-8 xl:gap-16 border-b border-muted overflow-hidden">
@@ -77,7 +76,10 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         </CardHeader>
         <CardContent className="flex flex-col space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row justify-between">
-            <OrganizationInfo logo={LePoli} title="Liga de Empreendedorismo da Poli-USP" />
+            <OrganizationInfo
+              logo={LePoli}
+              title="Liga de Empreendedorismo da Poli-USP"
+            />
             <EventCodeCard logo={EventCodeImage} code={_id} />
           </div>
           <div className="space-y-2">
@@ -92,7 +94,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             />
             <Stat
               label="Participantes"
-              value={numberOfParticipants.toString()}
+              value={participants.toString()}
               iconName="users"
             />
             <Stat
@@ -110,7 +112,11 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         <CardFooter>
           <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
             <Suspense fallback={<LoadingButton isLoading={true} />}>
-              <JoinEventDialog email={email} eventName={title} />
+              <JoinEventDialog
+                email={email}
+                eventName={title}
+                participants={participants}
+              />
             </Suspense>
             <Button size="lg" className="w-[300px] sm:w-full" variant="outline">
               Conversar com o organizador

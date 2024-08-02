@@ -51,26 +51,28 @@ export const HighlightEvent = async ({
   } = lastEvent;
 
   return (
-    <div className="col-span-3 w-full flex items-end bg-primary/5 rounded-lg p-8">
-      <Card className="basis-2/4 w-full border-none bg-transparent">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Muted>{description}</Muted>
-        </CardContent>
-        <CardFooter className="flex flex-col items-start gap-10">
-          <Button asChild size={"lg"}>
-            <Link href={`/events/${_id}`}>Participar</Link>
-          </Button>
-          <EventFeatures reward={reward} isFree={isFree} price={price} />
-        </CardFooter>
-      </Card>
-      <EventThumbnail
-        image={imageUrl}
-        name={title}
-        startAt={new Date(Date.parse(startDateTime))}
-      />
+    <div className="col-span-3 flex flex-col items-start gap-6 bg-primary/5 rounded-lg p-6">
+      <div className="flex flex-col lg:flex-row items-center lg:gap-6">
+        <EventThumbnail
+          image={imageUrl}
+          name={title}
+          startAt={new Date(Date.parse(startDateTime))}
+        />
+        <Card className="w-full lg:basis-1/2 border-none shadow-none bg-transparent">
+          <CardHeader className="px-0">
+            <CardTitle>{title}</CardTitle>
+          </CardHeader>
+          <CardContent className="px-0">
+            <Muted>{description}</Muted>
+          </CardContent>
+          <CardFooter className="flex flex-col items-start gap-10 px-0">
+            <Button asChild size={"lg"}>
+              <Link href={`/events/${_id}`}>Participar</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+      <EventFeatures reward={reward} isFree={isFree} price={price} />
     </div>
   );
 };
