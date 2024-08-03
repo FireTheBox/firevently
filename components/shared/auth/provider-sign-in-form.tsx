@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { FaGoogle } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ export function ProviderSignInForm() {
       action={async () => {
         "use server";
         await signIn("google", { redirect: true, redirectTo: "/" });
+        revalidatePath("page");
       }}
       className="mx-auto w-fit"
     >

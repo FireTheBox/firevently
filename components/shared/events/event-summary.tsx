@@ -121,6 +121,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
               <Suspense fallback={<LoadingButton isLoading={true} />}>
                 <JoinEventDialog
                   email={email}
+                  eventId={_id}
                   eventName={title}
                   participants={participants}
                 />

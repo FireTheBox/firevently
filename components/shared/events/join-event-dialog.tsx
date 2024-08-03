@@ -12,12 +12,14 @@ import {
 import { TallyFrame } from "../frame/tally-frame";
 
 interface JoinEventDialogProps {
+  eventId: string;
   eventName: string;
   participants: string[];
   email?: string;
 }
 
 export function JoinEventDialog({
+  eventId,
   eventName,
   participants,
   email,
@@ -33,7 +35,7 @@ export function JoinEventDialog({
   if (!email) {
     return (
       <Button size="lg" className="w-full md:w-[300px]" asChild>
-        <Link href={"/sign-in"}>Participar</Link>
+        <Link href={`/sign-in?callbackUrl=/events/${eventId}`}>Participar</Link>
       </Button>
     );
   }
