@@ -44,7 +44,6 @@ export const EventCardThumbnail = ({
         alt={name}
         width={300}
         height={300}
-        objectFit="cover"
         className="absolute size-full rounded-lg object-cover"
       />
       {timeLeft.some((value) => Number(value)) && (

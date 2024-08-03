@@ -49,7 +49,11 @@ export const EventThumbnail = ({
 
       <div className="absolute bottom-5 left-1/2 flex h-fit w-11/12 -translate-x-1/2 flex-col items-center rounded-md bg-white/20 py-3 backdrop-blur-lg">
         <div className="absolute -top-5 left-1/2 flex size-10 -translate-x-1/2 items-center justify-center rounded-full bg-white">
-          <Image src={Logo} alt={name} objectFit="cover" className="scale-90 rounded-full bg-clip-border" />
+          <Image
+            src={Logo}
+            alt={name}
+            className="scale-90 rounded-full bg-clip-border object-cover"
+          />
         </div>
 
         <Small className="mt-4 text-white">Tempo restante</Small>
