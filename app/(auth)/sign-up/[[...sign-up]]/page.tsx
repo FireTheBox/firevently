@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { AuthMethodSeparator } from "@/components/shared/auth/auth-method-separator";
 import { ProviderSignInForm } from "@/components/shared/auth/provider-sign-in-form";
@@ -13,15 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import getSession from "@/lib/auth/get-session";
 
 export default async function Page() {
-  const session = await getSession();
-
-  if (session) {
-    redirect("/");
-  }
-
   return (
     <>
       <Card className="mx-auto my-32 max-w-screen-md">
