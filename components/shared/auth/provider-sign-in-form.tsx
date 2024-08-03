@@ -8,7 +8,7 @@ export function ProviderSignInForm() {
     <form
       action={async () => {
         "use server";
-        await signIn("google");
+        await signIn("google", { redirect: true, redirectTo: "/" });
       }}
       className="mx-auto w-fit"
     >
