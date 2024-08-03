@@ -1,6 +1,6 @@
+import { LucideMenu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ModeToggle } from "./mode-toogle";
 
 import { Small } from "@/components/typography/small";
 import {
@@ -14,10 +14,11 @@ import {
 import { links } from "@/constants";
 import { auth } from "@/lib/auth";
 import Logo from "@/public/assets/images/platform-dark-logo.png";
-import { LucideMenu } from "lucide-react";
-import { AuthButton } from "../auth-button";
 
-export const Header = async () => {
+import { AuthButton } from "../auth-button";
+import { ModeToggle } from "./mode-toogle";
+
+export async function Header() {
   const session = await auth();
 
   return (
@@ -26,7 +27,7 @@ export const Header = async () => {
         <Image src={Logo} width={148} height={48} alt="FireTheBox Logo" />
       </Link>
       <div className="flex items-center gap-8">
-        <nav className="hidden md:flex gap-8">
+        <nav className="hidden gap-8 md:flex">
           {links.map(({ label, route }, index) => (
             <Link key={index} href={route}>
               <Small>{label}</Small>
@@ -43,7 +44,7 @@ export const Header = async () => {
             <DropdownMenuTrigger asChild>
               <LucideMenu size={32} />
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-fit mr-4">
+            <DropdownMenuContent className="mr-4 w-fit">
               {links.map(({ label, route }, index) => (
                 <DropdownMenuItem key={index}>
                   <Link href={route} className="w-full text-center">
@@ -52,7 +53,7 @@ export const Header = async () => {
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuLabel asChild className="my-5 mx-3">
+              <DropdownMenuLabel asChild className="mx-3 my-5">
                 <AuthButton session={session} />
               </DropdownMenuLabel>
             </DropdownMenuContent>

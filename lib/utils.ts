@@ -1,5 +1,4 @@
 import { type ClassValue, clsx } from 'clsx'
-
 import qs from 'query-string'
 import { twMerge } from 'tailwind-merge'
 
@@ -88,6 +87,5 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
 }
 
 export const handleError = (error: unknown) => {
-  console.error(error)
-  throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
+  console.error(error);
 }

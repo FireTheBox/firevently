@@ -1,9 +1,9 @@
 import { type ClassValue, clsx } from 'clsx'
-
-import { twMerge } from 'tailwind-merge'
+import { Model } from 'mongoose';
 import qs from 'query-string'
+import { twMerge } from 'tailwind-merge'
 
-import { UrlQueryParams, RemoveUrlQueryParams } from '@/types'
+import { RemoveUrlQueryParams, UrlQueryParams } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -87,7 +87,7 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
   )
 }
 
-export const handleError = (error: unknown) => {
-  console.error(error)
-  throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
+export function getModelData(model: any) {
+  // Alternativamente você pode utilizar a propriedade "model._doc" para obter apenas os dados do modelo (ignorando os metadados)
+  return JSON.parse(JSON.stringify(model));
 }

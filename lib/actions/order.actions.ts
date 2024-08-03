@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '../database';
 import Event from '../database/models/event.model';
 import Order from '../database/models/order.model';
-import User from '../database/models/user.model';
+import User from '../user/user.model';
 import { handleError } from '../utils';
 
 // export const checkoutOrder = async (order: CheckoutOrderParams) => {
