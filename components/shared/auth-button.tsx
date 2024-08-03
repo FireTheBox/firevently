@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { HTMLAttributes } from "react";
 
-import { performSignOut } from "@/lib/auth/actions/performSignout";
-
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 
@@ -19,7 +17,19 @@ export function AuthButton({ session, className, ...rest }: AuthButtonProps) {
   const { toast } = useToast();
 
   const handleSignOut = async () => {
-    await performSignOut();
+    const response = await fetch("/api/auth/sign-out", {
+      method: "POST",
+      body: JSON.stringify({ redirectUrl: "/" }),
+    });
+
+    if (response.ok) {
+      toast({
+        title: "Falha ao sair da conta.",
+        description: "Tente novamente."
+      });
+      return;
+    }
+
     router.push("/");
     router.refresh();
 

@@ -1,12 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation";
 
+import { findUserByEmail } from "@/lib/user/find-by-email.action";
 import { handleError } from "@/lib/utils"
 
 import { connectToDatabase } from ".."
 import Event from "../models/event.model"
-import { getUserByEmail } from "./get-user-by-email.action"
 
 export interface UpdateEventParams {
     userEmail: string
@@ -34,10 +35,10 @@ export async function updateEvent({ userEmail, event, path }: UpdateEventParams)
 
         const eventToUpdate = await Event.findById(event._id)
 
-        const organizer = await getUserByEmail({ email: userEmail })
+        const organizer = await findUserByEmail(userEmail)
 
-        if (!eventToUpdate || eventToUpdate.organizer.toString() !== organizer?.userId) {
-            throw new Error('Unauthorized or event not found')
+        if (!eventToUpdate || eventToUpdate.organizer.toString() !== organizer?.id) {
+            redirect("/");
         }
 
         const updatedEvent = await Event.findByIdAndUpdate(

@@ -12,14 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { links } from "@/constants";
-import { auth } from "@/lib/auth";
+import getSession from "@/lib/auth/get-session";
 import Logo from "@/public/assets/images/platform-dark-logo.png";
 
 import { AuthButton } from "../auth-button";
 import { ModeToggle } from "./mode-toogle";
 
 export async function Header() {
-  const session = await auth();
+  const session = await getSession();
 
   return (
     <header className="container flex justify-between py-8">
@@ -62,4 +62,4 @@ export async function Header() {
       </div>
     </header>
   );
-};
+}

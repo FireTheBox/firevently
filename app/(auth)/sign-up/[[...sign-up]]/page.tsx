@@ -13,10 +13,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
+import getSession from "@/lib/auth/get-session";
 
 export default async function Page() {
-  const session = await auth();
+  const session = await getSession();
 
   if (session) {
     redirect("/");

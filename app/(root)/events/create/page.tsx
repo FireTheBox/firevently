@@ -2,10 +2,10 @@ import { redirect } from "next/navigation";
 
 import { EventForm } from "@/components/shared/event-form";
 import { H3 } from "@/components/typography/h3";
-import { auth } from "@/lib/auth";
+import getSession from "@/lib/auth/get-session";
 
 const CreateEvent = async () => {
-  const session = await auth();
+  const session = await getSession();
 
   const userEmail = session?.user?.email as string;
 

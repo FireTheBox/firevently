@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { EventForm } from "@/components/shared/event-form";
 import { getEventById } from "@/lib/actions/event.actions";
-import { auth } from "@/lib/auth";
+import getSession from "@/lib/auth/get-session";
 import { handleError } from "@/lib/utils";
 
 type UpdateEventProps = {
@@ -12,7 +12,7 @@ type UpdateEventProps = {
 };
 
 const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session || !session.user) {
     redirect("/");
