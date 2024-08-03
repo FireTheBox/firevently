@@ -1,5 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { HTMLAttributes, ReactNode } from "react";
+
 import { Button } from "../ui/button";
 
 interface LoadingButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -20,7 +21,7 @@ export const LoadingButton = ({
       disabled={isLoading}
       {...rest}
     >
-      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
       {children}
     </Button>
   );

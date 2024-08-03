@@ -4,7 +4,7 @@ interface LargeProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Large({ children, className, ...rest }: LargeProps) {
   return (
-    <div className={`text-lg font-semibold font-sans ${className}`} {...rest}>
+    <div className={`font-sans text-lg font-semibold ${className}`} {...rest}>
       {children}
     </div>
   );

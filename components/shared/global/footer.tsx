@@ -1,13 +1,13 @@
 import Image from "next/image";
-
-import { P } from "@/components/typography/p";
-import Logo from "@/public/assets/images/platform-dark-logo.png";
 import Link from "next/link";
-import { SocialMedias } from "./social-medias";
+import { HTMLAttributes } from "react";
 
 import { Muted } from "@/components/typography/muted";
+import { P } from "@/components/typography/p";
 import Nguzu from "@/public/assets/images/nguzu.svg";
-import { HTMLAttributes } from "react";
+import Logo from "@/public/assets/images/platform-dark-logo.png";
+
+import { SocialMedias } from "./social-medias";
 
 interface NguzuLogoProps extends HTMLAttributes<HTMLElement> {}
 
@@ -28,9 +28,9 @@ function NguzuLogo({ className, ...rest }: NguzuLogoProps) {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-background text-foreground py-6">
+    <footer className="bg-background py-6 text-foreground">
       <div className="container mx-auto flex flex-col items-center space-y-4">
-      <div className="w-full flex justify-around items-center">
+      <div className="flex w-full items-center justify-around">
           <NguzuLogo className="hidden md:block"/>
           <Link href={"https://firethebox.com/about"}>
             <Image

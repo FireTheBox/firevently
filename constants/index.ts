@@ -14,7 +14,7 @@ export const links: NavLink[] = [
   },
   {
     label: "Suporte",
-    route: "https://calendly.com/startup-ql2x/30min",
+    route: "https://calendly.com/contato-firethebox/30min",
   }
 ]
 

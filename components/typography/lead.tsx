@@ -5,7 +5,7 @@ interface LeadProps extends React.HTMLAttributes<HTMLParagraphElement> {
 export function Lead({ children, className, ...rest }: LeadProps) {
   return (
     <p
-      className={`text-xl font-sans text-muted-foreground ${className}`}
+      className={`font-sans text-xl text-muted-foreground ${className}`}
       {...rest}
     >
       {children}

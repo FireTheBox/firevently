@@ -5,7 +5,7 @@ interface MutedProps extends React.HTMLAttributes<HTMLParagraphElement> {
 export function Muted({ children, className, ...rest }: MutedProps) {
   return (
     <p
-      className={`text-sm font-sans text-muted-foreground ${className}`}
+      className={`font-sans text-sm text-muted-foreground ${className}`}
       {...rest}
     >
       {children}

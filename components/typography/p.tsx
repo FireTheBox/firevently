@@ -3,5 +3,5 @@ interface PProps extends React.HTMLAttributes<HTMLParagraphElement> {
 }
 
 export function P({ children, className, ...rest }: PProps) {
-  return <p className={`leading-7 font-sans ${className}`} {...rest}>{children}</p>;
+  return <p className={`font-sans leading-7 ${className}`} {...rest}>{children}</p>;
 }

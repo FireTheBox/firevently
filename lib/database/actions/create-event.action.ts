@@ -1,10 +1,13 @@
 "use server";
 
-import { handleError } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
+import { findUserByEmail } from '@/lib/user/find-by-email.action';
+import { handleError } from '@/lib/utils';
+
 import { connectToDatabase } from '../index';
 import Event from '../models/event.model';
-import { getUserByEmail } from './get-user-by-email.action';
 
 export interface CreateEventParams {
     userEmail: string
@@ -28,11 +31,13 @@ export async function createEvent({ userEmail, event, path }: CreateEventParams)
     try {
         await connectToDatabase()
 
-        const organizer = await getUserByEmail({ email: userEmail })
+        const organizer = await findUserByEmail(userEmail);
 
-        if (!organizer) throw new Error('Organizer not found')
+        if (!organizer) {
+            redirect("/");
+        }
 
-        const newEvent = await Event.create({ ...event, category: event.categoryId, organizer: organizer.userId })
+        const newEvent = await Event.create({ ...event, category: event.categoryId, organizer: organizer.id })
         revalidatePath(path)
 
         return JSON.parse(JSON.stringify(newEvent))

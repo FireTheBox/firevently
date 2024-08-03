@@ -1,5 +1,10 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import { AuthMethodSeparator } from "@/components/shared/auth/auth-method-separator";
+import { ProviderSignInForm } from "@/components/shared/auth/provider-sign-in-form";
+import { SignUpForm } from "@/components/shared/auth/sign-up-form";
 import { Muted } from "@/components/typography/muted";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,57 +13,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
-import { FaDiscord, FaGoogle } from "react-icons/fa";
+import getSession from "@/lib/auth/get-session";
 
-import { P } from "@/components/typography/p";
+export default async function Page() {
+  const session = await getSession();
 
-import { Separator } from "@/components/ui/separator";
-import { signIn } from "@/lib/auth";
-import { SignUpForm } from "./sign-up-form";
+  if (session) {
+    redirect("/");
+  }
 
-export default function Page() {
   return (
     <>
-      <Card className="max-w-screen-md mx-auto my-32">
+      <Card className="mx-auto my-32 max-w-screen-md">
         <CardHeader className="items-center">
           <CardTitle className="mb-5">Cadastrar</CardTitle>
           <CardDescription>Cadastre com suas redes sociais</CardDescription>
         </CardHeader>
         <CardContent className="space-y-10">
-          <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-5">
-            {/* <form
-              action={async () => {
-                "use server";
-                await signIn("discord");
-              }}
-              className="size-fit"
-            >
-              <Button type="submit" variant={"outline"}>
-                <FaDiscord className="mr-3 size-5" />
-                Entrar com Discord
-              </Button>
-            </form> */}
-            <form
-              action={async () => {
-                "use server";
-                await signIn("google");
-              }}
-              className="size-fit"
-            >
-              <Button type="submit" variant={"outline"}>
-                <FaGoogle className="mr-3 size-5" />
-                Entrar com Google
-              </Button>
-            </form>
-          </div>
-
-          <div className="flex gap-4 items-center">
-            <Separator className="flex-1" />
-            <P>ou com e-mail</P>
-            <Separator className="flex-1" />
-          </div>
-
+          <ProviderSignInForm />
+          <AuthMethodSeparator />
           <SignUpForm />
         </CardContent>
         <CardFooter>

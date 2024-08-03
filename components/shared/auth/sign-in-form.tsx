@@ -1,6 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,10 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { performLogin } from "@/lib/auth/actions/performLogin";
 import { handleError } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -32,10 +31,6 @@ export function SignInForm() {
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
   });
 
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
@@ -44,12 +39,15 @@ export function SignInForm() {
 
     setIsLoading(true);
     try {
-      const success = await performLogin(email, password);
+      const response = await fetch("/api/auth/sign-in", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (!success) {
+      if (!response.ok) {
         toast({
           title: "Ops! Não foi possível autenticar seu usuário...",
-          description: "Tente novamente mais tarde.",
+          description: "Tente novamente.",
           variant: "destructive",
         });
         return;
@@ -61,13 +59,14 @@ export function SignInForm() {
       });
 
       router.back();
+      router.refresh();
     } catch (error: any) {
-      handleError(error);
       toast({
         title: "Ops! Não foi possível autenticar seu usuário...",
         description: "Tente novamente mais tarde.",
         variant: "destructive",
       });
+      handleError(error);
     } finally {
       setIsLoading(false);
     }

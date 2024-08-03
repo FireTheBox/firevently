@@ -1,10 +1,7 @@
 import { CodaTabs } from "@/components/shared/coda-tabs";
 import { EventSummary } from "@/components/shared/events/event-summary";
-import { CodaFrame } from "@/components/shared/frame/coda-frame";
-import { Large } from "@/components/typography/large";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getEventById } from "@/lib/actions/event.actions";
-import { auth } from "@/lib/auth";
+import getSession from "@/lib/auth/get-session";
 
 const embeds = [
   {
@@ -36,7 +33,7 @@ interface EventDetails {
 }
 
 const EventDetails = async ({ params: { id } }: EventDetails) => {
-  const session = await auth();
+  const session = await getSession();
   const event = await getEventById(id);
 
   const userEmail = session?.user?.email ?? undefined;

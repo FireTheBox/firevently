@@ -7,10 +7,10 @@ export const CodaFrame = ({ embedUrl }: CodaFrameProps) => {
     const src = `${endpoint}?viewMode=embedplay&hideSections=true`
 
     return (
-    <div className="w-full rounded-2xl overflow-hidden my-16">
+    <div className="my-16 w-full overflow-hidden rounded-2xl">
       <iframe
         src={src}
-        className="w-full h-screen"
+        className="h-screen w-full"
         allow="fullscreen"
       ></iframe>
     </div>

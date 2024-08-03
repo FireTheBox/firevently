@@ -1,5 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
 import {
   Form,
   FormControl,
@@ -11,23 +17,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { eventDefaultValues } from "@/constants";
-import { eventFormSchema } from "@/lib/validator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import Dropdown from "./Dropdown";
-
 import { createEvent } from "@/lib/database/actions/create-event.action";
 import { updateEvent } from "@/lib/database/actions/update-event.action";
 import { IEvent } from "@/lib/database/models/event.model";
-import { handleError } from "@/lib/database/utils";
 import { useUploadThing } from "@/lib/uploadthing";
-import { LucideDollarSign, LucideLink } from "lucide-react";
-import { useRouter } from "next/navigation";
-import "react-datepicker/dist/react-datepicker.css";
+import { handleError } from "@/lib/utils";
+import { eventFormSchema } from "@/lib/validator";
+
 import { Checkbox } from "../ui/checkbox";
 import { DatePicker } from "./date-picker";
+import Dropdown from "./Dropdown";
 import { FileUploader } from "./file-uploader";
 import { LoadingButton } from "./loading-button";
 
@@ -35,15 +34,9 @@ type EventFormProps = {
   userEmail: string;
   type: "Criar" | "Atualizar";
   event?: IEvent;
-  eventId?: string;
 };
 
-export const EventForm = ({
-  userEmail,
-  type,
-  event,
-  eventId,
-}: EventFormProps) => {
+export const EventForm = ({ userEmail, type, event }: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const initialValues =
     event && type === "Atualizar"
@@ -66,6 +59,7 @@ export const EventForm = ({
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
     setIsLoading(true);
     let uploadedImageUrl = values.imageUrl;
+    const eventId = event?._id;
 
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);

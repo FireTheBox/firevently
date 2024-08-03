@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -6,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import Link from "next/link";
+
 import { TallyFrame } from "../frame/tally-frame";
 
 interface JoinEventDialogProps {

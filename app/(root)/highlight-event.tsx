@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Muted } from "@/components/typography/muted";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getAllEvents } from "@/lib/actions/event.actions";
-import Link from "next/link";
+
 import { EventFeatures } from "./event-features";
 import { EventThumbnail } from "./event-thumbnail";
 import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
@@ -56,14 +58,14 @@ export const HighlightEvent = async ({
   } = lastEvent;
 
   return (
-    <div className="col-span-3 flex flex-col items-start gap-6 bg-primary/5 rounded-lg p-6">
-      <div className="flex flex-col lg:flex-row items-center lg:gap-6">
+    <div className="col-span-3 flex flex-col items-start gap-6 rounded-lg bg-primary/5 p-6">
+      <div className="flex flex-col items-center lg:flex-row lg:gap-6">
         <EventThumbnail
           image={imageUrl}
           name={title}
           startAt={new Date(Date.parse(startDateTime))}
         />
-        <Card className="w-full lg:basis-1/2 border-none shadow-none bg-transparent">
+        <Card className="w-full border-none bg-transparent shadow-none lg:basis-1/2">
           <CardHeader className="px-0">
             <CardTitle>{title}</CardTitle>
           </CardHeader>

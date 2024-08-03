@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { Suspense, useEffect, useState } from "react";
+
 import { EventBanner } from "@/components/shared/events/event-banner";
 import { EventCodeCard } from "@/components/shared/events/event-code-card";
 import { JoinEventDialog } from "@/components/shared/events/join-event-dialog";
@@ -14,14 +17,12 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-
 import { getParticipants } from "@/lib/coda/get-participants.action";
 import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
-import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+
 import { LoadingButton } from "../loading-button";
 import { Stat } from "./event-stat";
 
@@ -63,24 +64,24 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
   } = event;
 
   return (
-    <section className="flex flex-col items-center xl:flex-row xl:items-start py-8 xl:py-16 gap-8 xl:gap-16 border-b border-muted overflow-hidden">
+    <section className="flex flex-col items-center gap-8 overflow-hidden border-b border-muted py-8 xl:flex-row xl:items-start xl:gap-16 xl:py-16">
       <EventBanner
         image={imageUrl}
         startAt={new Date(Date.parse(startDateTime))}
       />
-      <Card className="w-full xl:w-fit border-none space-y-6">
+      <Card className="w-full space-y-6 border-none xl:w-fit">
         <CardHeader className="p-0 md:px-6">
-          <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <H2>{title}</H2>
-            <div className="w-fit flex items-center gap-2.5 p-3 bg-secondary rounded-lg border border-secondary-foreground">
-              <span className="text-secondary-foreground text-xs font-bold">
+            <div className="flex w-fit items-center gap-2.5 rounded-lg border border-secondary-foreground bg-secondary p-3">
+              <span className="text-xs font-bold text-secondary-foreground">
                 {category.name}
               </span>
             </div>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col space-y-6 px-0 md:px-6">
-          <div className="flex flex-col gap-5 md:flex-row justify-between my-10">
+          <div className="my-10 flex flex-col justify-between gap-5 md:flex-row">
             <OrganizationInfo
               logo={LePoli}
               title="Liga de Empreendedorismo da Poli-USP"
@@ -91,7 +92,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             <Muted>Descrição</Muted>
             <Lead>{description}</Lead>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row justify-between items-start">
+          <div className="flex flex-col items-start justify-between gap-3 sm:flex-row">
             <Stat
               label="Projetos"
               value={numberOfProjects.toString()}
@@ -115,7 +116,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
           </div>
         </CardContent>
         <CardFooter>
-          <div className="w-full flex flex-col sm:flex-row justify-between pt-4 gap-4">
+          <div className="flex w-full flex-col justify-between gap-4 pt-4 sm:flex-row">
             {isRegistrationPeriod(startDateTime) && (
               <Suspense fallback={<LoadingButton isLoading={true} />}>
                 <JoinEventDialog
@@ -139,7 +140,11 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
                 className="w-full md:w-[300px]"
                 variant="outline"
               >
-                <Link href={`mailto:lepoliusp@gmail.com`}>Conversar com o organizador</Link>
+                <Link
+                  href={`https://wa.me/5516991998744?text=Quero%20saber%20mais%20sobre%20a%20Garagem%20de%20Startups%202024`}
+                >
+                  Conversar com o organizador
+                </Link>
               </Button>
             )}
           </div>

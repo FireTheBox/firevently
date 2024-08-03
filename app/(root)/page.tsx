@@ -1,3 +1,7 @@
+import { LucideLoader2 } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
+
 import CategoryFilter from "@/components/shared/category-filter";
 import Collection from "@/components/shared/collection";
 import Search from "@/components/shared/Search";
@@ -7,11 +11,9 @@ import { Lead } from "@/components/typography/lead";
 import { P } from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
 import { SearchParamProps } from "@/types";
-import Link from "next/link";
-import { Suspense } from "react";
+
 import { HighlightEvent } from "./highlight-event";
 import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
-import { LucideLoader2 } from "lucide-react";
 
 export default function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -31,7 +33,7 @@ export default function Home({ searchParams }: SearchParamProps) {
               FireTheBox é a caixa de ferramentas mais completa para conectar
               organizações com jovens talentos para criar soluções.
             </P>
-            <div className="flex justify-center md:justify-start gap-4">
+            <div className="flex justify-center gap-4 md:justify-start">
               <Button size="lg" asChild>
                 <Link href="#events">Criar projeto</Link>
               </Button>
@@ -54,9 +56,9 @@ export default function Home({ searchParams }: SearchParamProps) {
 
       <section
         id="events"
-        className="my-10 md:my-20 mb-8 flex flex-col gap-8 md:gap-12"
+        className="my-10 mb-8 flex flex-col gap-8 md:my-20 md:gap-12"
       >
-        <div className="flex flex-col lg:flex-row justify-between gap-6">
+        <div className="flex flex-col justify-between gap-6 lg:flex-row">
           <div className="space-y-2">
             <H2>Descubra mais programas</H2>
             <Lead>Explore as melhores oportunidades</Lead>

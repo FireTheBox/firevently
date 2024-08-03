@@ -1,8 +1,10 @@
 "use client";
 
-import { handleError } from "@/lib/utils";
 import { LucideCopy } from "lucide-react";
 import { useState } from "react";
+
+import { handleError } from "@/lib/utils";
+
 import { P } from "../typography/p";
 import { Button } from "../ui/button";
 
@@ -24,7 +26,7 @@ export function CopyButton({ value: code }: CopyButtonProps) {
   };
 
   return (
-    <div className="text-secondary-foreground flex items-center gap-2 cursor-pointer">
+    <div className="flex cursor-pointer items-center gap-2 text-secondary-foreground">
       <Button
         asChild
         size={"icon"}

@@ -3,5 +3,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="min-h-screen flex-1 container">{children}</main>;
+  return <main className="container min-h-screen flex-1">{children}</main>;
 }

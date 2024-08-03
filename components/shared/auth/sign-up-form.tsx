@@ -1,6 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,8 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { handleError } from "@/lib/utils";
 
 const signUpFormSchema = z
   .object({
@@ -58,11 +59,6 @@ export function SignUpForm() {
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
   });
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
@@ -72,38 +68,42 @@ export function SignUpForm() {
     setIsLoading(true);
 
     try {
-      const user = {
-        username: email.split("@")[0].trim(),
-        email,
-        password,
-      };
-
-      const result = await fetch("/api/auth/register", {
+      const response = await fetch("/api/auth/sign-up", {
         method: "POST",
-        body: JSON.stringify(user),
+        body: JSON.stringify({ email, password }),
       });
 
-      if (result.ok) {
-        router.push("/sign-in");
+      if (!response.ok) {
         toast({
-          title: "Yay! Conta criada com sucesso.",
+          title: "Ops! Falha ao cadastrar a conta...",
+          description: "Tente novamente mais tarde.",
+          variant: "destructive",
         });
         return;
       }
 
-      const body = await result.json();
+      const body = await response.json();
 
+      if (!body) {
+        toast({
+          title: "Ops! Falha ao cadastrar a conta...",
+          description: "Tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      router.push("/sign-in");
       toast({
-        title: "Ops! Falha ao cadastrar a conta...",
-        description: body.error,
-        variant: "destructive",
+        title: "Yay! Conta criada com sucesso.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Ops! Falha ao cadastrar a conta...",
         description: `Tente novamente mais tarde.`,
         variant: "destructive",
       });
+      handleError(error);
     } finally {
       setIsLoading(false);
     }

@@ -1,11 +1,12 @@
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Footer } from "@/components/shared/global/footer";
 import { Header } from "@/components/shared/global/header";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.css";
 
 const baloo = Baloo_2({
   subsets: ["latin"],

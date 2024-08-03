@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { handleError } from "../utils";
+
 const calculateTimeLeft = (targetDate: Date) => {
     const now = new Date();
 
@@ -32,6 +34,7 @@ const useCountdown = (targetDate: Date | string) => {
     try {
         date = new Date(Date.parse(targetDate as string));
     } catch (error) {
+        handleError(error)
         date = targetDate as Date;
     }
 

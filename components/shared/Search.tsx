@@ -1,9 +1,11 @@
 "use client";
 
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { LucideSearch } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
+
 import { Input } from "../ui/input";
 
 const Search = ({
@@ -39,13 +41,13 @@ const Search = ({
   }, [query, searchParams, router]);
 
   return (
-    <div className="h-14 w-full lg:w-[300px] flex items-center rounded-md bg-secondary px-4 py-2 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-1 border border-input">
+    <div className="flex h-14 w-full items-center rounded-md border border-input bg-secondary px-4 py-2 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-1 lg:w-[300px]">
       <LucideSearch size={24} />
       <Input
         type="text"
         placeholder={placeholder}
         onChange={(e) => setQuery(e.target.value)}
-        className="bg-transparent flex-1 focus-visible:ring-0 focus-visible:ring-offset-0 border-none"
+        className="flex-1 border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
       />
     </div>
   );

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+
 import { Small } from "../typography/small";
 
 function calculatePasswordStrength(password: string) {
@@ -26,12 +27,12 @@ export const PasswordStrengthMeter = ({ password }: PasswordStrengthMeter) => {
         {Array.from({ length: 4 }).map((_, index) => (
           <div
             key={index}
-            className={clsx("h-1 flex-1 mx-1", {
+            className={clsx("mx-1 h-1 flex-1", {
               "bg-red-500": strength === 0 && index === 0,
               "bg-yellow-500": strength === 1 && index <= 1,
               "bg-blue-500": strength === 2 && index <= 2,
               "bg-green-500": strength > 2 && index <= 3,
-              "bg-primary": index > strength,
+              "bg-foreground": index > strength,
             })}
           ></div>
         ))}

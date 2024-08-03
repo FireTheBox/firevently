@@ -1,7 +1,9 @@
 "use client"
 
-import { formUrlQuery } from '@/lib/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
+
+import { formUrlQuery } from '@/lib/utils'
+
 import { Button } from '../ui/button'
 
 type PaginationProps = {

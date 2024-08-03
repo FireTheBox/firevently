@@ -8,14 +8,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const SkeletonHighlightEvent = () => {
   return (
-    <div className="col-span-3 w-full flex items-end bg-primary/5 rounded-lg p-8">
+    <div className="col-span-3 flex w-full items-end rounded-lg bg-primary/5 p-8">
       <Card className="w-full border-none bg-transparent shadow-none">
         <CardHeader>
           <Skeleton className="h-8 w-3/4" />
         </CardHeader>
         <CardContent>
           <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4 mt-2" />
+          <Skeleton className="mt-2 h-4 w-3/4" />
         </CardContent>
         <CardFooter className="flex flex-col items-start gap-10">
           <Skeleton className="h-10 w-24 rounded" />
@@ -26,7 +26,7 @@ export const SkeletonHighlightEvent = () => {
           </div>
         </CardFooter>
       </Card>
-      <Skeleton className="h-full w-2/3 rounded-lg ml-8" />
+      <Skeleton className="ml-8 h-full w-2/3 rounded-lg" />
     </div>
   );
 };

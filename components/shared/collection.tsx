@@ -1,9 +1,10 @@
+import { getAllEvents } from "@/lib/actions/event.actions";
 import { IEvent } from "@/lib/database/models/event.model";
+
 import { H3 } from "../typography/h3";
 import { P } from "../typography/p";
 import { EventCard } from "./event-card";
 import Pagination from "./Pagination";
-import { getAllEvents } from "@/lib/actions/event.actions";
 
 type CollectionProps = {
   emptyTitle: string;
@@ -52,7 +53,7 @@ const Collection = async ({
           )}
         </div>
       ) : (
-        <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-50 py-28 text-center">
+        <div className="min-h-[200px] w-full flex-col gap-3 rounded-[14px] py-28 text-center">
           <H3>{emptyTitle}</H3>
           <P>{emptyStateSubtext}</P>
         </div>
