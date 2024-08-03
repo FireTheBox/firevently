@@ -1,7 +1,9 @@
 "use server"
 
-import { CreateOrderParams, GetOrdersByEventParams, GetOrdersByUserParams } from "@/types";
 import { ObjectId } from 'mongodb';
+
+import { CreateOrderParams, GetOrdersByEventParams, GetOrdersByUserParams } from "@/types";
+
 import { connectToDatabase } from '../database';
 import Event from '../database/models/event.model';
 import Order from '../database/models/order.model';

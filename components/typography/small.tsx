@@ -4,7 +4,7 @@ interface SmallProps extends React.HTMLAttributes<HTMLParagraphElement> {
 
 export function Small({ children, className, ...rest }: SmallProps) {
     return (
-      <small className={`text-sm font-medium font-sans leading-none ${className}`} {...rest}>{children}</small>
+      <small className={`font-sans text-sm font-medium leading-none ${className}`} {...rest}>{children}</small>
     )
   }
   

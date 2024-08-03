@@ -1,7 +1,9 @@
 "use server";
 
-import { handleError } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
+
+import { handleError } from '@/lib/utils';
+
 import { connectToDatabase } from '../index';
 import Event from '../models/event.model';
 import { getUserByEmail } from './get-user-by-email.action';

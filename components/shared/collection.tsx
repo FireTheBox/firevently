@@ -53,7 +53,7 @@ const Collection = async ({
           )}
         </div>
       ) : (
-        <div className="flex-center wrapper bg-grey-50 min-h-[200px] w-full flex-col gap-3 rounded-[14px] py-28 text-center">
+        <div className="min-h-[200px] w-full flex-col gap-3 rounded-[14px] py-28 text-center">
           <H3>{emptyTitle}</H3>
           <P>{emptyStateSubtext}</P>
         </div>

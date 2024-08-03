@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { Icon, IconName } from "../helper/icon";
 
 interface SocialMedia {
@@ -13,7 +14,7 @@ const socialLinks: SocialMedia[] = [
 ];
 
 export const SocialMedias = () => (
-  <div className="flex gap-4 mb-4">
+  <div className="mb-4 flex gap-4">
     {socialLinks.map((link, index) => (
       <Link key={index} href={link.url}>
         <Icon name={link.icon} size={20} />

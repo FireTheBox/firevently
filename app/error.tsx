@@ -11,7 +11,7 @@ interface ErrorProps {
 
 export default function Error({ reset }: ErrorProps) {
   return (
-    <div className="container flex my-20 max-w-screen-lg flex-col items-center justify-center gap-5 bg-background text-center">
+    <div className="container my-20 flex max-w-screen-lg flex-col items-center justify-center gap-5 bg-background text-center">
       <H1>Ops, algo deu errado!</H1>
 
       <Lead>

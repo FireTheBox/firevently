@@ -1,4 +1,14 @@
+import Image from "next/image";
+import Link from "next/link";
+
+import { EventCardThumbnail } from "@/app/(root)/event-card-thumbnail";
+import { formatCurrency } from "@/lib/currency";
 import { IEvent } from "@/lib/database/models/event.model";
+import Logo from "@/public/assets/images/lepoli.png";
+
+import { Muted } from "../typography/muted";
+import { P } from "../typography/p";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -6,15 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-
-import { EventCardThumbnail } from "@/app/(root)/event-card-thumbnail";
-import { formatCurrency } from "@/lib/currency";
-import Logo from "@/public/assets/images/lepoli.png";
-import Image from "next/image";
-import Link from "next/link";
-import { Muted } from "../typography/muted";
-import { P } from "../typography/p";
-import { Button } from "../ui/button";
 
 type CardProps = {
   event: IEvent;
@@ -35,16 +36,16 @@ export const EventCard = async ({ event, canManage }: CardProps) => {
         <CardTitle>{event.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-fit flex justify-start items-center gap-3.5">
+        <div className="flex h-fit items-center justify-start gap-3.5">
           <Image src={Logo} alt={"LePoli"} className="size-12 rounded-lg" />
-          <div className="flex flex-col h-full justify-start items-start">
+          <div className="flex h-full flex-col items-start justify-start">
             <Muted className="font-bold">Organização</Muted>
             <P>Liga de Empreendedorismo da Poli-USP</P>
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col gap-4 md:flex-row md:gap-0 md:justify-between">
-        <div className="w-full md:w-fit flex flex-col gap-1">
+      <CardFooter className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-0">
+        <div className="flex w-full flex-col gap-1 md:w-fit">
           <Muted>Premiação</Muted>
           <P>{formatCurrency(Number(event.reward))}</P>
         </div>

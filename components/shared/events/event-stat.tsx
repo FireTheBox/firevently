@@ -1,4 +1,5 @@
 import { Muted } from "@/components/typography/muted";
+
 import { Icon, IconName } from "../helper/icon";
 
 interface StatProps {

@@ -1,3 +1,5 @@
+import { startTransition, useEffect, useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,9 +23,9 @@ import {
   getAllCategories,
 } from "@/lib/actions/category.actions";
 import { ICategory } from "@/lib/database/models/category.model";
-import { startTransition, useEffect, useState } from "react";
-import { Input } from "../ui/input";
+
 import { P } from "../typography/p";
+import { Input } from "../ui/input";
 
 type DropdownProps = {
   value?: string;

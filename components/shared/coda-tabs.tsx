@@ -1,8 +1,10 @@
 "use client";
 
-import { useMediaQuery } from "@/lib/hook/use-media-query";
 import { LucideChevronLeft, LucideChevronRight } from "lucide-react";
 import { useState } from "react";
+
+import { useMediaQuery } from "@/lib/hook/use-media-query";
+
 import { Large } from "../typography/large";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -73,7 +75,7 @@ export function CodaTabs({ items }: CodaTabsProps) {
     >
       <TabsList className="space-x-4">
         {isMobile ? (
-          <div className="w-full flex items-center justify-between">
+          <div className="flex w-full items-center justify-between">
             <Button
               size={"icon"}
               onClick={previous}

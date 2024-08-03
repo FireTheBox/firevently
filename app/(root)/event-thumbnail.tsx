@@ -6,7 +6,6 @@ import { Large } from "@/components/typography/large";
 import { P } from "@/components/typography/p";
 import { Small } from "@/components/typography/small";
 import { useCountdown } from "@/lib/hook/use-contdown";
-
 import Logo from "@/public/assets/images/lepoli.png";
 
 const labels = ["d", "h", "m", "s"];
@@ -39,17 +38,17 @@ export const EventThumbnail = ({
   const timeLeft = useCountdown(startAt);
 
   return (
-    <div className="relative w-fit rounded-md flex flex-col-reverse mx-auto">
+    <div className="relative mx-auto flex w-fit flex-col-reverse rounded-md">
       <Image
         src={image}
         alt={name}
         width={350}
         height={350}
-        className="object-cover size-[350px] aspect-square rounded-lg"
+        className="aspect-square size-[350px] rounded-lg object-cover"
       />
 
-      <div className="absolute w-11/12 h-fit bg-white/20 backdrop-blur-lg rounded-md flex flex-col items-center py-3 bottom-5 left-1/2 transform -translate-x-1/2">
-        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 size-10 bg-white rounded-full flex justify-center items-center">
+      <div className="absolute bottom-5 left-1/2 flex h-fit w-11/12 -translate-x-1/2 flex-col items-center rounded-md bg-white/20 py-3 backdrop-blur-lg">
+        <div className="absolute -top-5 left-1/2 flex size-10 -translate-x-1/2 items-center justify-center rounded-full bg-white">
           <Image src={Logo} alt={name} objectFit="cover" className="scale-90 rounded-full bg-clip-border" />
         </div>
 
