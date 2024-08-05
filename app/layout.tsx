@@ -1,24 +1,13 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Baloo_2, Nunito } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Footer } from "@/components/shared/global/footer";
 import { Header } from "@/components/shared/global/header";
 import { Toaster } from "@/components/ui/toaster";
 
-const baloo = Baloo_2({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-baloo",
-});
-
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-nunito",
-});
+import { nunito } from "./fonts";
 
 export const metadata: Metadata = {
   title: "FireTheBox",
@@ -64,7 +53,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${nunito.variable} ${baloo.variable} min-h-screen`}>
+      <body className={`${nunito.className} min-h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

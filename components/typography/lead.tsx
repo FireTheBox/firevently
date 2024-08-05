@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 interface LeadProps extends React.HTMLAttributes<HTMLParagraphElement> {
   children: React.ReactNode;
 }
@@ -5,7 +7,7 @@ interface LeadProps extends React.HTMLAttributes<HTMLParagraphElement> {
 export function Lead({ children, className, ...rest }: LeadProps) {
   return (
     <p
-      className={`font-sans text-xl text-muted-foreground ${className}`}
+      className={cn(`text-xl text-muted-foreground`, className)}
       {...rest}
     >
       {children}

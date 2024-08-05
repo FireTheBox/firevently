@@ -1,7 +1,13 @@
+import { cn } from "@/lib/utils";
+
 interface PProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function P({ children, className, ...rest }: PProps) {
-  return <p className={`font-sans leading-7 ${className}`} {...rest}>{children}</p>;
+  return (
+    <p className={cn(`leading-7`, className)} {...rest}>
+      {children}
+    </p>
+  );
 }

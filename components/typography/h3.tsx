@@ -1,3 +1,6 @@
+import { baloo } from "@/app/fonts";
+import { cn } from "@/lib/utils";
+
 interface H3Props extends React.HTMLAttributes<HTMLHeadingElement> {
   children: React.ReactNode;
 }
@@ -5,7 +8,7 @@ interface H3Props extends React.HTMLAttributes<HTMLHeadingElement> {
 export function H3({ children, className, ...rest }: H3Props) {
   return (
     <h3
-      className={`font-serif text-2xl font-semibold tracking-tight ${className}`}
+      className={cn(`${baloo.className} text-2xl font-medium tracking-tight`, className)}
       {...rest}
     >
       {children}
