@@ -9,19 +9,20 @@ import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 
 interface EventFeaturesProps {
+  eventId: string;
   reward: string;
   isFree: boolean;
   price: string;
 }
 
-export const EventFeatures = ({ reward, isFree }: EventFeaturesProps) => {
+export const EventFeatures = ({ eventId, reward, isFree }: EventFeaturesProps) => {
   const [numberOfParticipants, setNumberOfParticipants] = useState<number>(0);
   const [numberOfProjects, setNumberOfProjects] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const participants = await getParticipants();
-      const projects = await getProjectsCount();
+      const participants = await getParticipants(eventId);
+      const projects = await getProjectsCount(eventId);
 
       setNumberOfParticipants(participants?.length ?? 0);
       setNumberOfProjects(projects ?? 0);

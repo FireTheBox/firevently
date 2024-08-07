@@ -42,12 +42,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           }
 
-          const participants = await getParticipants();
-
-          if (!participants?.includes(email)) {
+          const participantsGaragem = await getParticipants("66aaa9252fb8f38e03a04fb9");
+          
+          if (!participantsGaragem?.includes(email)) {
             return null;
           }
+          
+          const participantsRIW24 = await getParticipants("66b3bdfa0d97c5415ee6c2be");
 
+          if (!participantsRIW24?.includes(email)) {
+            return null;
+          }
+          
           const newUser = await signUpAction(email, password, email.split("@").at(0)?.trim())
 
           if (!newUser) {

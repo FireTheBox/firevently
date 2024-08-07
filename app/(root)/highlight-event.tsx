@@ -79,7 +79,7 @@ export const HighlightEvent = async ({
           </CardFooter>
         </Card>
       </div>
-      <EventFeatures reward={reward} isFree={isFree} price={price} />
+      <EventFeatures eventId={_id}  reward={reward} isFree={isFree} price={price} />
     </div>
   );
 };
