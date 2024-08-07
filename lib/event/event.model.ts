@@ -12,6 +12,7 @@ const EventSchema = new Schema(
     reward: { type: Number, default: 0.0 },
     startDate: { type: Date, default: Date.now },
     endDate: { type: Date, default: Date.now },
+    registrationLink: { type: String, required: true },
     registrationFee: { type: Number, default: 0.0 },
     communityInvitation: { type: String },
     isFeatured: { type: Boolean, default: false },

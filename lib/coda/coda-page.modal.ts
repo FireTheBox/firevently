@@ -1,4 +1,8 @@
-import { model, models, Schema } from "mongoose";
+import { Model, model, models, Schema } from "mongoose";
+
+import { ICodaPage } from "./coda-page.definition";
+
+export type CodaPageModel = Model<ICodaPage>;
 
 const CodaPageSchema = new Schema({
     type: { type: String, enum: ["Detalhes", "Projetos", "Cronograma", "Participants"], require: true },
@@ -8,6 +12,6 @@ const CodaPageSchema = new Schema({
     event: { type: Schema.Types.ObjectId, ref: "Event" }
 })
 
-const CodaPage = models.CodaPage || model('CodaPage', CodaPageSchema);
+const CodaPage: CodaPageModel = models.CodaPage || model<ICodaPage, CodaPageModel>('CodaPage', CodaPageSchema)
 
 export default CodaPage;

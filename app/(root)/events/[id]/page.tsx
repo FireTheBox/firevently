@@ -1,9 +1,11 @@
+import { ObjectId } from "mongodb";
 import { Metadata } from "next";
 
+import NotFound from "@/app/not-found";
 import { CodaTabs } from "@/components/shared/coda-tabs";
 import { EventSummary } from "@/components/shared/events/event-summary";
-import { getEventById } from "@/lib/actions/event.actions";
 import getSession from "@/lib/auth/get-session";
+import { getEventById } from "@/lib/event/event.service";
 
 const embeds = [
   {
@@ -39,7 +41,15 @@ export async function generateMetadata({
 }: EventDetailsProps): Promise<Metadata> {
   const id = params.id;
 
+  if (!ObjectId.isValid(id)) {
+    return {};
+  }
+
   const event = await getEventById(id);
+
+  if (!event) {
+    return {};
+  }
 
   return {
     title: event.title,
@@ -52,7 +62,7 @@ export async function generateMetadata({
         {
           width: 430,
           height: 530,
-          url: event.imageUrl,
+          url: event.thumbnail,
         },
       ],
     },
@@ -64,7 +74,7 @@ export async function generateMetadata({
         {
           width: 430,
           height: 530,
-          url: event.imageUrl,
+          url: event.thumbnail,
         },
       ],
       site: `https://app.firethebox.com/events/${id}`,
@@ -76,11 +86,13 @@ const EventDetails = async ({ params: { id } }: EventDetailsProps) => {
   const session = await getSession();
   const event = await getEventById(id);
 
-  const userEmail = session?.user?.email ?? undefined;
+  if (!event) {
+    return <NotFound />;
+  }
 
   return (
     <>
-      <EventSummary event={event} email={userEmail} />
+      <EventSummary event={event} session={session} />
       <CodaTabs items={embeds} />
     </>
   );

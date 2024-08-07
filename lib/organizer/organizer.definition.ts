@@ -4,6 +4,7 @@ import { z } from "zod";
 export interface IOrganizer {
   name: string;
   logo: string;
+  email: string;
   contact: string;
   events: string[];
 }
@@ -11,6 +12,7 @@ export interface IOrganizer {
 export const organizerFormSchema = z.object({
   name: z.string(),
   logo: z.string().url(),
+  email: z.string().email(),
   contact: z.string(),
 })
 

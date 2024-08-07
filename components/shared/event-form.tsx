@@ -16,41 +16,77 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { eventDefaultValues } from "@/constants";
-import { createEvent } from "@/lib/database/actions/create-event.action";
-import { updateEvent } from "@/lib/database/actions/update-event.action";
-import { IEvent } from "@/lib/event/event.model";
+import { eventFormSchema } from "@/lib/event/event.definition";
 import { useUploadThing } from "@/lib/uploadthing";
 import { handleError } from "@/lib/utils";
-import { eventFormSchema } from "@/lib/validator";
 
-import { Checkbox } from "../ui/checkbox";
+import { useToast } from "../ui/use-toast";
+import { CategoryDropdown } from "./category/category-dropdown";
 import { DatePicker } from "./date-picker";
-import Dropdown from "./Dropdown";
 import { FileUploader } from "./file-uploader";
 import { LoadingButton } from "./loading-button";
 
 type EventFormProps = {
   operation: "Atualizar" | "Criar";
+  id?: string;
+  thumbnail?: string;
+  title?: string;
+  description?: string;
+  categoryName?: string;
+  startDate?: Date;
+  endDate?: Date;
+  reward?: number;
+  registrationLink?: string;
+  registrationFee?: number;
+  communityInvitation?: string;
+  isFeatured?: boolean;
+  organizerName?: string;
 };
 
-export const EventForm = ({ operation, }: EventFormProps) => {
+export const EventForm = ({
+  operation,
+  id,
+  thumbnail,
+  title,
+  description,
+  categoryName,
+  startDate,
+  endDate,
+  reward,
+  registrationLink,
+  registrationFee,
+  communityInvitation,
+  isFeatured,
+  organizerName,
+}: EventFormProps) => {
   const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
-
   const { startUpload } = useUploadThing("imageUploader");
 
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      thumbnail: thumbnail || "",
+      title: title || "",
+      description: description || "",
+      category: categoryName || "",
+      startDate: startDate || new Date(),
+      endDate: endDate || new Date(),
+      reward: reward || 0,
+      registrationLink: registrationLink || "",
+      registrationFee: registrationFee || 0,
+      communityInvitation: communityInvitation || "",
+      isFeatured: isFeatured || false,
+      organizer: organizerName || "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
     setIsLoading(true);
-    let uploadedImageUrl = values.imageUrl;
-    const eventId = event?._id;
+    let uploadedImageUrl = values.thumbnail;
 
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
@@ -63,47 +99,49 @@ export const EventForm = ({ operation, }: EventFormProps) => {
       uploadedImageUrl = uploadedImages[0].url;
     }
 
-    if (type === "Criar") {
-      try {
-        const newEvent = await createEvent({
-          userEmail,
-          event: { ...values, imageUrl: uploadedImageUrl },
-          path: "/",
-        });
+    try {
+      const request = {
+        thumbnail: uploadedImageUrl,
+        title: values.title,
+        description: values.description,
+        reward: values.reward,
+        startDate: values.startDate,
+        endDate: values.endDate,
+        registrationLink: values.registrationLink,
+        registrationFee: values.registrationFee,
+        communityInvitation: values.communityInvitation,
+        isFeatured: values.isFeatured,
+        categoryId: values.category,
+        organizerName: values.organizer,
+      };
 
-        if (newEvent) {
-          form.reset();
-          router.push(`/events/${newEvent._id}`);
-        }
-      } catch (error) {
-        handleError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+      const response = await fetch("/api/event", {
+        method: operation === "Atualizar" ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          operation === "Atualizar" ? { ...request, id } : request
+        ),
+      });
 
-    if (type === "Atualizar") {
+      const { event: eventId } = await response.json();
+
       if (!eventId) {
-        router.back();
+        toast({
+          title: `Falha ao ${operation.toLowerCase()} o evento.`,
+          variant: "destructive",
+        });
         return;
       }
 
-      try {
-        const updatedEvent = await updateEvent({
-          userEmail,
-          event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
-          path: `/events/${eventId}`,
-        });
-
-        if (updatedEvent) {
-          form.reset();
-          router.push(`/events/${updatedEvent._id}`);
-        }
-      } catch (error) {
-        handleError(error);
-      } finally {
-        setIsLoading(false);
-      }
+      form.reset();
+      router.push(`/events/${eventId}`);
+      router.refresh();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -128,11 +166,11 @@ export const EventForm = ({ operation, }: EventFormProps) => {
           />
           <FormField
             control={form.control}
-            name="categoryId"
+            name="category"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Dropdown
+                  <CategoryDropdown
                     onChangeHandler={field.onChange}
                     value={field.value}
                   />
@@ -158,7 +196,7 @@ export const EventForm = ({ operation, }: EventFormProps) => {
           />
           <FormField
             control={form.control}
-            name="imageUrl"
+            name="thumbnail"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl className="h-72">
@@ -177,12 +215,12 @@ export const EventForm = ({ operation, }: EventFormProps) => {
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
-            name="location"
+            name="organizer"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Local do evento:</FormLabel>
+                <FormLabel>Nome do organizador:</FormLabel>
                 <FormControl>
-                  <Input placeholder="Local do evento ou Online" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -190,7 +228,7 @@ export const EventForm = ({ operation, }: EventFormProps) => {
           />
           <FormField
             control={form.control}
-            name="startDateTime"
+            name="startDate"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Data de Início:</FormLabel>
@@ -204,15 +242,12 @@ export const EventForm = ({ operation, }: EventFormProps) => {
 
           <FormField
             control={form.control}
-            name="endDateTime"
+            name="endDate"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Data de Término:</FormLabel>
                 <FormControl>
-                  <DatePicker
-                    value={field.value}
-                    onChange={(date: Date) => field.onChange(date)}
-                  />
+                  <DatePicker value={field.value} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -221,46 +256,41 @@ export const EventForm = ({ operation, }: EventFormProps) => {
         </div>
 
         <div className="flex flex-col justify-center gap-5 md:flex-row md:items-start">
-          <div className="w-full space-y-4">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Preço:</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="isFree"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <div className="flex items-center gap-2">
-                    <FormLabel>Ingresso Grátis:</FormLabel>
-                    <FormControl>
-                      <Checkbox
-                        onCheckedChange={field.onChange}
-                        checked={field.value}
-                        id="isFree"
-                      />
-                    </FormControl>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <FormField
             control={form.control}
-            name="url"
+            name="registrationLink"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Link:</FormLabel>
+                <FormLabel>Link de inscrição:</FormLabel>
+                <FormControl>
+                  <Input type="url" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="registrationFee"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Taxa de inscrição:</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-col justify-center gap-5 md:flex-row md:items-start">
+          <FormField
+            control={form.control}
+            name="communityInvitation"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Link de convite para comunidade:</FormLabel>
                 <FormControl>
                   <Input type="url" {...field} />
                 </FormControl>
@@ -284,7 +314,9 @@ export const EventForm = ({ operation, }: EventFormProps) => {
           />
         </div>
 
-        <LoadingButton isLoading={isLoading}>{`${type} Evento `}</LoadingButton>
+        <LoadingButton
+          isLoading={isLoading}
+        >{`${operation} evento`}</LoadingButton>
       </form>
     </Form>
   );

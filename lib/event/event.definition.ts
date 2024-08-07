@@ -8,6 +8,7 @@ export interface IEvent {
     reward: number;
     startDate: Date;
     endDate: Date;
+    registrationLink: string;
     registrationFee: number;
     communityInvitation: string;
     isFeatured: boolean;
@@ -21,15 +22,32 @@ export const eventFormSchema = z.object({
     thumbnail: z.string().url(),
     title: z.string(),
     description: z.string(),
-    reward: z.number().nonnegative(),
+    reward: z.coerce.number().nonnegative(),
     startDate: z.date(),
     endDate: z.date(),
-    registrationFee: z.number().nonnegative(),
+    registrationLink: z.string().url(),
+    registrationFee: z.coerce.number().nonnegative(),
     communityInvitation: z.string().url(),
     isFeatured: z.boolean(),
     category: z.string(),
     organizer: z.string(),
-    codaPages: z.array(z.string()),
+    // codaPages: z.array(z.string()),
+})
+
+export const eventFormRequest = z.object({
+    thumbnail: z.string().url(),
+    title: z.string(),
+    description: z.string(),
+    reward: z.coerce.number().nonnegative(),
+    startDate: z.date(),
+    endDate: z.date(),
+    registrationLink: z.string().url(),
+    registrationFee: z.coerce.number().nonnegative(),
+    communityInvitation: z.string().url(),
+    isFeatured: z.boolean(),
+    categoryId: z.string(),
+    organizerName: z.string(),
+    // codaPages: z.array(z.string()),
 })
 
 export type EventDocument = Document & IEvent;

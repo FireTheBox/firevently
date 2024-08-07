@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 import { connectToDatabase } from '../database';
 import { handleError } from '../utils';
 import { EventDocument, IEvent } from './event.definition';
@@ -55,7 +57,7 @@ export const getAllEvents = async ({
 
 export const getEventById = async (id: string): Promise<EventDocument | null> => {
     await connectToDatabase();
-    return await Event.findById(id)
+    return await Event.findById(new ObjectId(id))
         .populate('category')
         .populate('organizer')
         .populate('codaPages')
@@ -64,7 +66,7 @@ export const getEventById = async (id: string): Promise<EventDocument | null> =>
 
 export const updateEventById = async (id: string, data: Partial<Omit<IEvent, "codaPages">>): Promise<EventDocument | null> => {
     await connectToDatabase();
-    return await Event.findByIdAndUpdate(id, data, { new: true })
+    return await Event.findByIdAndUpdate(new ObjectId(id), data, { new: true })
         .populate('category')
         .populate('organizer')
         .populate('codaPages')
@@ -73,7 +75,7 @@ export const updateEventById = async (id: string, data: Partial<Omit<IEvent, "co
 
 export const deleteEventById = async (id: string): Promise<EventDocument | null> => {
     await connectToDatabase();
-    return await Event.findByIdAndDelete(id)
+    return await Event.findByIdAndDelete(new ObjectId(id))
         .populate('category')
         .populate('organizer')
         .populate('codaPages')

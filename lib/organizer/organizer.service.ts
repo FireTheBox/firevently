@@ -33,3 +33,8 @@ export const getOrganizerById = async (id: string): Promise<OrganizerDocument | 
     await connectToDatabase();
     return await Organizer.findById(new ObjectId(id)).populate('events').exec();
 };
+
+export const getOrganizerByName = async (name: string): Promise<OrganizerDocument | null> => {
+    await connectToDatabase();
+    return await Organizer.findOne({ name }).populate('events').exec();
+};

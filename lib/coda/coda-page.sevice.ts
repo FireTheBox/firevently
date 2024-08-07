@@ -1,30 +1,31 @@
-import { connectToDatabase } from '../database';
-import CodaPage from './coda-page.modal';
-import { CodaPage as CodaPageType } from './coda-page.type';
+import { ObjectId } from "mongodb";
 
-export const createCodaPage = async (data: CodaPageType): Promise<CodaPageType> => {
+import { connectToDatabase } from '../database';
+import { ICodaPage } from './coda-page.definition';
+import CodaPage from './coda-page.modal';
+
+export const createCodaPage = async (data: ICodaPage): Promise<ICodaPage> => {
     await connectToDatabase();
     const codaPage = new CodaPage(data);
     return await codaPage.save();
 };
 
-
-export const getAllCodaPages = async (): Promise<CodaPageType[]> => {
+export const getAllCodaPages = async (): Promise<ICodaPage[]> => {
     await connectToDatabase();
     return await CodaPage.find().populate('event').exec();
 };
 
-export const updateCodaPageById = async (id: string, data: Partial<CodaPageType>): Promise<CodaPageType | null> => {
+export const updateCodaPageById = async (id: string, data: Partial<ICodaPage>): Promise<ICodaPage | null> => {
     await connectToDatabase();
-    return await CodaPage.findByIdAndUpdate(id, data, { new: true }).populate('event').exec();
+    return await CodaPage.findByIdAndUpdate(new ObjectId(id), data, { new: true }).populate('event').exec();
 };
 
-export const deleteCodaPageById = async (id: string): Promise<CodaPageType | null> => {
+export const deleteCodaPageById = async (id: string): Promise<ICodaPage | null> => {
     await connectToDatabase();
-    return await CodaPage.findByIdAndDelete(id).populate('event').exec();
+    return await CodaPage.findByIdAndDelete(new ObjectId(id)).populate('event').exec();
 };
 
-export const getCodaPagesByEventId = async (eventId: string): Promise<CodaPageType[]> => {
+export const getCodaPagesByEventId = async (eventId: string): Promise<ICodaPage[]> => {
     await connectToDatabase();
     return await CodaPage.find({ event: eventId }).populate('event').exec();
 };

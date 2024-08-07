@@ -2,7 +2,7 @@ import { LucideLoader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import CategoryFilter from "@/components/shared/category-filter";
+import CategoryFilter from "@/components/shared/category/category-filter";
 import Collection from "@/components/shared/collection";
 import { FeaturedEvent } from "@/components/shared/events/featured-event";
 import Search from "@/components/shared/Search";

@@ -18,37 +18,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  createCategory,
-  getAllCategories,
-} from "@/lib/actions/category.actions";
-import { ICategory } from "@/lib/database/models/category.model";
+import { CategoryType } from "@/lib/category/category.definition";
 
-import { P } from "../typography/p";
-import { Input } from "../ui/input";
+import { P } from "../../typography/p";
+import { Input } from "../../ui/input";
 
 type DropdownProps = {
   value?: string;
   onChangeHandler?: () => void;
 };
 
-const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
+export const CategoryDropdown = ({ value, onChangeHandler }: DropdownProps) => {
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
   const handleAddCategory = () => {
-    createCategory({
-      categoryName: newCategory.trim(),
-    }).then((category) => {
-      setCategories((prevState) => [...prevState, category]);
-    });
+    fetch("/api/category", {
+      method: "POST",
+      body: JSON.stringify({ name: newCategory.trim() }),
+    })
+      .then((response) => response.json())
+      .then((category) => {
+        setCategories((prevState) => [...prevState, category]);
+      });
   };
 
   useEffect(() => {
     const getCategories = async () => {
-      const categoryList = await getAllCategories();
+      const response = await fetch("/api/category");
+      const categories = (await response.json()).categories;
 
-      categoryList && setCategories(categoryList as ICategory[]);
+      if (categories) {
+        setCategories(categories as CategoryType[]);
+      }
     };
 
     getCategories();
@@ -62,7 +64,7 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
       <SelectContent>
         {categories.length > 0 &&
           categories.map((category) => (
-            <SelectItem key={category._id} value={category._id}>
+            <SelectItem key={category.id} value={category.id}>
               <P>{category.name}</P>
             </SelectItem>
           ))}
@@ -97,5 +99,3 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
     </Select>
   );
 };
-
-export default Dropdown;

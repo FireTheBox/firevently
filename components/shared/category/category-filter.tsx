@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,43 +10,43 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getAllCategories } from "@/lib/actions/category.actions";
-import { ICategory } from "@/lib/database/models/category.model";
+import { CategoryType } from "@/lib/category/category.definition";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 const CategoryFilter = () => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const getCategories = async () => {
-      const categoryList = await getAllCategories();
+      const response = await fetch("/api/category");
+      const categories = (await response.json()).categories
 
-      return categoryList && setCategories(categoryList as ICategory[]);
-    }
+      return categories && setCategories(categories as CategoryType[]);
+    };
 
     getCategories();
-  }, [])
+  }, []);
 
   const onSelectCategory = (category: string) => {
-      let newUrl = '';
+    let newUrl = "";
 
-      if(category && category !== 'All') {
-        newUrl = formUrlQuery({
-          params: searchParams.toString(),
-          key: 'category',
-          value: category
-        })
-      } else {
-        newUrl = removeKeysFromQuery({
-          params: searchParams.toString(),
-          keysToRemove: ['category']
-        })
-      }
+    if (category && category !== "All") {
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "category",
+        value: category,
+      });
+    } else {
+      newUrl = removeKeysFromQuery({
+        params: searchParams.toString(),
+        keysToRemove: ["category"],
+      });
+    }
 
-      router.push(newUrl, { scroll: false });
-  }
+    router.push(newUrl, { scroll: false });
+  };
 
   return (
     <Select onValueChange={(value: string) => onSelectCategory(value)}>
@@ -57,13 +57,13 @@ const CategoryFilter = () => {
         <SelectItem value="All">Tudo</SelectItem>
 
         {categories.map((category) => (
-          <SelectItem value={category.name} key={category._id}>
+          <SelectItem value={category.name} key={category.id}>
             {category.name}
           </SelectItem>
         ))}
       </SelectContent>
     </Select>
-  )
-}
+  );
+};
 
-export default CategoryFilter
+export default CategoryFilter;
