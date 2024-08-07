@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={`${nunito.className} min-h-screen`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

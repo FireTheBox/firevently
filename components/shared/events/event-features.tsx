@@ -9,12 +9,11 @@ import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 
 interface EventFeaturesProps {
-  reward: string;
-  isFree: boolean;
-  price: string;
+  reward: number;
+  registrationFee: number;
 }
 
-export const EventFeatures = ({ reward, isFree }: EventFeaturesProps) => {
+export const EventFeatures = ({ reward, registrationFee }: EventFeaturesProps) => {
   const [numberOfParticipants, setNumberOfParticipants] = useState<number>(0);
   const [numberOfProjects, setNumberOfProjects] = useState<number>(0);
 
@@ -44,11 +43,11 @@ export const EventFeatures = ({ reward, isFree }: EventFeaturesProps) => {
       <div className="col-span-3 h-px w-full bg-secondary-foreground md:col-span-1 md:h-full md:w-px" />
       <li className="text-center">
         <Large>{formatCurrency(Number(reward))}</Large>
-        <Muted>Premiação</Muted>
+        <Muted>Em premiação</Muted>
       </li>
       <div className="hidden bg-secondary-foreground md:block md:h-full md:w-px" />
       <li className="text-center">
-        <Large>{isFree ? "Free" : formatCurrency(Number(reward))}</Large>
+        <Large>{registrationFee === 0 ? "Free" : formatCurrency(registrationFee)}</Large>
         <Muted>Inscrição</Muted>
       </li>
     </ul>

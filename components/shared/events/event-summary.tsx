@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { Session } from "next-auth";
 import { Suspense, useEffect, useState } from "react";
 
 import { EventBanner } from "@/components/shared/events/event-banner";
 import { EventCodeCard } from "@/components/shared/events/event-code-card";
 import { JoinEventDialog } from "@/components/shared/events/join-event-dialog";
-import OrganizationInfo from "@/components/shared/events/organization-info";
 import { H2 } from "@/components/typography/h2";
 import { Lead } from "@/components/typography/lead";
 import { Muted } from "@/components/typography/muted";
@@ -20,10 +20,13 @@ import {
 import { getParticipants } from "@/lib/coda/get-participants.action";
 import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
+import { EventDocument } from "@/lib/event/event.definition";
+import { OrganizerDocument } from "@/lib/organizer/organizer.definition";
+import { getUserEmail } from "@/lib/session";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
-import LePoli from "@/public/assets/images/lepoli.png";
 
 import { LoadingButton } from "../loading-button";
+import { OrganizerCard } from "../organizer/organizer-card";
 import { Stat } from "./event-stat";
 
 function isRegistrationPeriod(startDateTime: any) {
@@ -31,13 +34,15 @@ function isRegistrationPeriod(startDateTime: any) {
 }
 
 interface EventSummaryProps {
-  event: any;
-  email?: string;
+  event: EventDocument;
+  session: Session | null;
 }
 
-export const EventSummary = ({ event, email }: EventSummaryProps) => {
+export const EventSummary = ({ event, session }: EventSummaryProps) => {
   const [participants, setParticipants] = useState<string[]>([]);
   const [numberOfProjects, setNumberOfProjects] = useState<number>(0);
+
+  const email = getUserEmail(session)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,25 +54,15 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
     };
 
     fetchData();
-  }, []);
+  }, [participants, numberOfProjects]);
 
-  const {
-    _id,
-    imageUrl,
-    startDateTime,
-    title,
-    description,
-    category,
-    reward,
-    isFree,
-    url,
-  } = event;
+  const { id, thumbnail, title, description, startDate, category, registrationFee, reward, communityInvitation } = event;
 
   return (
     <section className="flex flex-col items-center gap-8 overflow-hidden border-b border-muted py-8 xl:flex-row xl:items-start xl:gap-16 xl:py-16">
       <EventBanner
-        image={imageUrl}
-        startAt={new Date(Date.parse(startDateTime))}
+        image={thumbnail}
+        startAt={startDate}
       />
       <Card className="w-full space-y-6 border-none xl:w-fit">
         <CardHeader className="p-0 md:px-6">
@@ -75,18 +70,16 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             <H2>{title}</H2>
             <div className="flex w-fit items-center gap-2.5 rounded-lg border border-secondary-foreground bg-secondary p-3">
               <span className="text-xs font-bold text-secondary-foreground">
-                {category.name}
+                {category}
               </span>
             </div>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col space-y-6 px-0 md:px-6">
           <div className="my-10 flex flex-col justify-between gap-5 md:flex-row">
-            <OrganizationInfo
-              logo={LePoli}
-              title="Liga de Empreendedorismo da Poli-USP"
-            />
-            <EventCodeCard logo={EventCodeImage} code={_id} />
+            {/* FIXME */}
+            <OrganizerCard organizer={{} as OrganizerDocument} />
+            <EventCodeCard logo={EventCodeImage} code={id} />
           </div>
           <div className="space-y-2">
             <Muted>Descrição</Muted>
@@ -105,23 +98,23 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             />
             <Stat
               label="Premiação"
-              value={formatCurrency(Number(reward))}
+              value={formatCurrency(reward)}
               iconName="dollar-sign"
             />
             <Stat
               label=""
-              value={isFree ? "Free" : formatCurrency(Number(reward))}
+              value={registrationFee === 0 ? "Free" : formatCurrency(registrationFee)}
               iconName="ticket"
             />
           </div>
         </CardContent>
         <CardFooter>
           <div className="flex w-full flex-col justify-between gap-4 pt-4 sm:flex-row">
-            {isRegistrationPeriod(startDateTime) && (
+            {isRegistrationPeriod(startDate) && (
               <Suspense fallback={<LoadingButton isLoading={true} />}>
                 <JoinEventDialog
                   email={email}
-                  eventId={_id}
+                  eventId={id}
                   eventName={title}
                   participants={participants}
                 />
@@ -133,7 +126,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
                 className="w-full md:w-[300px]"
                 variant="outline"
               >
-                <Link href={url}>Entrar para comunidade</Link>
+                <Link href={communityInvitation}>Entrar para comunidade</Link>
               </Button>
             ) : (
               <Button
@@ -141,8 +134,9 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
                 className="w-full md:w-[300px]"
                 variant="outline"
               >
+                {/* FIXME */}
                 <Link
-                  href={`https://wa.me/5516991998744?text=Quero%20saber%20mais%20sobre%20a%20Garagem%20de%20Startups%202024`}
+                  href={``}
                 >
                   Conversar com o organizador
                 </Link>

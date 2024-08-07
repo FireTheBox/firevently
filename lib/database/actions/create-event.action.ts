@@ -7,7 +7,7 @@ import { findUserByEmail } from '@/lib/user/find-by-email.action';
 import { handleError } from '@/lib/utils';
 
 import { connectToDatabase } from '../index';
-import Event from '../models/event.model';
+import Event from '../../event/event.model';
 
 export interface CreateEventParams {
     userEmail: string

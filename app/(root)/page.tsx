@@ -4,6 +4,7 @@ import { Suspense } from "react";
 
 import CategoryFilter from "@/components/shared/category-filter";
 import Collection from "@/components/shared/collection";
+import { FeaturedEvent } from "@/components/shared/events/featured-event";
 import Search from "@/components/shared/Search";
 import { H1 } from "@/components/typography/h1";
 import { H2 } from "@/components/typography/h2";
@@ -12,10 +13,9 @@ import { P } from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
 import { SearchParamProps } from "@/types";
 
-import { HighlightEvent } from "./highlight-event";
-import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
+import { SkeletonFeaturedEvent } from "../../components/shared/events/skeleton-featured-event";
 
-export default function Home({ searchParams }: SearchParamProps) {
+export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
   const searchText = (searchParams?.query as string) || "";
   const category = (searchParams?.category as string) || "";
@@ -43,13 +43,8 @@ export default function Home({ searchParams }: SearchParamProps) {
             </div>
           </div>
 
-          <Suspense fallback={<SkeletonHighlightEvent />}>
-            <HighlightEvent
-              page={page}
-              category={category}
-              query={searchText}
-              limit={6}
-            />
+          <Suspense fallback={<SkeletonFeaturedEvent />}>
+            <FeaturedEvent />
           </Suspense>
         </div>
       </section>

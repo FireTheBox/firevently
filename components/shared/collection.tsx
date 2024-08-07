@@ -1,5 +1,4 @@
-import { getAllEvents } from "@/lib/actions/event.actions";
-import { IEvent } from "@/lib/database/models/event.model";
+import { getAllEvents } from "@/lib/event/event.service";
 
 import { H3 } from "../typography/h3";
 import { P } from "../typography/p";
@@ -23,7 +22,7 @@ const Collection = async ({
   page,
   limit,
 }: CollectionProps) => {
-  const events = await getAllEvents({
+  const { data, totalPages } = await getAllEvents({
     query,
     category,
     page,
@@ -32,23 +31,23 @@ const Collection = async ({
 
   return (
     <>
-      {events?.data ? (
+      {data.length > 0 ? (
         <div className="flex flex-col items-center gap-10">
           <ul className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
-            {(events.data as IEvent[]).map((event) => {
+            {data.map((event) => {
               return (
-                <li key={event._id} className="flex justify-center">
+                <li key={event.id} className="flex justify-center">
                   <EventCard event={event} canManage />
                 </li>
               );
             })}
           </ul>
 
-          {events.totalPages > 1 && (
+          {totalPages > 1 && (
             <Pagination
               urlParamName={query}
               page={page}
-              totalPages={events.totalPages}
+              totalPages={totalPages}
             />
           )}
         </div>
