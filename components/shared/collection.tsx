@@ -38,7 +38,7 @@ const Collection = async ({
             {(events.data as IEvent[]).map((event) => {
               return (
                 <li key={event._id} className="flex justify-center">
-                  <EventCard event={event} canManage />
+                  <EventCard event={event} />
                 </li>
               );
             })}
