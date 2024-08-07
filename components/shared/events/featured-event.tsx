@@ -9,61 +9,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getAllEvents } from "@/lib/actions/event.actions";
+import { getFeaturedEvent } from "@/lib/event/event.service";
 
 import { EventFeatures } from "./event-features";
 import { EventThumbnail } from "./event-thumbnail";
-import { SkeletonHighlightEvent } from "./skeleton-highlight-event";
+import { SkeletonFeaturedEvent } from "./skeleton-featured-event";
 
-interface HighlightEventProps {
-  query: string;
-  category: string;
-  page: number;
-  limit: number;
-}
+export const FeaturedEvent = async () => {
+  
+  const featuredEvent = await getFeaturedEvent()
 
-export const HighlightEvent = async ({
-  query,
-  category,
-  page,
-  limit,
-}: HighlightEventProps) => {
-  const events = await getAllEvents({
-    query,
-    category,
-    page,
-    limit,
-  });
-
-  const lastEvent = events?.data.sort(function (a: any, b: any) {
-    return (
-      Date.parse(b.startDateTime as string) -
-      Date.parse(a.startDateTime as string)
-    );
-  })[0];
-
-  if (!lastEvent) {
-    return <SkeletonHighlightEvent />;
+  if (!featuredEvent) {
+    return <SkeletonFeaturedEvent />;
   }
 
   const {
     _id,
     title,
     description,
-    imageUrl,
-    startDateTime,
-    price,
-    isFree,
+    thumbnail,
+    startDate,
     reward,
-  } = lastEvent;
+    registrationFee
+  } = featuredEvent;
 
   return (
     <div className="col-span-3 flex flex-col items-start gap-6 rounded-lg bg-primary/5 p-6">
       <div className="flex flex-col items-center lg:flex-row lg:gap-6">
         <EventThumbnail
-          image={imageUrl}
+          image={thumbnail}
           name={title}
-          startAt={new Date(Date.parse(startDateTime))}
+          startAt={startDate}
         />
         <Card className="w-full border-none bg-transparent shadow-none lg:basis-1/2">
           <CardHeader className="px-0">
@@ -79,7 +55,7 @@ export const HighlightEvent = async ({
           </CardFooter>
         </Card>
       </div>
-      <EventFeatures reward={reward} isFree={isFree} price={price} />
+      <EventFeatures reward={reward} registrationFee={registrationFee} />
     </div>
   );
 };

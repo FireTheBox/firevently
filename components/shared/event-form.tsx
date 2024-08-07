@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { eventDefaultValues } from "@/constants";
 import { createEvent } from "@/lib/database/actions/create-event.action";
 import { updateEvent } from "@/lib/database/actions/update-event.action";
-import { IEvent } from "@/lib/database/models/event.model";
+import { IEvent } from "@/lib/event/event.model";
 import { useUploadThing } from "@/lib/uploadthing";
 import { handleError } from "@/lib/utils";
 import { eventFormSchema } from "@/lib/validator";
@@ -31,23 +31,14 @@ import { FileUploader } from "./file-uploader";
 import { LoadingButton } from "./loading-button";
 
 type EventFormProps = {
-  userEmail: string;
-  type: "Criar" | "Atualizar";
-  event?: IEvent;
+  operation: "Atualizar" | "Criar";
 };
 
-export const EventForm = ({ userEmail, type, event }: EventFormProps) => {
-  const [files, setFiles] = useState<File[]>([]);
-  const initialValues =
-    event && type === "Atualizar"
-      ? {
-          ...event,
-          startDateTime: new Date(event.startDateTime),
-          endDateTime: new Date(event.endDateTime),
-        }
-      : eventDefaultValues;
+export const EventForm = ({ operation, }: EventFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [files, setFiles] = useState<File[]>([]);
 
   const { startUpload } = useUploadThing("imageUploader");
 

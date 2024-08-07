@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import { CodaTabs } from "@/components/shared/coda-tabs";
 import { EventSummary } from "@/components/shared/events/event-summary";
 import { getEventById } from "@/lib/actions/event.actions";
@@ -26,13 +28,51 @@ const embeds = [
   },
 ];
 
-interface EventDetails {
+interface EventDetailsProps {
   params: {
     id: string;
   };
 }
 
-const EventDetails = async ({ params: { id } }: EventDetails) => {
+export async function generateMetadata({
+  params,
+}: EventDetailsProps): Promise<Metadata> {
+  const id = params.id;
+
+  const event = await getEventById(id);
+
+  return {
+    title: event.title,
+    openGraph: {
+      title: event.title,
+      description: event.description,
+      url: `https://app.firethebox.com/events/${id}`,
+      siteName: "FireTheBox",
+      images: [
+        {
+          width: 430,
+          height: 530,
+          url: event.imageUrl,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description: event.description,
+      images: [
+        {
+          width: 430,
+          height: 530,
+          url: event.imageUrl,
+        },
+      ],
+      site: `https://app.firethebox.com/events/${id}`,
+    },
+  };
+}
+
+const EventDetails = async ({ params: { id } }: EventDetailsProps) => {
   const session = await getSession();
   const event = await getEventById(id);
 

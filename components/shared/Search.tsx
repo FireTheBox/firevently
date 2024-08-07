@@ -41,7 +41,7 @@ const Search = ({
   }, [query, searchParams, router]);
 
   return (
-    <div className="flex h-14 w-full items-center rounded-md border border-input bg-secondary px-4 py-2 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-1 lg:w-[300px]">
+    <div className="flex h-14 w-full items-center rounded-md border border-input bg-secondary px-4 py-2 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1 focus-within:ring-offset-background lg:w-[300px]">
       <LucideSearch size={24} />
       <Input
         type="text"

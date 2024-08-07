@@ -1,5 +1,4 @@
 import Image, { StaticImageData } from "next/image";
-import React from "react";
 
 import { Large } from "@/components/typography/large";
 
@@ -10,7 +9,7 @@ interface EventCodeCardProps {
   code: string;
 }
 
-const EventCodeCard: React.FC<EventCodeCardProps> = ({ logo, code }) => {
+export function EventCodeCard({ logo, code }: EventCodeCardProps) {
   return (
     <div className="flex h-20 w-fit items-center justify-start gap-3.5">
       <Image
@@ -24,6 +23,4 @@ const EventCodeCard: React.FC<EventCodeCardProps> = ({ logo, code }) => {
       </div>
     </div>
   );
-};
-
-export { EventCodeCard };
+}

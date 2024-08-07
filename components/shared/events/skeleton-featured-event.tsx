@@ -6,9 +6,9 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const SkeletonHighlightEvent = () => {
+export const SkeletonFeaturedEvent = () => {
   return (
-    <div className="col-span-3 flex w-full items-end rounded-lg bg-primary/5 p-8">
+    <div className="col-span-3 flex w-full items-end rounded-lg bg-foreground/10 p-8">
       <Card className="w-full border-none bg-transparent shadow-none">
         <CardHeader>
           <Skeleton className="h-8 w-3/4" />
