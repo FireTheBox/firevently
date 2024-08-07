@@ -51,7 +51,7 @@ export function JoinEventDialog({
         <DialogHeader>
           <DialogTitle>{eventName}</DialogTitle>
         </DialogHeader>
-        <TallyFrame embedUrl="https://tally.so/r/mV827y" />
+        <TallyFrame embedUrl={eventId === "66b3bdfa0d97c5415ee6c2be" ? "https://tally.so/r/wgLGMN" : "https://tally.so/r/mV827y"} />
       </DialogContent>
     </Dialog>
   );

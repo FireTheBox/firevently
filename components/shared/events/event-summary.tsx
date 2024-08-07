@@ -22,6 +22,7 @@ import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
+import Gathering from "@/public/assets/images/Logo_Gathering.png";
 
 import { LoadingButton } from "../loading-button";
 import { Stat } from "./event-stat";
@@ -41,8 +42,8 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const participants = await getParticipants();
-      const projects = await getProjectsCount();
+      const participants = await getParticipants(event._id);
+      const projects = await getProjectsCount(event._id);
 
       setParticipants(participants ?? []);
       setNumberOfProjects(projects ?? 0);
@@ -82,10 +83,17 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
         </CardHeader>
         <CardContent className="flex flex-col space-y-6 px-0 md:px-6">
           <div className="my-10 flex flex-col justify-between gap-5 md:flex-row">
-            <OrganizationInfo
-              logo={LePoli}
-              title="Liga de Empreendedorismo da Poli-USP"
-            />
+            {_id === "66b3bdfa0d97c5415ee6c2be" ? (
+              <OrganizationInfo
+                logo={Gathering}
+                title="Planetiers World Gathering"
+              />
+            ) : (
+              <OrganizationInfo
+                logo={LePoli}
+                title="Liga de Empreendedorismo da Poli-USP"
+              />
+            )}
             <EventCodeCard logo={EventCodeImage} code={_id} />
           </div>
           <div className="space-y-2">
@@ -105,7 +113,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             />
             <Stat
               label="Premiação"
-              value={formatCurrency(Number(reward))}
+              value={_id === "66b3bdfa0d97c5415ee6c2be" ? "Mentoria com Nguzu" : formatCurrency(Number(reward))}
               iconName="dollar-sign"
             />
             <Stat
@@ -142,7 +150,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
                 variant="outline"
               >
                 <Link
-                  href={`https://wa.me/5516991998744?text=Quero%20saber%20mais%20sobre%20a%20Garagem%20de%20Startups%202024`}
+                  href={_id === "66b3bdfa0d97c5415ee6c2be" ? "https://wa.me/5581987678051?text=Gostaria%20de%20tirar%20algumas%20dúvidas%20sobre%20o%20Ideathon%20Shaping%20The%20World%202024" : "https://wa.me/5516991998744?text=Quero%20saber%20mais%20sobre%20a%20Garagem%20de%20Startups%202024"}
                 >
                   Conversar com o organizador
                 </Link>
