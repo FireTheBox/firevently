@@ -31,7 +31,7 @@ export default async function UpdateOrganizer({
     return <OrganizerNotFound />;
   }
 
-  const { name, logo, contact } = organizer;
+  const { name, logo, email, contact } = organizer;
 
   return (
     <Card className="mx-auto mt-20 max-w-xl">
@@ -44,6 +44,7 @@ export default async function UpdateOrganizer({
           id={organizerId}
           name={name}
           logo={logo}
+          email={email}
           contact={contact}
         />
       </CardContent>

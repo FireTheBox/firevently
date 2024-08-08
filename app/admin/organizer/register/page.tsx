@@ -18,7 +18,7 @@ export default async function CreateOrganizer() {
         <CardTitle>Registrar Organizador</CardTitle>
       </CardHeader>
       <CardContent>
-        <OrganizerForm />
+        <OrganizerForm operation="Registrar" />
       </CardContent>
     </Card>
   );

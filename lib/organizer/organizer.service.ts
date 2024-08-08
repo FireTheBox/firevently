@@ -36,5 +36,8 @@ export const getOrganizerById = async (id: string): Promise<OrganizerDocument | 
 
 export const getOrganizerByName = async (name: string): Promise<OrganizerDocument | null> => {
     await connectToDatabase();
-    return await Organizer.findOne({ name }).populate('events').exec();
+    const trimmedName = name.trim();
+    const regex = new RegExp(`^${trimmedName}$`, 'i'); 
+
+    return await Organizer.findOne({ name: { $regex: regex }}).populate('events').exec();
 };

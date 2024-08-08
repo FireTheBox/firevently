@@ -1,26 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
+import { organizerFormSchema } from "@/lib/organizer/organizer.definition";
 import { createOrganizer, updateOrganizerById } from "@/lib/organizer/organizer.service";
+import { handleError } from "@/lib/utils";
 
 export async function POST(request: NextRequest) {
-    const { name, logo, contact } = await request.json();
+    const data = await request.json();
+    let organizer: z.infer<typeof organizerFormSchema>;
 
-    if (!name || !logo || !contact) {
-        return NextResponse.json(
-            {
-                error: "'name', 'logo' e 'contact' são campos obrigatórios"
-            },
-            {
-                status: 400
-            }
-        )
+    try {
+        organizer = organizerFormSchema.parse(data);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            console.error("Validation errors:", error.errors);
+            return NextResponse.json({ error: error.errors }, { status: 400 });
+        }
+
+        handleError(error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
-    const organizer = await createOrganizer({ name, logo, contact });
+    const createdOrganizer = await createOrganizer(organizer);
 
     return NextResponse.json(
         {
-            organizer: organizer.id
+            organizer: createdOrganizer.id
         },
         {
             status: 201
@@ -29,20 +34,22 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-    const { id, name, logo, contact } = await request.json();
+    const { id, ...data } = await request.json();
+    let organizer: z.infer<typeof organizerFormSchema>;
 
-    if (!id || !name || !logo || !contact) {
-        return NextResponse.json(
-            {
-                error: "'id', 'name', 'logo' e 'contact' são campos obrigatórios"
-            },
-            {
-                status: 400
-            }
-        )
+    try {
+        organizer = organizerFormSchema.parse(data);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            console.error("Validation errors:", error.errors);
+            return NextResponse.json({ error: error.errors }, { status: 400 });
+        }
+
+        handleError(error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
-    const updatedOrganizer = await updateOrganizerById(id, { name, logo, contact });
+    const updatedOrganizer = await updateOrganizerById(id, organizer);
 
     if (!updatedOrganizer) {
         return NextResponse.json(

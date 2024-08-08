@@ -27,6 +27,7 @@ interface OrganizerFormProps {
   operation: "Atualizar" | "Registrar";
   id?: string;
   name?: string;
+  email?: string;
   logo?: string;
   contact?: string;
 }
@@ -35,6 +36,7 @@ export const OrganizerForm = ({
   operation,
   id,
   name,
+  email,
   logo,
   contact,
 }: OrganizerFormProps) => {
@@ -48,9 +50,10 @@ export const OrganizerForm = ({
   const form = useForm<z.infer<typeof organizerFormSchema>>({
     resolver: zodResolver(organizerFormSchema),
     defaultValues: {
-      name: name,
-      logo: logo,
-      contact: contact,
+      name: name || "",
+      logo: logo || "",
+      email: email || "",
+      contact: contact || "",
     },
   });
 
@@ -73,6 +76,7 @@ export const OrganizerForm = ({
       const request = {
         name: values.name,
         logo: uploadedLogoUrl,
+        email: values.email,
         contact: values.contact,
       };
 
@@ -133,6 +137,20 @@ export const OrganizerForm = ({
                   imageUrl={field.value}
                   setFiles={setFiles}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>E-mail:</FormLabel>
+              <FormControl>
+                <Input type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

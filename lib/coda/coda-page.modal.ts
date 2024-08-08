@@ -1,11 +1,13 @@
 import { Model, model, models, Schema } from "mongoose";
 
+import { codaPageTypes } from "@/constants";
+
 import { ICodaPage } from "./coda-page.definition";
 
 export type CodaPageModel = Model<ICodaPage>;
 
 const CodaPageSchema = new Schema({
-    type: { type: String, enum: ["Detalhes", "Projetos", "Cronograma", "Participants"], require: true },
+    type: { type: String, enum: codaPageTypes, require: true },
     url: { type: String, require: true },
     tableId: { type: String },
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { AuthMethodSeparator } from "@/auth/auth-method-separator";
-import { ProviderSignInForm } from "@/auth/provider-sign-in-form";
-import { SignUpForm } from "@/auth/sign-up-form";
+import { AuthMethodSeparator } from "@/components/shared/auth/auth-method-separator";
+import { ProviderSignInForm } from "@/components/shared/auth/provider-sign-in-form";
+import { SignUpForm } from "@/components/shared/auth/sign-up-form";
 import { Muted } from "@/components/typography/muted";
 import {
   Card,

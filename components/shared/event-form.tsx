@@ -72,7 +72,6 @@ export const EventForm = ({
       thumbnail: thumbnail || "",
       title: title || "",
       description: description || "",
-      category: categoryName || "",
       startDate: startDate || new Date(),
       endDate: endDate || new Date(),
       reward: reward || 0,
@@ -80,7 +79,8 @@ export const EventForm = ({
       registrationFee: registrationFee || 0,
       communityInvitation: communityInvitation || "",
       isFeatured: isFeatured || false,
-      organizer: organizerName || "",
+      category: categoryName,
+      organizer: organizerName,
     },
   });
 
@@ -136,7 +136,7 @@ export const EventForm = ({
       }
 
       form.reset();
-      router.push(`/events/${eventId}`);
+      router.push(`/admin/events/update/${eventId}`);
       router.refresh();
     } catch (error) {
       handleError(error);
