@@ -4,7 +4,7 @@ import { EventCardThumbnail } from "@/app/(root)/event-card-thumbnail";
 import { formatCurrency } from "@/lib/currency";
 import { IEvent } from "@/lib/database/models/event.model";
 import LePoli from "@/public/assets/images/lepoli.png";
-import Gathering from "@/public/assets/images/Logo_Gathering.png";
+import Gathering from "@/public/assets/images/nguzu-gathering.png";
 
 import { Muted } from "../typography/muted";
 import { P } from "../typography/p";
@@ -39,7 +39,7 @@ export const EventCard = async ({ event }: CardProps) => {
         {event._id === "66b3bdfa0d97c5415ee6c2be" ? (
           <OrganizationInfo
             logo={Gathering}
-            title="Planetiers World Gathering"
+            title="Planetiers + Nguzu"
           />
         ) : (
           <OrganizationInfo

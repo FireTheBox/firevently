@@ -22,7 +22,7 @@ import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 import EventCodeImage from "@/public/assets/images/event-code-image.png";
 import LePoli from "@/public/assets/images/lepoli.png";
-import Gathering from "@/public/assets/images/Logo_Gathering.png";
+import Gathering from "@/public/assets/images/nguzu-gathering.png";
 
 import { LoadingButton } from "../loading-button";
 import { Stat } from "./event-stat";
@@ -86,7 +86,7 @@ export const EventSummary = ({ event, email }: EventSummaryProps) => {
             {_id === "66b3bdfa0d97c5415ee6c2be" ? (
               <OrganizationInfo
                 logo={Gathering}
-                title="Planetiers World Gathering"
+                title="Planetiers + Nguzu"
               />
             ) : (
               <OrganizationInfo
