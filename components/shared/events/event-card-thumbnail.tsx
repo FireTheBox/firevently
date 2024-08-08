@@ -44,7 +44,7 @@ export const EventCardThumbnail = ({
         alt={name}
         width={300}
         height={300}
-        className="absolute size-full rounded-lg object-cover"
+        className="absolute aspect-square h-full rounded-lg object-cover"
       />
       {timeLeft.some((value) => Number(value)) && (
         <Badge className="absolute left-3 top-3 rounded-lg bg-green-500">
