@@ -38,8 +38,6 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
 
   const category = await getCategoryById(event.id);
 
-  console.log(category)
-
   return (
     <section className="space-y-4 py-5 md:py-10">
       <H3>Atualizar Evento</H3>

@@ -87,15 +87,25 @@ export const CodaPageForm = ({ eventId }: CodaPageFormProps) => {
         }),
       });
 
-      const { codaPage: codaPageId } = await response.json();
+      const { codaPage } = await response.json();
 
-      if (!codaPageId) {
+      if (!codaPage) {
         toast({
           title: `Falha ao registrar a página do Coda.`,
           variant: "destructive",
         });
         return;
       }
+
+      fetch(`/api/coda/events/${eventId}`)
+        .then((response) => response.json())
+        .then((result) =>
+          setCodaPages(result.codaPages satisfies ICodaPageWithId[])
+        )
+        .catch((error) => {
+          setCodaPages([]);
+          handleError(error);
+        });
 
       form.reset();
     } catch (error) {

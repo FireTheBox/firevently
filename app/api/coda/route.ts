@@ -47,12 +47,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-    const { pageId } = await request.json()
+    const { pageId, currentPath } = await request.json()
 
-    if (!pageId) {
+    if (!pageId || !currentPath) {
         return NextResponse.json(
             {
-                error: "ID da página é obrigatório"
+                error: "Todos os campos são obrigatórios."
             },
             {
                 status: 400
@@ -60,12 +60,29 @@ export async function DELETE(request: NextRequest) {
         )
     }
 
-    await deleteCodaPageById(pageId);
+    const codaPage = await deleteCodaPageById(pageId);
+
+    if (!codaPage) {
+        return NextResponse.json(
+            {
+                error: "Falha ao excluir a página do coda."
+            },
+            {
+                status: 500
+            }
+        )
+    }
 
     return NextResponse.json(
-        {},
         {
-            status: 203
+            id: codaPage.id,
+            type: codaPage.type,
+            url: codaPage.url,
+            tableId: codaPage.tableId,
+            event: codaPage.event,
+        },
+        {
+            status: 201
         }
     )
 }

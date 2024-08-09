@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { LucideTrash2 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { ICodaPageWithId } from "@/lib/coda/coda-page.definition";
@@ -22,18 +23,24 @@ export const columns: ColumnDef<ICodaPageWithId>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const pathname = usePathname();
+      const router = useRouter();
       const codaPage = row.original;
 
       return (
         <Button
           variant="ghost"
           size={"icon"}
-          onClick={() =>
+          onClick={() => {
             fetch("/api/coda", {
               method: "DELETE",
-              body: JSON.stringify({ pageId: codaPage.id }),
+              body: JSON.stringify({
+                pageId: codaPage.id,
+                currentPath: pathname,
+              }),
             })
-          }
+            .then(() => router.refresh());
+          }}
         >
           <LucideTrash2 />
         </Button>
