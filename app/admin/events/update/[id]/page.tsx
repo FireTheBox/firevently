@@ -36,7 +36,9 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
     return <NotFound />;
   }
 
-  const categoryName = (await getCategoryById(event.id))?.name ?? "";
+  const category = await getCategoryById(event.id);
+
+  console.log(category)
 
   return (
     <section className="space-y-4 py-5 md:py-10">
@@ -54,7 +56,7 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
         registrationFee={event.registrationFee}
         communityInvitation={event.communityInvitation}
         isFeatured={event.isFeatured}
-        categoryName={categoryName}
+        categoryName={category?.name}
         organizerName={organizer?.name}
       />
       <Separator />

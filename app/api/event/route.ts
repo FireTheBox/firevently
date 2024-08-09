@@ -8,43 +8,15 @@ import { getOrganizerByName, updateOrganizerById } from "@/lib/organizer/organiz
 import { handleError } from "@/lib/utils";
 
 export async function POST(request: NextRequest) {
-    let data;
+    let event: z.infer<typeof eventFormRequest>;
 
     try {
-        const {
-            thumbnail,
-            title,
-            description,
-            categoryId,
-            communityInvitation,
-            startDate,
-            endDate,
-            registrationLink,
-            registrationFee,
-            reward,
-            isFeatured,
-            organizerName
-        } = await request.json();
+        const data = await request.json();
 
-        data = eventFormRequest.parse({
-            thumbnail,
-            title,
-            description,
-            categoryId,
-            communityInvitation,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
-            registrationLink,
-            registrationFee,
-            reward,
-            isFeatured,
-            organizerName
-        });
-
+        event = eventFormRequest.parse(data);
     } catch (error) {
         if (error instanceof z.ZodError) {
-            console.error("Validation errors:", error.errors);
-            return NextResponse.json({ errors: error.errors }, { status: 400 });
+            return NextResponse.json({ error: error.errors }, { status: 400 });
         }
 
         handleError(error);
@@ -62,7 +34,7 @@ export async function POST(request: NextRequest) {
         registrationFee,
         reward,
         isFeatured,
-        organizerName } = data;
+        organizerName } = event;
 
     const organizer = await getOrganizerByName(organizerName);
 
@@ -90,7 +62,7 @@ export async function POST(request: NextRequest) {
         )
     }
 
-    const event = await createEvent({
+    const createdEvent = await createEvent({
         thumbnail,
         title,
         description,
@@ -107,7 +79,7 @@ export async function POST(request: NextRequest) {
 
     const updatedOrganizer = await updateOrganizerById(
         organizer.id,
-        { events: [...organizer.events, event.id] }
+        { events: [...organizer.events, createdEvent.id] }
     )
 
     if (!updatedOrganizer) {
@@ -123,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
         {
-            event: event.id
+            event: createdEvent.id
         },
         {
             status: 201
@@ -132,24 +104,24 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-    const {
-        id,
-        thumbnail,
-        title,
-        description,
-        categoryId,
-        communityInvitation,
-        startDate,
-        endDate,
-        registrationLink,
-        registrationFee,
-        reward,
-        isFeatured,
-        organizerName
-    } = await request.json();
+    let event: z.infer<typeof eventFormRequest>;
+    let eventId: string;
 
-    if ([id,
-        thumbnail,
+    try {
+        const { id, ...data } = await request.json();
+
+        event = eventFormRequest.parse(data);
+        eventId = id;
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return NextResponse.json({ error: error.errors }, { status: 400 });
+        }
+
+        handleError(error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
+
+    const { thumbnail,
         title,
         description,
         categoryId,
@@ -160,16 +132,7 @@ export async function PUT(request: NextRequest) {
         registrationFee,
         reward,
         isFeatured,
-        organizerName].some(value => Boolean(value) === false)) {
-        return NextResponse.json(
-            {
-                error: "Todos os campos são campos obrigatórios"
-            },
-            {
-                status: 400
-            }
-        )
-    }
+        organizerName } = event;
 
     const organizer = await getOrganizerByName(organizerName);
 
@@ -197,13 +160,13 @@ export async function PUT(request: NextRequest) {
         )
     }
 
-    const updatedEvent = await updateEventById(id, {
+    const updatedEvent = await updateEventById(eventId, {
         thumbnail,
         title,
         description,
         communityInvitation,
-        startDate: new Date(Date.parse(startDate)),
-        endDate: new Date(Date.parse(endDate)),
+        startDate,
+        endDate,
         registrationLink,
         registrationFee,
         reward,

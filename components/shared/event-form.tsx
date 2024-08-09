@@ -20,6 +20,7 @@ import { eventFormSchema } from "@/lib/event/event.definition";
 import { useUploadThing } from "@/lib/uploadthing";
 import { handleError } from "@/lib/utils";
 
+import { Checkbox } from "../ui/checkbox";
 import { useToast } from "../ui/use-toast";
 import { CategoryDropdown } from "./category/category-dropdown";
 import { DatePicker } from "./date-picker";
@@ -35,7 +36,7 @@ type EventFormProps = {
   categoryName?: string;
   startDate?: Date;
   endDate?: Date;
-  reward?: number;
+  reward?: string;
   registrationLink?: string;
   registrationFee?: number;
   communityInvitation?: string;
@@ -74,7 +75,7 @@ export const EventForm = ({
       description: description || "",
       startDate: startDate || new Date(),
       endDate: endDate || new Date(),
-      reward: reward || 0,
+      reward: reward || "",
       registrationLink: registrationLink || "",
       registrationFee: registrationFee || 0,
       communityInvitation: communityInvitation || "",
@@ -121,7 +122,7 @@ export const EventForm = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(
-          operation === "Atualizar" ? { ...request, id } : request
+          operation === "Atualizar" ? { id, ...request } : request
         ),
       });
 
@@ -284,7 +285,7 @@ export const EventForm = ({
           />
         </div>
 
-        <div className="flex flex-col justify-center gap-5 md:flex-row md:items-start">
+        <div className="flex flex-col justify-end gap-5 md:flex-row md:items-end">
           <FormField
             control={form.control}
             name="communityInvitation"
@@ -306,7 +307,24 @@ export const EventForm = ({
               <FormItem className="w-full">
                 <FormLabel>Premiação</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="isFeatured"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col items-center gap-3">
+                <FormLabel>É um evento destaque?</FormLabel>
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

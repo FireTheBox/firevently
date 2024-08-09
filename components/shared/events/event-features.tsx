@@ -9,7 +9,7 @@ import { getProjectsCount } from "@/lib/coda/get-projects-count.action";
 import { formatCurrency } from "@/lib/currency";
 
 interface EventFeaturesProps {
-  reward: number;
+  reward: string;
   registrationFee: number;
 }
 

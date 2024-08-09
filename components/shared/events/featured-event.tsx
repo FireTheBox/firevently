@@ -24,7 +24,7 @@ export const FeaturedEvent = async () => {
   }
 
   const {
-    _id,
+    id,
     title,
     description,
     thumbnail,
@@ -50,7 +50,7 @@ export const FeaturedEvent = async () => {
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-10 px-0">
             <Button asChild size={"lg"}>
-              <Link href={`/events/${_id}`}>Participar</Link>
+              <Link href={`/events/${id}`}>Participar</Link>
             </Button>
           </CardFooter>
         </Card>

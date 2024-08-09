@@ -9,7 +9,7 @@ const EventSchema = new Schema(
     thumbnail: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
-    reward: { type: Number, default: 0.0 },
+    reward: { type: String },
     startDate: { type: Date, default: Date.now },
     endDate: { type: Date, default: Date.now },
     registrationLink: { type: String, required: true },
